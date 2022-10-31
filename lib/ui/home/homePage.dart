@@ -1,4 +1,6 @@
-
+import 'package:boutique_merchant/styles/dimens.dart';
+import 'package:boutique_merchant/styles/styles.dart';
+import 'package:boutique_merchant/ui/home/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'drawer_screen.dart';
@@ -12,9 +14,9 @@ class HomePage extends StatelessWidget {
     return Container(
       child: Scaffold(
         body: Stack(
-          children: [/*
-            DrawerScreen(),
-            HomeScreen(),*/
+          children: [
+            // DrawerScreen(),
+            HomeScreen(),
           ],
         ),
       ),

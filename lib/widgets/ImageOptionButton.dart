@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:boutique_merchant/constants/theme.dart';
+import 'package:boutique_merchant/styles/theme.dart';
 import 'package:boutique_merchant/widgets/GradientMask.dart';
 
 // ignore: must_be_immutable

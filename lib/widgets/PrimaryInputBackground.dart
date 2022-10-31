@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/theme.dart';
+import '../styles/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PrimaryInputBackground extends StatelessWidget {

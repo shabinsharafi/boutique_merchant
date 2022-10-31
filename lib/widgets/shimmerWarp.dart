@@ -1,4 +1,4 @@
-import 'package:boutique_merchant/constants/theme.dart';
+import 'package:boutique_merchant/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

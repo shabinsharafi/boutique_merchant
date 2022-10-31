@@ -1,5 +1,7 @@
 import 'package:boutique_merchant/splashScreen.dart';
+import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
+import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +24,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Boutique Merchant',
+        navigatorKey: NavigationService.navigatorKey,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Styles.primaryColor,
         ),
         home:  SplashScreen(),
       ),

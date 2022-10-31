@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../constants/theme.dart';
+import '../styles/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 typedef OnPressed = void Function(dynamic);

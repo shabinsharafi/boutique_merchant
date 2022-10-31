@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../constants/theme.dart';
+import '../styles/theme.dart';
 import './PrimaryInputBackground.dart';
 
 const String DEFAULT_HINT_TEXT = "Select a value";

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:boutique_merchant/constants/theme.dart';
+import 'package:boutique_merchant/styles/theme.dart';
 import 'package:boutique_merchant/widgets/HeadingUnderline.dart';
 import 'package:boutique_merchant/widgets/OptionButton.dart';
 import 'package:boutique_merchant/widgets/OptionButtonShimmer.dart';

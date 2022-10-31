@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/theme.dart';
+import '../styles/theme.dart';
 
 class PrimaryButtonOutlined extends StatelessWidget {
   final String text;
@@ -9,7 +9,7 @@ class PrimaryButtonOutlined extends StatelessWidget {
   final double paddingTop;
   final EdgeInsets padding;
   const PrimaryButtonOutlined(this.text, this.function,
-      {this.width, this.height: 51, this.paddingTop: 10, this.padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0)}); // change this
+      {this.width, this.height = 51, this.paddingTop = 10, this.padding = const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0)}); // change this
 
   @override
   Widget build(BuildContext context) {

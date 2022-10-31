@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../constants/theme.dart';
+import '../styles/theme.dart';
 
 enum ButtonAlignment { start, end }
 

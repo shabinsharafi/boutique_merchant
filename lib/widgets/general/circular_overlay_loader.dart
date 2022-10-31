@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:boutique_merchant/constants/theme.dart';
+import 'package:boutique_merchant/styles/theme.dart';
 import 'package:boutique_merchant/widgets/general/primary_circular_indicator.dart';
 
 class CircularOverlayLoader{

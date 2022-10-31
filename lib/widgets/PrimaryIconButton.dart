@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/theme.dart';
+import '../styles/theme.dart';
 
 class PrimaryIconButton extends StatelessWidget {
   final String text;

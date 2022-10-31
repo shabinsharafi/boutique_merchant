@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:boutique_merchant/api/api_response.dart';
+import 'package:boutique_merchant/models/userModel.dart';
 import 'package:boutique_merchant/ui/authScreen/login.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +12,7 @@ import 'package:boutique_merchant/api/userApi.dart';
 
 class UserDataViewModel with ChangeNotifier {
   late ApiResponse userResponse;
+  late UserModel user;
 
   Future<ApiResponse> saveDetails(Map<String, dynamic> request) async {
     print(FirebaseAuth.instance.currentUser);
@@ -46,6 +48,7 @@ class UserDataViewModel with ChangeNotifier {
   Future<ApiResponse> getProfile() async {
     ApiResponse dataResponse = await UserApi.getInstance().getProfile();
     userResponse = dataResponse;
+    user=dataResponse.data;
     return dataResponse;
   }
 

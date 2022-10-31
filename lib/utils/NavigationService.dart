@@ -12,20 +12,29 @@ class NavigationService {
     changeScreenRemoveOther(navigatorKey.currentContext!, SplashScreen());
   }
 
+  static getContext() {
+    return navigatorKey.currentContext!;
+  }
+
   static dynamic changeScreen(BuildContext context, Widget widget) async {
-    return await Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
+    return await navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (context) => widget));
   }
 
 // request here
-  static dynamic changeScreenReplacement(BuildContext context, Widget widget) async {
-    return await  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget));
+  static dynamic changeScreenReplacement(
+      BuildContext context, Widget widget) async {
+    return await navigatorKey.currentState!
+        .pushReplacement(MaterialPageRoute(builder: (context) => widget));
   }
 
-  static dynamic changeScreenRemoveOther(BuildContext context, Widget widget) async {
-    return await  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => widget),(route) => false);
-
+  static dynamic changeScreenRemoveOther(
+      BuildContext context, Widget widget) async {
+    return await navigatorKey.currentState!.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => widget), (route) => false);
   }
-  static void showAlertDialog(BuildContext context, Widget widget){
+
+  static void showAlertDialog(BuildContext context, Widget widget) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -34,5 +43,4 @@ class NavigationService {
       },
     );
   }
-
 }

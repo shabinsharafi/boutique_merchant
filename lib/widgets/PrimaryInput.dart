@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../constants/theme.dart';
+import '../styles/theme.dart';
 
 class PrimaryInput extends StatelessWidget {
   final String placeholder;

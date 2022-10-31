@@ -38,29 +38,25 @@ Snack bar
   }
 */
 
-  static getTextFieldDecoration({required String hint}) {
-    return InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        hintText: hint,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-              color: Color.fromARGB(0, 255, 255, 255),
-              width: 1.0,
-              style: BorderStyle.solid),
-        ),
-        hintStyle: TextStyle(color: Colors.grey),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-        fillColor: Color.fromARGB(30, 255, 255, 255),
-        filled: true);
-  }
+  static MaterialColor getMaterialColor(Color color) {
+    List strengths = <double> [0.05];
+    Map<int, Color> swatch = <int, Color>{};
+    final int r = color.red, g = color.green, b = color.blue;
 
-  static getTextColor() {
-    return Colors.white70;
+    for (int i = 1, len = 9; i <= len; i++) {
+      strengths.add(0.1 * i);
+    }
+
+    strengths.forEach((strength) {
+      final double ds = 0.5 - strength;
+      swatch[(strength * 1000).round()] = Color.fromRGBO(
+          r + ((ds < 0 ? r : (255 - r)) * ds).round(),
+          g + ((ds < 0 ? g : (255 - g)) * ds).round(),
+          b + ((ds < 0 ? b : (255 - b)) * ds).round(),
+          1);
+    });
+
+    return MaterialColor(color.value, swatch);
   }
 
   /*static void showDialog(BuildContext context) {

@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:boutique_merchant/widgets/backgroundImageWidget.dart';
-import '../../constants/theme.dart';
+import '../../styles/theme.dart';
 import '../HeadingUnderline.dart';
 
 const String DEFAULT_HINT_TEXT = "Select a value";

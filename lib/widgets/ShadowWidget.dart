@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../constants/theme.dart';
+import '../styles/theme.dart';
 
 enum ButtonAlignment { start, end }
 
@@ -22,7 +22,7 @@ class ShadowWidget extends StatelessWidget {
     this.height,
     this.decorationImage,
     this.shape = BoxShape.rectangle,
-    this.color = const Color(profileCardBg),
+    this.color =  Colors.white,
     this.radius = 0,
     this.hideShadow: false,
     this.padding: const EdgeInsets.all(0),
@@ -38,7 +38,7 @@ class ShadowWidget extends StatelessWidget {
               shape == BoxShape.circle ? null : BorderRadius.circular(radius),
           shape: shape,
           boxShadow:
-              hideShadow ? null : buttonShadow(blurRadius: 16, offset: 3),
+              hideShadow ? null : buttonShadow(blurRadius: 16, offset: 3,opacity: 0.5),
           //shape: BoxShape.circle,
           image: decorationImage,
           color: color,
