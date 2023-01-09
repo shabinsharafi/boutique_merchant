@@ -1,8 +1,6 @@
 
-import 'merchant.dart';
-
-class UserModel {
-  UserModel({
+class Merchant {
+  Merchant({
     required this.id,
     required this.name,
     required this.phone,
@@ -18,9 +16,9 @@ class UserModel {
   String image;
   String email;
   DateTime? dateCreated;
-  Merchant? merchant;
+  Map? merchant;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory Merchant.fromJson(Map<String, dynamic> json) => Merchant(
         id: json["id"],
         name: json["name"]??'',
         phone: json["phone"]??'',
@@ -28,8 +26,6 @@ class UserModel {
         email: json["email"]??'',
         dateCreated:
             json["dateCreated"] == null ? null : DateTime.parse(json["dateCreated"]),
-    merchant:
-            json["merchant"] == null ? null : Merchant.fromJson(json["merchant"]),
       );
 
   Map<String, dynamic> toJson() => {

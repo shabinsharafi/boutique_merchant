@@ -1,34 +1,62 @@
 import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/utilities.dart';
+import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:flutter/material.dart';
 
 class Styles {
+  static _Dimens dimens = _Dimens();
+  static _Color color = _Color();
+  static _TextStyle textStyle = _TextStyle();
 
   //colors
-  static final primaryColor = Utilities.getMaterialColor(Color(0xFFeb5757));
-  static const accentColor = Color.fromARGB(255, 241, 212, 80);
-  static const blueColor = Color.fromARGB(255, 35, 70, 116);
-  static const skyBlueColor = Color.fromARGB(255, 71, 194, 202);
-  static const redColor = Color.fromARGB(255, 230, 96, 101);
-  static const textColor = Colors.white70;
-  static const fadedWhite = Color(0xFF9C9FA8);
-  static const normalWhite = Color(0xFFFFFFFF);
-  static const primaryOrange = Color(0xFFE1953B);
-  static const fontColorOrange2 = Color(0xFFF1925C);
-  static const fontColorOrange = Color(0xFFD3663B);
-  static const fontColorBlack = Color(0xFF141A2D);
-  static const fadedWhiteBorder = Color(0xFF343D54);
-  static const promptBlue = Color(0xFF394669);
-  static const graphGrey = Color(0xFF909DC1);
-  static const iconBlueTint = Color(0xFF455275);
-  static const notificationRed = Color(0xFFFF000F);
-  static const backgroundGrey = Color(0xFF262D40);
-  static const backgroundGreyV2 = Color(0xFF1A2135);
-  static const backgroundGreyV3 = Color(0xFF2C3650);
-  static const backgroundBlack = Color(0xFF1A2135);
-  static const profileCardBg = Color(0xFF141B30);
-  static const boxBorder = Color(0xFF30394A);
-  static const backGroundColor = Color.fromARGB(40, 255, 255, 255);
+
+  static const normalScreenPadding = EdgeInsets.all(20);
+
+  static const SizedBox spaceHeight2 = SizedBox(height: 2);
+  static const SizedBox spaceHeight5 = SizedBox(height: 5);
+  static const SizedBox spaceHeight10 = SizedBox(height: 10);
+  static const SizedBox spaceHeight12 = SizedBox(height: 12);
+  static const SizedBox spaceHeight15 = SizedBox(height: 15);
+  static const SizedBox spaceHeight20 = SizedBox(height: 20);
+  static const SizedBox spaceHeight50 = SizedBox(height: 50);
+  static const SizedBox spaceHeight70 = SizedBox(height: 70);
+  static const SizedBox spaceHeight100 = SizedBox(height: 100);
+  static const SizedBox spaceHeight150 = SizedBox(height: 150);
+
+  static const SizedBox spaceWidth2 = SizedBox(width: 2);
+  static const SizedBox spaceWidth5 = SizedBox(width: 5);
+  static const SizedBox spaceWidth10 = SizedBox(width: 10);
+  static const SizedBox spaceWidth15 = SizedBox(width: 15);
+  static const SizedBox spaceWidth20 = SizedBox(width: 20);
+  static const SizedBox spaceWidth50 = SizedBox(width: 50);
+
+  static InputDecoration inputForm(
+          {Color backgroundColor = Colors.white,
+          final double radius = 5,
+          final EdgeInsets? contentPadding}) =>
+      InputDecoration(
+        filled: true,
+        hintStyle: const TextStyle(color: Colors.grey),
+        fillColor: backgroundColor,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+          borderRadius: BorderRadius.circular(radius),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+          borderRadius: BorderRadius.circular(radius),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+          borderRadius: BorderRadius.circular(radius),
+        ),
+        contentPadding: contentPadding ??
+            const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+          borderRadius: BorderRadius.circular(radius),
+        ),
+      );
 
   //decorations
   static getTextFieldDecoration({String hint = ""}) {
@@ -52,28 +80,115 @@ class Styles {
         filled: true);
   }
 
-  static getButtonDecoration({double radius = 15, double width = 2, Color color = Colors.white70}) {
+  static getButtonDecoration(
+      {double radius = 15, double width = 2, Color color = Colors.white70}) {
     return BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(width: width, color:color ));
+        border: Border.all(width: width, color: color));
   }
 
-  static getButtonDecoration2({double radius = 15, double width = 2, Color color = Colors.white}) {
+  static getButtonDecoration2(
+      {double radius = 15, double width = 2, Color color = Colors.white}) {
     return BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(width: width, color: color),
         color: color);
   }
 
-  static getNoImageDecoration(){
-    return DecorationImage(image: AssetImage("assets/logo.png"),fit: BoxFit.fill);
+  static getNoImageDecoration() {
+    return DecorationImage(
+        image: AssetImage("assets/logo.png"), fit: BoxFit.fill);
   }
 
   //textStyles
-  static const fontFamilyRegular = "ModernEraRegular";
-  static var textStyleTitle= TextStyle(
+  static const fontFamilyRegular = "Quicksand";
+}
+
+class _Dimens {
+  get width =>
+      MediaQuery.of(NavigationService.navigatorKey.currentContext!).size.width;
+  get height =>
+      MediaQuery.of(NavigationService.navigatorKey.currentContext!).size.width;
+  final double buttonHeight=50;
+  final double screenPadding=25;
+
+  final borderRadiusNormal = 10.0;
+  final lineHeightNormal = 1.5;
+  final lineHeightHeadings = 1.2;
+  final fontSizeExtraSmall = 10.0;
+  final fontSizeSmall = 12.0;
+  final fontSizeOptions = 14.0;
+  final fontSizeNormal = 16.0;
+  final fontSizeAlertHeading = 18.0;
+  final fontSizeTitle = 20.0;
+  final fontSizeHeading = 24.0;
+  final fontSizeLarge = 30.0;
+  final fontSizeExtraLarge = 40.0;
+}
+
+class _Color {
+  final primaryColor = Utilities.getMaterialColor(Color(0xFF158C7E));
+  final accentColor = Color.fromARGB(255, 241, 212, 80);
+  final blueColor = Color.fromARGB(255, 35, 70, 116);
+  final skyBlueColor = Color.fromARGB(255, 71, 194, 202);
+  final redColor = Color.fromARGB(255, 230, 96, 101);
+  final textColor = Colors.black87;
+  final fadedWhite = Color(0xFF9C9FA8);
+  final normalWhite = Color(0xFFFFFFFF);
+  final primaryOrange = Color(0xFFE1953B);
+  final fontColorOrange2 = Color(0xFFF1925C);
+  final fontColorOrange = Color(0xFFD3663B);
+  final fontColorBlack = Color(0xFF141A2D);
+  final fadedWhiteBorder = Color(0xFF343D54);
+  final promptBlue = Color(0xFF394669);
+  final graphGrey = Color(0xFF909DC1);
+  final iconBlueTint = Color(0xFF455275);
+  final notificationRed = Color(0xFFFF000F);
+  final backgroundGrey = Color(0xFF262D40);
+  final backgroundGreyV2 = Color(0xFF1A2135);
+  final backgroundGreyV3 = Color(0xFF2C3650);
+  final backgroundBlack = Color(0xFF1A2135);
+  final profileCardBg = Color(0xFF141B30);
+  final boxBorder = Color(0xFF30394A);
+  final backGroundColor = Color.fromARGB(40, 255, 255, 255);
+}
+
+class _TextStyle {
+  final bigHeadingTS = TextStyle(
+      fontSize: 26,
+      fontWeight: FontWeight.w500,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
+  final headingTS = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
+  final subHeadingTS = TextStyle(
+      fontSize: 18,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
+  final normalTS = TextStyle(
+      fontSize: 14,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
+  final normalBoldTS = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
+  final smallTS = TextStyle(
+      fontSize: 12,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
+  final smallBoldTS = TextStyle(
+      fontSize: 12,
+      color: Styles.color.textColor,
+      fontWeight: FontWeight.w500,
+      fontFamily: Styles.fontFamilyRegular);
+  var textStyleTitle = TextStyle(
     fontSize: Dimens.fontSizeTitle,
-    fontFamily: fontFamilyRegular,
-    color: textColor,
+    fontFamily: Styles.fontFamilyRegular,
+    color: Styles.color.textColor,
   );
 }

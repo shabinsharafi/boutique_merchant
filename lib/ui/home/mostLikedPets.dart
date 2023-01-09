@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:boutique_merchant/configuration.dart';
 import 'package:boutique_merchant/models/pets.dart';
-import 'package:boutique_merchant/screen/home/homeVM.dart';
+import 'package:boutique_merchant/screen/home/authVM.dart';
 import 'package:boutique_merchant/screen/petDetails/petDetailScreen.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:boutique_merchant/utils/screen_navigation.dart';

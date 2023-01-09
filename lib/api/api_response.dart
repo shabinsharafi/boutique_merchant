@@ -1,14 +1,22 @@
 class ApiResponse<T>{
   T? data;
   T? errorData;
-  bool haserror = false;
-  String? errormessage;
+  bool success = true;
+  String? message;
+  String? type;
 
-  ApiResponse({ this.data,this.haserror=false, this.errormessage, this.errorData});
+  ApiResponse({ this.data,this.success=false, this.message, this.errorData, this.type});
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) => ApiResponse(
-    errorData: json["errors"] == null ? null : json["errors"],
-    data: json["message"] == null ? null : json["message"],
-    errormessage: json["type"] == null ? null : json["type"],
+    success: json["success"] ?? true,
+    errorData: json["errors"] ?? null,
+    data: json["data"] ?? null,
+    message: json["message"] ?? null,
+    type: json["type"] ?? null,
   );
+
+  @override
+  String toString() {
+    return 'ApiResponse{data: $data, errorData: $errorData, success: $success, message: $message, type: $type}';
+  }
 }

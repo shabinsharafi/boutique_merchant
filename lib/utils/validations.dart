@@ -25,9 +25,9 @@ class Validations {
     if (value.isEmpty) {
       return "Phone number can't be empty";
     }
-//    if (value.length != 10) {
-//      return "Enter a valid phone number";
-//    }
+   if (value.length != 10) {
+     return "Please enter a valid phone number";
+   }
     return null;
   }
 

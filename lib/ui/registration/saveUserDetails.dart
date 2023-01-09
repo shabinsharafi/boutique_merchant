@@ -1,11 +1,11 @@
-import 'package:boutique_merchant/ui/authScreen/login.dart';
+import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
 import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../home/homePage.dart';
+import '../home/mainHomeScreen.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:boutique_merchant/utils/screen_navigation.dart';
 import 'package:provider/provider.dart';
@@ -158,8 +158,8 @@ class _SaveUserDetailsState extends State<SaveUserDetails> {
                                     () =>
                                         FirebaseAuth.instance.currentUser!.uid);
                                 var response = await value.saveDetails(request);
-                                if (!response.haserror) {
-                                  NavigationService.changeScreenRemoveOther(context, HomePage());
+                                if (!response.success) {
+                                  NavigationService.changeScreenRemoveOther( MainHomeScreen());
                                 } else {
                                 }
                               }

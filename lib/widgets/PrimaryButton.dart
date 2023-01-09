@@ -1,3 +1,4 @@
+import 'package:boutique_merchant/styles/styles.dart';
 import 'package:flutter/material.dart';
 import '../styles/theme.dart';
 
@@ -37,11 +38,11 @@ class PrimaryButton extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
                 colors: [
-                  Color(0xFFC95529),
-                  Color(0xFFFF9C65),
-                  Color(0xFFC95529),
-                  Color(0xFFFF9C65),
-                  Color(0xFFC95529),
+                  Styles.color.primaryColor,
+                  Styles.color.primaryColor,
+                  Styles.color.primaryColor,
+                  Styles.color.primaryColor,
+                  Styles.color.primaryColor,
                 ],
               )),
           child: Material(

@@ -50,7 +50,7 @@ const Gradient primaryGradient = LinearGradient(
   ],
 );
 
-List<BoxShadow>? buttonShadow({double blurRadius = 23, double offset = 7, double opacity = 0.7}) {
+List<BoxShadow>? buttonShadow({double blurRadius = 10, double offset = 2, double opacity = 0.28}) {
   return <BoxShadow>[
     BoxShadow(
       color: Color(0xFF4E5978).withOpacity(opacity-0.11),

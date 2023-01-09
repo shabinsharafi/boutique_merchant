@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/models/userModel.dart';
-import 'package:boutique_merchant/ui/authScreen/login.dart';
+import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,11 +17,12 @@ class UserDataViewModel with ChangeNotifier {
   Future<ApiResponse> saveDetails(Map<String, dynamic> request) async {
     print(FirebaseAuth.instance.currentUser);
     //FirebaseAuth.instance.currentUser!.updateEmail(request['email']);
-    final credential =
-    EmailAuthProvider.credential(email: request['email'], password: UniqueKey().toString());
+    final credential = EmailAuthProvider.credential(
+        email: request['email'], password: UniqueKey().toString());
     try {
       final userCredential = await FirebaseAuth.instance.currentUser
-          ?.linkWithCredential(credential).whenComplete(() => print("complete"));
+          ?.linkWithCredential(credential)
+          .whenComplete(() => print("complete"));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "provider-already-linked":
@@ -36,11 +37,10 @@ class UserDataViewModel with ChangeNotifier {
           break;
         default:
           print(e.message);
-          NavigationService.changeScreenRemoveOther(NavigationService.navigatorKey.currentContext!, LoginWithPhone());
+          NavigationService.changeScreenRemoveOther(LoginScreen());
       }
     }
-    ApiResponse dataResponse =
-        await UserApi.getInstance().saveProfile(request);
+    ApiResponse dataResponse = await UserApi.getInstance().saveProfile(request);
     userResponse = dataResponse;
     return dataResponse;
   }
@@ -48,11 +48,11 @@ class UserDataViewModel with ChangeNotifier {
   Future<ApiResponse> getProfile() async {
     ApiResponse dataResponse = await UserApi.getInstance().getProfile();
     userResponse = dataResponse;
-    user=dataResponse.data;
+    user = dataResponse.data;
     return dataResponse;
   }
 
-  /*void getPetColors() async {
+/*void getPetColors() async {
     RemoteConfigService _remoteConfigService =
         await RemoteConfigService.getInstance();
     await _remoteConfigService.setupRemoteConfig();

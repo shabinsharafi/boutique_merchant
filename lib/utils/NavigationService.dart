@@ -9,34 +9,36 @@ class NavigationService {
   static navigateToLogin() {
     // changeScreenRemoveOther(context!,LoginScreen());
     SharedPreferences.getInstance().then((value) => value.clear());
-    changeScreenRemoveOther(navigatorKey.currentContext!, SplashScreen());
+    changeScreenRemoveOther(SplashScreen());
   }
 
   static getContext() {
     return navigatorKey.currentContext!;
   }
 
-  static dynamic changeScreen(BuildContext context, Widget widget) async {
+  static dynamic changeScreen(Widget widget) async {
     return await navigatorKey.currentState!
         .push(MaterialPageRoute(builder: (context) => widget));
   }
 
 // request here
-  static dynamic changeScreenReplacement(
-      BuildContext context, Widget widget) async {
+  static dynamic changeScreenReplacement(Widget widget) async {
     return await navigatorKey.currentState!
         .pushReplacement(MaterialPageRoute(builder: (context) => widget));
   }
 
-  static dynamic changeScreenRemoveOther(
-      BuildContext context, Widget widget) async {
+  static dynamic changeScreenRemoveOther(Widget widget) async {
     return await navigatorKey.currentState!.pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => widget), (route) => false);
   }
 
-  static void showAlertDialog(BuildContext context, Widget widget) {
+  static dynamic close() async {
+    navigatorKey.currentState!.pop();
+  }
+
+  static void showAlertDialog( Widget widget) {
     showDialog(
-      context: context,
+      context: navigatorKey.currentContext!,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return widget;

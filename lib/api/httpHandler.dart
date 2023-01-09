@@ -21,15 +21,15 @@ class HttpHandler {
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         apiResponse.data = json.decode(response.body);
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = jsonDecode(response.body);
+        apiResponse.success = false;
+        apiResponse.message = jsonDecode(response.body);
       }
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -47,25 +47,13 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-      if (response.statusCode >= 200 && response.statusCode <= 250) {
-        final result = jsonDecode(response.body);
-        if (true) {
-          apiResponse.haserror = false;
-          apiResponse.data = json.decode(response.body);
-        } else {
-          apiResponse.haserror = true;
-          apiResponse.errorData = jsonDecode(response.body);
-        }
-      } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = response.body;
-      }
+      apiResponse=ApiResponse.fromJson(json.decode(body));
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -86,22 +74,22 @@ class HttpHandler {
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         final result = jsonDecode(response.body);
         if (true) {
-          apiResponse.haserror = false;
+          apiResponse.success = true;
           apiResponse.data = json.decode(response.body);
         } else {
-          apiResponse.haserror = true;
+          apiResponse.success = false;
           apiResponse.errorData = jsonDecode(response.body);
         }
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = response.body;
+        apiResponse.success = false;
+        apiResponse.message = response.body;
       }
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -113,11 +101,11 @@ class HttpHandler {
       late String token;
       /*await DBProvider.db.getUser().then((user) {
       token = user.token;
-      Logger.log("accessToken", token);
+      Logger.log("token", token);
     });*/
       await SharedPreferences.getInstance().then((prefs) {
-        token = prefs.getString("accessToken")!;
-        Logger.log("accessToken", token);
+        token = prefs.getString("token")!;
+        Logger.log("token", token);
       });
       Map<String, String> headers = {
         "Content-type": "application/json",
@@ -128,32 +116,21 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-      if (response.statusCode >= 200 && response.statusCode <= 250) {
-        final result = jsonDecode(response.body);
-        if(true==null) {
-          apiResponse.data = json.decode(response.body);
-          return apiResponse;
-        }
-        if (true) {
-          apiResponse.haserror = false;
-          apiResponse.data = json.decode(response.body);
-        } else {
-          apiResponse.haserror = true;
-          apiResponse.errorData = jsonDecode(response.body);
-        }
-      } else if (response.statusCode == 401) {
+
+      apiResponse=ApiResponse.fromJson(json.decode(body));
+      /*if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = response.body;
-      }
+        apiResponse.success = false;
+        apiResponse.message = response.body;
+      }*/
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -166,8 +143,8 @@ class HttpHandler {
       Logger.log("post req", req.toString());
       late String token;
       await SharedPreferences.getInstance().then((prefs) {
-        token = prefs.getString("accessToken")!;
-        Logger.log("accessToken", token);
+        token = prefs.getString("token")!;
+        Logger.log("token", token);
       });
       Map<String, String> headers = {
         "Content-type": "application/json",
@@ -182,25 +159,25 @@ class HttpHandler {
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         final result = jsonDecode(response.body);
         if (true) {
-          apiResponse.haserror = false;
+          apiResponse.success = true;
           apiResponse.data = json.decode(response.body);
         } else {
-          apiResponse.haserror = true;
+          apiResponse.success = false;
           apiResponse.errorData = jsonDecode(response.body);
         }
       } else if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = response.body;
+        apiResponse.success = false;
+        apiResponse.message = response.body;
       }
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -213,8 +190,8 @@ class HttpHandler {
       Logger.log("put req", req.toString());
       late String token;
       await SharedPreferences.getInstance().then((prefs) {
-        token = prefs.getString("accessToken")!;
-        Logger.log("accessToken", token);
+        token = prefs.getString("token")!;
+        Logger.log("token", token);
       });
       Map<String, String> headers = {
         "Content-type": "application/json",
@@ -229,25 +206,25 @@ class HttpHandler {
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         final result = jsonDecode(response.body);
         if (true) {
-          apiResponse.haserror = false;
+          apiResponse.success = true;
           apiResponse.data = json.decode(response.body);
         } else {
-          apiResponse.haserror = true;
+          apiResponse.success = false;
           apiResponse.errorData = jsonDecode(response.body);
         }
       } else if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = response.body;
+        apiResponse.success = false;
+        apiResponse.message = response.body;
       }
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -260,8 +237,8 @@ class HttpHandler {
       Logger.log("patch req", req.toString());
       late String token;
       await SharedPreferences.getInstance().then((prefs) {
-        token = prefs.getString("accessToken")!;
-        Logger.log("accessToken", token);
+        token = prefs.getString("token")!;
+        Logger.log("token", token);
       });
       Map<String, String> headers = {
         "Content-type": "application/json",
@@ -276,25 +253,25 @@ class HttpHandler {
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         final result = jsonDecode(response.body);
         if (true) {
-          apiResponse.haserror = false;
+          apiResponse.success = true;
           apiResponse.data = json.decode(response.body);
         } else {
-          apiResponse.haserror = true;
+          apiResponse.success = false;
           apiResponse.errorData = jsonDecode(response.body);
         }
       } else if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = response.body;
+        apiResponse.success = false;
+        apiResponse.message = response.body;
       }
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -317,22 +294,22 @@ class HttpHandler {
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         final result = jsonDecode(response.body);
         if (true) {
-          apiResponse.haserror = false;
+          apiResponse.success = true;
           apiResponse.data = json.decode(response.body);
         } else {
-          apiResponse.haserror = true;
+          apiResponse.success = false;
           apiResponse.errorData = jsonDecode(response.body);
         }
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = response.body;
+        apiResponse.success = false;
+        apiResponse.message = response.body;
       }
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -343,8 +320,8 @@ class HttpHandler {
       Logger.log("delete url token", url);
       late String token;
       await SharedPreferences.getInstance().then((prefs) {
-        token = prefs.getString("accessToken")!;
-        Logger.log("accessToken", token);
+        token = prefs.getString("token")!;
+        Logger.log("token", token);
       });
       Map<String, String> headers = {
         "Content-type": "application/json",
@@ -358,25 +335,25 @@ class HttpHandler {
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         final result = jsonDecode(response.body);
         if (true) {
-          apiResponse.haserror = false;
+          apiResponse.success = true;
           apiResponse.data = json.decode(response.body);
         } else {
-          apiResponse.haserror = true;
+          apiResponse.success = false;
           apiResponse.errorData = jsonDecode(response.body);
         }
       } else if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = response.body;
+        apiResponse.success = false;
+        apiResponse.message = response.body;
       }
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
@@ -389,7 +366,7 @@ class HttpHandler {
 
       late String token;
       await SharedPreferences.getInstance().then((prefs) {
-        token = prefs.getString("accessToken")!;
+        token = prefs.getString("token")!;
       });
       Map<String, String> headers = {
         "Content-type": "application/json",
@@ -416,24 +393,24 @@ class HttpHandler {
       Logger.log("response", result.toString());
       Logger.log("response", response.stream.toString());
       if (response.statusCode >= 200 && response.statusCode <= 250) {
-        apiResponse.haserror = false;
+        apiResponse.success = true;
         apiResponse.data = result;
         if (true) {
-          apiResponse.haserror = false;
+          apiResponse.success = true;
         } else {
-          apiResponse.haserror = true;
+          apiResponse.success = false;
           apiResponse.errorData = result;
         }
       } else {
-        apiResponse.haserror = true;
-        apiResponse.errormessage = result;
+        apiResponse.success = false;
+        apiResponse.message = result;
       }
     } on TimeoutException {
-      return ApiResponse(haserror: true, errormessage: 'Timeout');
+      return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
-      return ApiResponse(haserror: true, errormessage: 'Seems you have problem connecting to the network.');
+      return ApiResponse(success: false, message: 'Seems you have problem connecting to the network.');
     } catch (e) {
-      return ApiResponse(haserror: true, errormessage: e.toString());
+      return ApiResponse(success: false, message: e.toString());
     }
     return apiResponse;
   }
