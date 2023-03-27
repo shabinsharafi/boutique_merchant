@@ -1,18 +1,7 @@
-import 'dart:async';
-
-import 'package:boutique_merchant/api/api_response.dart';
-import 'package:boutique_merchant/ui/authScreen/authVM.dart';
-import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
-import 'package:boutique_merchant/ui/home/mainHomeScreen.dart';
-import 'package:boutique_merchant/ui/registration/saveUserDetails.dart';
-import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
+import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:boutique_merchant/utils/screen_navigation.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /*import 'api/authApi.dart';
 import 'models/loginRequest.dart';
@@ -28,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<AuthenticationViewModel>(
+    Provider.of<AuthenticationProvider>(
             NavigationService.navigatorKey.currentContext!,
             listen: false)
         .init();
@@ -43,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(children: <Widget>[
             Expanded(
                 flex: 1,
-                child: Consumer<AuthenticationViewModel>(
+                child: Consumer<AuthenticationProvider>(
                     builder: (context, provider, child) {
                   return Padding(
                     padding: const EdgeInsets.all(36.0),

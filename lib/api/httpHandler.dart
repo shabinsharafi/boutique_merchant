@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const timeoutDuration = Duration(seconds: 20);
 class HttpHandler {
-  static Future<ApiResponse> getRequest(String url) async {
+  static Future<ApiResponse> getRequest<T>(String url) async {
     ApiResponse apiResponse = ApiResponse();
     try {
       Logger.log("get url", url);
@@ -18,12 +18,7 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-      if (response.statusCode >= 200 && response.statusCode <= 250) {
-        apiResponse.data = json.decode(response.body);
-      } else {
-        apiResponse.success = false;
-        apiResponse.message = jsonDecode(response.body);
-      }
+      apiResponse=ApiResponse.fromJson(json.decode(body));
     } on TimeoutException {
       return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
@@ -71,19 +66,7 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-      if (response.statusCode >= 200 && response.statusCode <= 250) {
-        final result = jsonDecode(response.body);
-        if (true) {
-          apiResponse.success = true;
-          apiResponse.data = json.decode(response.body);
-        } else {
-          apiResponse.success = false;
-          apiResponse.errorData = jsonDecode(response.body);
-        }
-      } else {
-        apiResponse.success = false;
-        apiResponse.message = response.body;
-      }
+      apiResponse=ApiResponse.fromJson(json.decode(body));
     } on TimeoutException {
       return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
@@ -94,8 +77,8 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static getRequestToken(String url) async {
-    ApiResponse apiResponse = new ApiResponse();
+  static getRequestToken<T>(String url) async {
+    ApiResponse apiResponse = new ApiResponse<T>();
     try {
       Logger.log("get url token", url);
       late String token;
@@ -156,7 +139,9 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-      if (response.statusCode >= 200 && response.statusCode <= 250) {
+
+      apiResponse=ApiResponse.fromJson(json.decode(body));
+      /*if (response.statusCode >= 200 && response.statusCode <= 250) {
         final result = jsonDecode(response.body);
         if (true) {
           apiResponse.success = true;
@@ -171,7 +156,7 @@ class HttpHandler {
       } else {
         apiResponse.success = false;
         apiResponse.message = response.body;
-      }
+      }*/
     } on TimeoutException {
       return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {

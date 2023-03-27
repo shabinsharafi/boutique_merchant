@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:boutique_merchant/api/api_response.dart';
+import 'package:boutique_merchant/models/merchant.dart';
 import 'package:boutique_merchant/models/userModel.dart';
+import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
 import 'package:boutique_merchant/ui/home/mainHomeScreen.dart';
-import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/customDialog.dart';
 import 'package:boutique_merchant/widgets/general/commonAlertDialogBox.dart';
@@ -14,9 +15,10 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'loginScreen.dart';
+import '../ui/registration/userRegistrationVM.dart';
 
-class AuthenticationViewModel with ChangeNotifier {
+
+class AuthenticationProvider with ChangeNotifier {
   ApiResponse? loginResponse;
   ApiResponse? verifyOtpResponse;
   ApiResponse? getDetailsResponse;
@@ -68,10 +70,16 @@ class AuthenticationViewModel with ChangeNotifier {
         value.setString("token", verifyOtpResponse!.data['token']);
         value.setString("id", verifyOtpResponse!.data['user']['id']);
       });
-      Provider.of<UserDataViewModel>(
+      Provider.of<UserDataProvider>(
               NavigationService.navigatorKey.currentContext!,
               listen: false)
           .user = UserModel.fromJson(verifyOtpResponse!.data['user']);
+      Provider.of<UserDataProvider>(
+              NavigationService.navigatorKey.currentContext!,
+              listen: false)
+          // .user = UserModel.fromJson(verifyOtpResponse!.data);
+          .user
+          .merchant = Merchant.fromJson(getDetailsResponse!.data['merchant']);
       NavigationService.changeScreenRemoveOther(MainHomeScreen());
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
@@ -91,11 +99,17 @@ class AuthenticationViewModel with ChangeNotifier {
       /*SharedPreferences.getInstance().then((value) {
         value.setString("token", verifyOtpResponse!.data['token']);
       });*/
-      Provider.of<UserDataViewModel>(
+      Provider.of<UserDataProvider>(
               NavigationService.navigatorKey.currentContext!,
               listen: false)
           // .user = UserModel.fromJson(verifyOtpResponse!.data);
           .user = UserModel.fromJson(getDetailsResponse!.data['user']);
+      Provider.of<UserDataProvider>(
+              NavigationService.navigatorKey.currentContext!,
+              listen: false)
+          // .user = UserModel.fromJson(verifyOtpResponse!.data);
+          .user
+          .merchant = Merchant.fromJson(getDetailsResponse!.data['merchant']);
       NavigationService.changeScreenRemoveOther(MainHomeScreen());
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(

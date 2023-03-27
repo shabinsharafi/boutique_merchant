@@ -99,4 +99,8 @@ Snack bar
   }
   static List<String> petType = ['Male', 'Female', 'Pair', 'Any'];
   static List<IconData> petIcon = [FontAwesomeIcons.venus, FontAwesomeIcons.mars, FontAwesomeIcons.venusMars, FontAwesomeIcons.genderless];
+
+  static String asset(String s) {
+    return "assets/images/$s";
+  }
 }

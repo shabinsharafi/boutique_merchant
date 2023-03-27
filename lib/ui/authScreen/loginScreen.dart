@@ -1,5 +1,5 @@
+import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/styles/styles.dart';
-import 'package:boutique_merchant/ui/authScreen/authVM.dart';
 import 'package:boutique_merchant/ui/authScreen/signup_screen.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Padding(
           padding: Styles.normalScreenPadding,
-          child: Consumer<AuthenticationViewModel>(
+          child: Consumer<AuthenticationProvider>(
               builder: (context, provider, child) {
             return Form(
               key: provider.mobileFormKey,

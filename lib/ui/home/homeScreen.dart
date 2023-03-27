@@ -1,12 +1,15 @@
-import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/styles/styles.dart';
-import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
+import 'package:boutique_merchant/ui/addBoutiqueScreen.dart';
+import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/ShadowWidget.dart';
+import 'package:boutique_merchant/widgets/nothing_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+
+import '../registration/userRegistrationVM.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,13 +19,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late UserDataViewModel provider;
+  late UserDataProvider provider;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    provider = Provider.of<UserDataViewModel>(context, listen: false);
+    provider = Provider.of<UserDataProvider>(context, listen: false);
   }
 
   @override
@@ -37,10 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(15))),
             padding: EdgeInsets.only(
-                bottom: Dimens.screenPadding,
-                left: Dimens.screenPadding,
-                right: Dimens.screenPadding),
-            width: Dimens.screenWidth,
+                bottom: Styles.dimens.screenPadding,
+                left: Styles.dimens.screenPadding,
+                right: Styles.dimens.screenPadding),
+            width: Styles.dimens.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,100 +54,90 @@ class _HomeScreenState extends State<HomeScreen> {
                 RichText(
                   text: TextSpan(
                       text: "Hi\n",
-                      style:
-                      Styles.textStyle.textStyleTitle.copyWith(color: Colors.white),
+                      style: Styles.textStyle.normalTS
+                          .copyWith(color: Colors.white),
                       children: [
                         TextSpan(
                           text: provider.user.name,
-                          style: Styles.textStyle.headingTS.copyWith(color: Colors.white),
+                          style: Styles.textStyle.headingTS
+                              .copyWith(color: Colors.white),
                         )
                       ]),
                 ),
               ],
             ),
           ),
-          provider.user.merchant != null
-              ? GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  childAspectRatio: 2,
-                  crossAxisSpacing: Dimens.screenPadding,
-                  mainAxisSpacing: Dimens.screenPadding,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: Dimens.screenPadding,
-                      vertical: Dimens.screenPadding),
-                  children: [
-                    ShadowWidget(
-                      radius: 15,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Styles.color.primaryColor[100]!.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: InkWell(
-                          child: Center(child: Text("New Orders")),
-                          onTap: () {},
-                        ),
-                      ),
-                    ),
-                    ShadowWidget(
-                      radius: 15,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Styles.color.primaryColor[100]!.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: InkWell(
-                          child: Center(child: Text("New Orders")),
-                          onTap: () {},
-                        ),
-                      ),
-                    ),
-                    ShadowWidget(
-                      radius: 15,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Styles.color.primaryColor[100]!.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: InkWell(
-                          child: Center(child: Text("New Orders")),
-                          onTap: () {},
-                        ),
-                      ),
-                    ),
-                    ShadowWidget(
-                      radius: 15,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Styles.color.primaryColor[100]!.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: InkWell(
-                          child: Center(child: Text("New Orders")),
-                          onTap: () {},
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Expanded(
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(
-                          text: "No boutique found\n",
-                          style: Styles.textStyle.textStyleTitle
-                              .copyWith(color: Styles.color.textColor),
-                          children: [
-                            TextSpan(
-                              text: "Create Boutique",
-                              recognizer: TapGestureRecognizer()..onTap = () {
-
-                              },
-                              style: Styles.textStyle.headingTS
-                                  .copyWith(color: Styles.color.primaryColor),
-                            )
-                          ]),
-                      textAlign: TextAlign.center,
+          if (provider.user.merchant == null)
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              childAspectRatio: 2,
+              crossAxisSpacing: Styles.dimens.screenPadding,
+              mainAxisSpacing: Styles.dimens.screenPadding,
+              padding: EdgeInsets.symmetric(
+                  horizontal: Styles.dimens.screenPadding,
+                  vertical: Styles.dimens.screenPadding),
+              children: [
+                ShadowWidget(
+                  radius: 15,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Styles.color.primaryColor[100]!.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: InkWell(
+                      child: Center(child: Text("New Orders")),
+                      onTap: () {},
                     ),
                   ),
                 ),
+                ShadowWidget(
+                  radius: 15,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Styles.color.primaryColor[100]!.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: InkWell(
+                      child: Center(child: Text("New Orders")),
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+                ShadowWidget(
+                  radius: 15,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Styles.color.primaryColor[100]!.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: InkWell(
+                      child: Center(child: Text("New Orders")),
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+                ShadowWidget(
+                  radius: 15,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Styles.color.primaryColor[100]!.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: InkWell(
+                      child: Center(child: Text("New Orders")),
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+              ],
+            )
+          else
+            Expanded(
+              child: Nothing(
+                "No boutique found",
+                "Create Boutique",
+                onClick: () {
+                  NavigationService.changeScreen(AddBoutiqueScreen());
+                },
+              ),
+            ),
         ],
       ),
     );

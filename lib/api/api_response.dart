@@ -10,7 +10,7 @@ class ApiResponse<T>{
   factory ApiResponse.fromJson(Map<String, dynamic> json) => ApiResponse(
     success: json["success"] ?? true,
     errorData: json["errors"] ?? null,
-    data: json["data"] ?? null,
+    //data: T.runtimeTypejson["data"] ?? null,
     message: json["message"] ?? null,
     type: json["type"] ?? null,
   );

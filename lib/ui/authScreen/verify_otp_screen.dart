@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:boutique_merchant/styles/styles.dart';
-import 'package:boutique_merchant/ui/authScreen/authVM.dart';
+import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Consumer<AuthenticationViewModel>(
+        child: Consumer<AuthenticationProvider>(
             builder: (context, provider, child) {
             return Padding(
               padding: Styles.normalScreenPadding,

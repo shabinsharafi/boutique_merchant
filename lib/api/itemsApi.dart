@@ -3,29 +3,30 @@ import 'dart:convert';
 import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/api/httpHandler.dart';
 import 'package:boutique_merchant/logger.dart';
+import 'package:boutique_merchant/models/AddItemFilter.dart';
 import 'package:boutique_merchant/models/userModel.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserApi {
-  static UserApi? instance;
+class ItemsApi {
+  static ItemsApi? instance;
 
-  static UserApi getInstance() {
-    return instance ??= UserApi();
+  static ItemsApi getInstance() {
+    return instance ??= ItemsApi();
   }
 
-  Future<ApiResponse> login(req) async {
+  Future<ApiResponse> getAddItemsFilter() async {
     ApiResponse apiResponse = ApiResponse();
     try {
       apiResponse =
-          await HttpHandler.postRequest(Utilities.baseUrl + "users/login", req);
+          await HttpHandler.getRequest<AddItemFilter>(Utilities.baseUrl + "getAddItemsFilter",);
       if (apiResponse.success) {
         apiResponse.data = UserModel.fromJson(apiResponse.data);
       }
     } catch (e) {
       print(e.toString());
-      apiResponse.success = true;
+      apiResponse.success = false;
     }
     return apiResponse;
   }

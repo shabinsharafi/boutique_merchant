@@ -1,5 +1,5 @@
 import 'package:boutique_merchant/styles/styles.dart';
-import 'package:boutique_merchant/ui/authScreen/authVM.dart';
+import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
@@ -25,7 +25,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Consumer<AuthenticationViewModel>(
+        child: Consumer<AuthenticationProvider>(
             builder: (context, provider, child) {
           return Padding(
             padding: Styles.normalScreenPadding,

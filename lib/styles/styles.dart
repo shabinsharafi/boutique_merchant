@@ -1,6 +1,7 @@
 import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 class Styles {
@@ -18,6 +19,7 @@ class Styles {
   static const SizedBox spaceHeight12 = SizedBox(height: 12);
   static const SizedBox spaceHeight15 = SizedBox(height: 15);
   static const SizedBox spaceHeight20 = SizedBox(height: 20);
+  static const SizedBox spaceHeight30 = SizedBox(height: 30);
   static const SizedBox spaceHeight50 = SizedBox(height: 50);
   static const SizedBox spaceHeight70 = SizedBox(height: 70);
   static const SizedBox spaceHeight100 = SizedBox(height: 100);
@@ -56,6 +58,15 @@ class Styles {
           borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
           borderRadius: BorderRadius.circular(radius),
         ),
+      );
+
+  static dropDownDecoration(String hint, {double radius = 5}) =>
+      DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+            hintText: hint,
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+                borderRadius: BorderRadius.circular(radius))),
       );
 
   //decorations
@@ -107,10 +118,11 @@ class Styles {
 class _Dimens {
   get width =>
       MediaQuery.of(NavigationService.navigatorKey.currentContext!).size.width;
+
   get height =>
       MediaQuery.of(NavigationService.navigatorKey.currentContext!).size.width;
-  final double buttonHeight=50;
-  final double screenPadding=25;
+  final double buttonHeight = 50;
+  final double screenPadding = 25;
 
   final borderRadiusNormal = 10.0;
   final lineHeightNormal = 1.5;
@@ -132,7 +144,9 @@ class _Color {
   final blueColor = Color.fromARGB(255, 35, 70, 116);
   final skyBlueColor = Color.fromARGB(255, 71, 194, 202);
   final redColor = Color.fromARGB(255, 230, 96, 101);
-  final textColor = Colors.black87;
+  final textColor = Color(0xFF292929);
+  final textColorLight = Color(0xFF484848);
+  final textColorHint = Color(0xFFE2E2E2);
   final fadedWhite = Color(0xFF9C9FA8);
   final normalWhite = Color(0xFFFFFFFF);
   final primaryOrange = Color(0xFFE1953B);
@@ -165,7 +179,7 @@ class _TextStyle {
       color: Styles.color.textColor,
       fontFamily: Styles.fontFamilyRegular);
   final subHeadingTS = TextStyle(
-      fontSize: 18,
+      fontSize: 16,
       color: Styles.color.textColor,
       fontFamily: Styles.fontFamilyRegular);
   final normalTS = TextStyle(
@@ -182,13 +196,8 @@ class _TextStyle {
       color: Styles.color.textColor,
       fontFamily: Styles.fontFamilyRegular);
   final smallBoldTS = TextStyle(
-      fontSize: 12,
-      color: Styles.color.textColor,
-      fontWeight: FontWeight.w500,
-      fontFamily: Styles.fontFamilyRegular);
-  var textStyleTitle = TextStyle(
-    fontSize: Dimens.fontSizeTitle,
-    fontFamily: Styles.fontFamilyRegular,
+    fontSize: 12,
     color: Styles.color.textColor,
+    fontWeight: FontWeight.w500,
   );
 }

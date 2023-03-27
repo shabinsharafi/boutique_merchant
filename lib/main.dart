@@ -1,6 +1,7 @@
+import 'package:boutique_merchant/provider/addItemProvider.dart';
 import 'package:boutique_merchant/splashScreen.dart';
 import 'package:boutique_merchant/styles/styles.dart';
-import 'package:boutique_merchant/ui/authScreen/authVM.dart';
+import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,8 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create:(context)=>UserDataViewModel()),
-        ChangeNotifierProvider(create:(context)=>AuthenticationViewModel()),
+        ChangeNotifierProvider(create: (context) => UserDataProvider()),
+        ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
+        ChangeNotifierProvider(create: (context) => AddItemProvider()),
       ],
       child: MaterialApp(
         title: 'Boutique Merchant',
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Quicksand',
           primarySwatch: Styles.color.primaryColor,
         ),
-        home:  SplashScreen(),
+        home: SplashScreen(),
       ),
     );
   }
