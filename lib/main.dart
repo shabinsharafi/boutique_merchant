@@ -1,10 +1,10 @@
 import 'package:boutique_merchant/provider/addItemProvider.dart';
+import 'package:boutique_merchant/provider/authVM.dart';
+import 'package:boutique_merchant/provider/boutiqueVM.dart';
 import 'package:boutique_merchant/splashScreen.dart';
 import 'package:boutique_merchant/styles/styles.dart';
-import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => UserDataProvider()),
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (context) => AddItemProvider()),
+        ChangeNotifierProvider(create: (context) => BoutiqueProvider()),
       ],
       child: MaterialApp(
         title: 'Boutique Merchant',
