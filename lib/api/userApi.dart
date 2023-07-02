@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/api/httpHandler.dart';
 import 'package:boutique_merchant/logger.dart';
+import 'package:boutique_merchant/models/LoginResponse.dart';
 import 'package:boutique_merchant/models/userModel.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,9 +20,9 @@ class UserApi {
     ApiResponse apiResponse = ApiResponse();
     try {
       apiResponse =
-          await HttpHandler.postRequest(Utilities.baseUrl + "users/login", req);
+          await HttpHandler.postRequest<UserModel>(Utilities.baseUrl + "users/login", req,() => UserModel());
       if (apiResponse.success) {
-        apiResponse.data = UserModel.fromJson(apiResponse.data);
+        //apiResponse.data = UserModel.fromJson(apiResponse.data);
       }
     } catch (e) {
       print(e.toString());
@@ -30,13 +31,13 @@ class UserApi {
     return apiResponse;
   }
 
-  Future<ApiResponse> verifyOtp(req) async {
-    ApiResponse apiResponse = ApiResponse();
+  Future<ApiResponse<LoginResponse>> verifyOtp(req) async {
+    ApiResponse<LoginResponse> apiResponse = ApiResponse();
     try {
-      apiResponse = await HttpHandler.postRequest(
-          Utilities.baseUrl + "users/verifyOtp", req);
+      apiResponse = await HttpHandler.postRequest<LoginResponse>(
+          Utilities.baseUrl + "users/verifyOtp", req,() => LoginResponse());
       if (!apiResponse.success) {
-        apiResponse.data = UserModel.fromJson(apiResponse.data);
+        //apiResponse.data = LoginResponse.fromJson(apiResponse.data);
       }
     } catch (e) {
       print(e.toString());
@@ -45,14 +46,16 @@ class UserApi {
     return apiResponse;
   }
 
-  Future<ApiResponse> getUserDetails() async {
-    ApiResponse apiResponse = ApiResponse();
+  Future<ApiResponse<LoginResponse>> getUserDetails() async {
+    ApiResponse<LoginResponse> apiResponse = ApiResponse();
     var id = await SharedPreferences.getInstance()
         .then((value) => value.getString('id'));
     try {
-      apiResponse = await HttpHandler.getRequestToken(
-        Utilities.baseUrl + "users/details/$id",
+      apiResponse = await HttpHandler.getRequestToken<LoginResponse>(
+        Utilities.baseUrl + "users/details/$id",() => LoginResponse()
       );
+      print("uSERaPIO");
+      print(apiResponse);
       /*if (apiResponse.success) {
         apiResponse.data = UserModel.fromJson(apiResponse.data);
       }*/
@@ -64,15 +67,15 @@ class UserApi {
   }
 
   Future<ApiResponse> getProfile() async {
-    ApiResponse apiResponse = ApiResponse();
+    ApiResponse<LoginResponse> apiResponse = ApiResponse();
     try {
       Map<String, String> req = {};
       await SharedPreferences.getInstance()
           .then((value) => req.putIfAbsent("id", () => value.getString("id")!));
       apiResponse = await HttpHandler.getRequest(
-          Utilities.baseUrl + "profiles/" + req["id"]!);
+          Utilities.baseUrl + "profiles/" + req["id"]!,() => LoginResponse());
       if (!apiResponse.success) {
-        apiResponse.data = UserModel.fromJson(apiResponse.data);
+        // apiResponse.data = UserModel.fromJson(apiResponse.data);
       }
     } catch (e) {
       print(e.toString());
@@ -81,13 +84,13 @@ class UserApi {
     return apiResponse;
   }
 
-  Future<ApiResponse> saveProfile(Map<String, dynamic> request) async {
-    ApiResponse apiResponse = ApiResponse();
+  Future<ApiResponse<UserModel>> saveProfile(Map<String, dynamic> request) async {
+    ApiResponse<UserModel> apiResponse = ApiResponse();
     try {
-      apiResponse = await HttpHandler.postRequest(
-          Utilities.baseUrl + "profiles", request);
+      apiResponse = await HttpHandler.postRequest<UserModel>(
+          Utilities.baseUrl + "profiles", request,() => UserModel());
       if (!apiResponse.success) {
-        apiResponse.data = UserModel.fromJson(apiResponse.data);
+        //apiResponse.data = UserModel.fromJson(apiResponse.data);
       }
     } catch (e) {
       debugPrint(e.toString());

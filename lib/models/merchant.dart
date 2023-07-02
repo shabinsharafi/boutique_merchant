@@ -1,21 +1,23 @@
-class Merchant {
+import 'baseModel.dart';
+
+class Merchant extends BaseModel{
   Merchant({
-    required this.id,
-    required this.name,
-    required this.phone,
-    required this.image,
-    required this.email,
-    required this.ownerId,
-    required this.dateCreated,
+     this.id,
+     this.name,
+     this.phone,
+     this.image,
+     this.email,
+     this.ownerId,
+     this.dateCreated,
     this.merchant,
   });
 
-  String id;
-  String name;
-  String phone;
-  String image;
-  String email;
-  String ownerId;
+  String? id;
+  String? name;
+  String? phone;
+  String? image;
+  String? email;
+  String? ownerId;
   DateTime? dateCreated;
   Map? merchant;
 
@@ -40,4 +42,17 @@ class Merchant {
         "ownerId": ownerId,
         if (dateCreated != null) "dateCreated": dateCreated!.toIso8601String(),
       };
+
+  @override
+  fromJson(Map<String, dynamic> json) => Merchant(
+    id: json["id"],
+    name: json["name"] ?? '',
+    phone: json["phone"] ?? '',
+    image: json["image"] ?? '',
+    email: json["email"] ?? '',
+    ownerId: json["ownerId"] ?? '',
+    dateCreated: json["dateCreated"] == null
+        ? null
+        : DateTime.parse(json["dateCreated"]),
+  );
 }

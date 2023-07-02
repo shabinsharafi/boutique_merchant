@@ -1,31 +1,37 @@
-class Category {
+import 'baseModel.dart';
+
+class Category extends BaseModel {
   Category({
-    required this.id,
-    required this.ownerId,
-    required this.name,
-    required this.image,
-    required this.dateCreated,
+    this.id,
+    this.name,
+    this.image,
+    this.dateCreated,
   });
 
-  String id;
-  String ownerId;
-  String name;
-  String image;
-  DateTime dateCreated;
+  String? id;
+  String? name;
+  String? image;
+  DateTime? dateCreated;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-    id: json["id"],
-    ownerId: json["ownerId"],
-    name: json["name"],
-    image: json["image"],
-    dateCreated: json["dateCreated"],
-  );
+        id: json["id"],
+        name: json["name"],
+        image: json["image"],
+        dateCreated: json["dateCreated"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "ownerId": ownerId,
-    "name": name,
-    "image": image,
-    "dateCreated": dateCreated,
-  };
+        "id": id,
+        "name": name,
+        "image": image,
+        "dateCreated": dateCreated,
+      };
+
+  @override
+  fromJson(Map<String, dynamic> json) => Category(
+        id: json["id"],
+        name: json["name"],
+        image: json["image"],
+        dateCreated: json["dateCreated"],
+      );
 }

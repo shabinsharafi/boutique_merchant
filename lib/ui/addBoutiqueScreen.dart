@@ -25,57 +25,59 @@ class _AddBoutiqueScreenState extends State<AddBoutiqueScreen> {
           padding: Styles.normalScreenPadding,
           child: Form(
             key: provider.formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Styles.spaceHeight70,
-                Center(
-                  child: CircleAvatar(
-                    radius: 75,
-                    backgroundColor: Styles.color.textColorHint,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Styles.spaceHeight70,
+                  Center(
+                    child: CircleAvatar(
+                      radius: 75,
+                      backgroundColor: Styles.color.textColorHint,
+                    ),
                   ),
-                ),
-                Styles.spaceHeight30,
-                Text(
-                  "Name",
-                  style: Styles.textStyle.smallBoldTS,
-                ),
-                Styles.spaceHeight12,
-                TextFormField(
-                  controller: provider.nameController,
-                  keyboardType: TextInputType.name,
-                  decoration: Styles.inputForm(),
-                ),
-                Styles.spaceHeight20,
-                Text(
-                  "Phone Number",
-                  style: Styles.textStyle.smallBoldTS,
-                ),
-                Styles.spaceHeight12,
-                TextFormField(
-                  controller: provider.phoneNumberController,
-                  keyboardType: TextInputType.phone,
-                  decoration: Styles.inputForm(),
-                ),
-                Styles.spaceHeight20,
-                Text(
-                  "Email Id",
-                  style: Styles.textStyle.smallBoldTS,
-                ),
-                Styles.spaceHeight12,
-                TextFormField(
-                  controller: provider.emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: Styles.inputForm(),
-                ),
-                Styles.spaceHeight50,
-                PrimaryButton(
-                  "Create Boutique",
-                  onTap: () {
-                    provider.addBoutique();
-                  },
-                ),
-              ],
+                  Styles.spaceHeight30,
+                  Text(
+                    "Name",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  TextFormField(
+                    controller: provider.nameController,
+                    keyboardType: TextInputType.name,
+                    decoration: Styles.inputForm(),
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
+                    "Phone Number",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  TextFormField(
+                    controller: provider.phoneNumberController,
+                    keyboardType: TextInputType.phone,
+                    decoration: Styles.inputForm(),
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
+                    "Email Id",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  TextFormField(
+                    controller: provider.emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: Styles.inputForm(),
+                  ),
+                  Styles.spaceHeight50,
+                  PrimaryButton(
+                    "Create Boutique",
+                    onTap: () {
+                      provider.addBoutique();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );

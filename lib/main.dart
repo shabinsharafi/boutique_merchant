@@ -1,3 +1,4 @@
+import 'package:boutique_merchant/provider/ItemsVM.dart';
 import 'package:boutique_merchant/provider/addItemProvider.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/provider/boutiqueVM.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (context) => AddItemProvider()),
         ChangeNotifierProvider(create: (context) => BoutiqueProvider()),
+        ChangeNotifierProvider(create: (context) => ItemsProvider()),
       ],
       child: MaterialApp(
         title: 'Boutique Merchant',

@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/logger.dart';
+import 'package:boutique_merchant/models/baseModel.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const timeoutDuration = Duration(seconds: 20);
 class HttpHandler {
-  static Future<ApiResponse> getRequest<T>(String url) async {
-    ApiResponse apiResponse = ApiResponse();
+  static Future<ApiResponse<T>> getRequest<T extends BaseModel>(String url,ItemCreator<T> creator) async {
+    ApiResponse<T> apiResponse = ApiResponse();
     try {
       Logger.log("get url", url);
       Response response = await get(Uri.parse(url)).timeout(timeoutDuration);
@@ -18,7 +19,7 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-      apiResponse=ApiResponse.fromJson(json.decode(body));
+      apiResponse=ApiResponse<T>.fromJson(json.decode(body),creator);
     } on TimeoutException {
       return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
@@ -29,9 +30,9 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static Future<ApiResponse> postRequest(String url, Map req) async {
+  static Future<ApiResponse<T>> postRequest<T extends BaseModel>(String url, Map req,ItemCreator<T> creator) async {
     // set up POST request arguments
-    ApiResponse apiResponse = new ApiResponse();
+    ApiResponse<T> apiResponse = new ApiResponse();
     try {
       Logger.log("post url", url);
       Logger.log("post req", req.toString());
@@ -42,7 +43,7 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-      apiResponse=ApiResponse.fromJson(json.decode(body));
+      apiResponse=ApiResponse.fromJson(json.decode(body),creator);
     } on TimeoutException {
       return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
@@ -53,9 +54,9 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static Future<ApiResponse> putRequest(String url, Map req) async {
+  static Future<ApiResponse<T>> putRequest<T extends BaseModel>(String url, Map req,ItemCreator<T> creator) async {
     // set up POST request arguments
-    ApiResponse apiResponse = new ApiResponse();
+    ApiResponse<T> apiResponse = new ApiResponse();
     try {
       Logger.log("put url", url);
       Logger.log("put req", req.toString());
@@ -66,7 +67,7 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-      apiResponse=ApiResponse.fromJson(json.decode(body));
+      apiResponse=ApiResponse.fromJson(json.decode(body),creator);
     } on TimeoutException {
       return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
@@ -77,8 +78,8 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static getRequestToken<T>(String url) async {
-    ApiResponse apiResponse = new ApiResponse<T>();
+  static getRequestToken<T extends BaseModel>(String url,ItemCreator<T> creator) async {
+    ApiResponse<T> apiResponse = new ApiResponse<T>();
     try {
       Logger.log("get url token", url);
       late String token;
@@ -100,7 +101,7 @@ class HttpHandler {
       String body = response.body;
       Logger.log("response", body);
 
-      apiResponse=ApiResponse.fromJson(json.decode(body));
+      apiResponse=ApiResponse.fromJson(json.decode(body),creator);
       /*if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;
@@ -118,8 +119,8 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static postRequestToken(String url, var req) async {
-    ApiResponse apiResponse = new ApiResponse();
+  static postRequestToken<T extends BaseModel>(String url, var req,ItemCreator<T> creator) async {
+    ApiResponse<T> apiResponse = new ApiResponse<T>();
     try {
       // set up POST request arguments
       Logger.log("post url token", url);
@@ -139,24 +140,7 @@ class HttpHandler {
       Logger.log("statusCode", statusCode.toString());
       String body = response.body;
       Logger.log("response", body);
-
-      apiResponse=ApiResponse.fromJson(json.decode(body));
-      /*if (response.statusCode >= 200 && response.statusCode <= 250) {
-        final result = jsonDecode(response.body);
-        if (true) {
-          apiResponse.success = true;
-          apiResponse.data = json.decode(response.body);
-        } else {
-          apiResponse.success = false;
-          apiResponse.errorData = jsonDecode(response.body);
-        }
-      } else if (response.statusCode == 401) {
-        NavigationService.navigateToLogin();
-        return;
-      } else {
-        apiResponse.success = false;
-        apiResponse.message = response.body;
-      }*/
+      apiResponse=ApiResponse.fromJson(json.decode(body),creator);
     } on TimeoutException {
       return ApiResponse(success: false, message: 'Timeout');
     } on SocketException {
@@ -167,8 +151,8 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static putRequestToken(String url, Map req) async {
-    ApiResponse apiResponse = new ApiResponse();
+  static putRequestToken<T extends BaseModel>(String url, Map req,ItemCreator<T> creator) async {
+    ApiResponse<T> apiResponse = new ApiResponse<T>();
     try {
       // set up POST request arguments
       Logger.log("put url token", url);
@@ -190,13 +174,8 @@ class HttpHandler {
       Logger.log("response", body);
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         final result = jsonDecode(response.body);
-        if (true) {
-          apiResponse.success = true;
-          apiResponse.data = json.decode(response.body);
-        } else {
-          apiResponse.success = false;
-          apiResponse.errorData = jsonDecode(response.body);
-        }
+        apiResponse = ApiResponse.fromJson(json.decode(response.body),creator);
+
       } else if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;
@@ -214,8 +193,8 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static patchRequestToken(String url, var req) async {
-    ApiResponse apiResponse = new ApiResponse();
+  static patchRequestToken<T extends BaseModel>(String url, var req,ItemCreator<T> creator) async {
+    ApiResponse apiResponse = new ApiResponse<T>();
     try {
       // set up POST request arguments
       Logger.log("patch url token", url);
@@ -236,14 +215,8 @@ class HttpHandler {
       String body = response.body;
       Logger.log("response", body);
       if (response.statusCode >= 200 && response.statusCode <= 250) {
-        final result = jsonDecode(response.body);
-        if (true) {
-          apiResponse.success = true;
-          apiResponse.data = json.decode(response.body);
-        } else {
-          apiResponse.success = false;
-          apiResponse.errorData = jsonDecode(response.body);
-        }
+
+        apiResponse = ApiResponse.fromJson(json.decode(response.body),creator);
       } else if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;
@@ -267,8 +240,8 @@ class HttpHandler {
     return jsonReq.toString();
   }
 
-  static Future<ApiResponse> deleteRequest(String url) async {
-    ApiResponse apiResponse = new ApiResponse();
+  static Future<ApiResponse<T>> deleteRequest<T extends BaseModel>(String url,ItemCreator<T> creator) async {
+    ApiResponse<T> apiResponse = new ApiResponse();
     try {
       Logger.log("delete url", url);
       Response response = await delete(Uri.parse(url)).timeout(timeoutDuration);
@@ -277,14 +250,8 @@ class HttpHandler {
       String body = response.body;
       Logger.log("response", body);
       if (response.statusCode >= 200 && response.statusCode <= 250) {
-        final result = jsonDecode(response.body);
-        if (true) {
-          apiResponse.success = true;
-          apiResponse.data = json.decode(response.body);
-        } else {
-          apiResponse.success = false;
-          apiResponse.errorData = jsonDecode(response.body);
-        }
+
+        apiResponse = ApiResponse.fromJson(json.decode(response.body),creator);
       } else {
         apiResponse.success = false;
         apiResponse.message = response.body;
@@ -299,8 +266,8 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static deleteRequestToken(String url, {dynamic req}) async {
-    ApiResponse apiResponse = new ApiResponse();
+  static deleteRequestToken<T extends BaseModel>(String url,ItemCreator<T> creator, {dynamic req}) async {
+    ApiResponse<T> apiResponse = new ApiResponse();
     try {
       Logger.log("delete url token", url);
       late String token;
@@ -318,14 +285,8 @@ class HttpHandler {
       String body = response.body;
       Logger.log("response", body);
       if (response.statusCode >= 200 && response.statusCode <= 250) {
-        final result = jsonDecode(response.body);
-        if (true) {
-          apiResponse.success = true;
-          apiResponse.data = json.decode(response.body);
-        } else {
-          apiResponse.success = false;
-          apiResponse.errorData = jsonDecode(response.body);
-        }
+
+        apiResponse = ApiResponse.fromJson(json.decode(response.body),creator);
       } else if (response.statusCode == 401) {
         NavigationService.navigateToLogin();
         return;

@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:boutique_merchant/api/api_response.dart';
+import 'package:boutique_merchant/api/userApi.dart';
+import 'package:boutique_merchant/models/LoginResponse.dart';
 import 'package:boutique_merchant/models/merchant.dart';
 import 'package:boutique_merchant/models/userModel.dart';
 import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
 import 'package:boutique_merchant/ui/home/mainHomeScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
-import 'package:boutique_merchant/widgets/customDialog.dart';
 import 'package:boutique_merchant/widgets/general/commonAlertDialogBox.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:boutique_merchant/api/userApi.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,8 +20,8 @@ import '../ui/registration/userRegistrationVM.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   ApiResponse? loginResponse;
-  ApiResponse? verifyOtpResponse;
-  ApiResponse? getDetailsResponse;
+  ApiResponse<LoginResponse>? verifyOtpResponse;
+  ApiResponse<LoginResponse>? getDetailsResponse;
   bool isLoginLoading = false;
   bool isVerifyOtpLoading = false;
 
@@ -67,19 +67,19 @@ class AuthenticationProvider with ChangeNotifier {
     isVerifyOtpLoading = false;
     if (verifyOtpResponse!.success) {
       SharedPreferences.getInstance().then((value) {
-        value.setString("token", verifyOtpResponse!.data['token']);
-        value.setString("id", verifyOtpResponse!.data['user']['id']);
+        value.setString("token", verifyOtpResponse!.data!.token!);
+        value.setString("id", verifyOtpResponse!.data!.user!.id!);
       });
       Provider.of<UserDataProvider>(
               NavigationService.navigatorKey.currentContext!,
               listen: false)
-          .user = UserModel.fromJson(verifyOtpResponse!.data['user']);
+          .user = verifyOtpResponse!.data!.user!;
       Provider.of<UserDataProvider>(
               NavigationService.navigatorKey.currentContext!,
               listen: false)
           // .user = UserModel.fromJson(verifyOtpResponse!.data);
           .user
-          .merchant = Merchant.fromJson(getDetailsResponse!.data['merchant']);
+          .merchant = verifyOtpResponse!.data?.merchant;
       NavigationService.changeScreenRemoveOther(MainHomeScreen());
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
@@ -100,16 +100,15 @@ class AuthenticationProvider with ChangeNotifier {
         value.setString("token", verifyOtpResponse!.data['token']);
       });*/
       Provider.of<UserDataProvider>(
-              NavigationService.navigatorKey.currentContext!,
-              listen: false)
-          // .user = UserModel.fromJson(verifyOtpResponse!.data);
-          .user = UserModel.fromJson(getDetailsResponse!.data['user']);
+          NavigationService.navigatorKey.currentContext!,
+          listen: false)
+          .user = getDetailsResponse!.data!.user!;
       Provider.of<UserDataProvider>(
-              NavigationService.navigatorKey.currentContext!,
-              listen: false)
-          // .user = UserModel.fromJson(verifyOtpResponse!.data);
+          NavigationService.navigatorKey.currentContext!,
+          listen: false)
+      // .user = UserModel.fromJson(verifyOtpResponse!.data);
           .user
-          .merchant = Merchant.fromJson(getDetailsResponse!.data['merchant']);
+          .merchant = getDetailsResponse!.data?.merchant;
       NavigationService.changeScreenRemoveOther(MainHomeScreen());
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(

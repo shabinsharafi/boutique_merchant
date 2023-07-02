@@ -4,7 +4,6 @@ import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/ShadowWidget.dart';
 import 'package:boutique_merchant/widgets/nothing_layout.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          if (provider.user.merchant == null)
+          if (provider.user.merchant != null)
             GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,

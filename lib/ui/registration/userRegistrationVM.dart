@@ -12,13 +12,13 @@ import 'package:boutique_merchant/api/userApi.dart';
 class UserDataProvider with ChangeNotifier {
   late ApiResponse userResponse;
   late UserModel user;
-
+/*
   Future<ApiResponse> getProfile() async {
     ApiResponse dataResponse = await UserApi.getInstance().getProfile();
     userResponse = dataResponse;
     user = dataResponse.data;
     return dataResponse;
-  }
+  }*/
 
 /*void getPetColors() async {
     RemoteConfigService _remoteConfigService =

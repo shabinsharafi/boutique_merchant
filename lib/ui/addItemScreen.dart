@@ -1,4 +1,5 @@
 
+import 'package:boutique_merchant/models/category.dart';
 import 'package:boutique_merchant/provider/addItemProvider.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
@@ -103,19 +104,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
-                  DropdownSearch<String>(
+                  DropdownSearch<Category>(
                     popupProps: PopupProps.dialog(
-                      showSelectedItems: true,
+                      //showSelectedItems: true,
                       showSearchBox: true,
                     ),
-                    items: provider.addItemsFilterResponse!.data.material,
+                    items: provider.addItemsFilterResponse!.data!.materialType!,
                     dropdownDecoratorProps:
                         Styles.dropDownDecoration("Select material type"),
                     onChanged: (value) {
                       provider.materialType = value;
                     },
                     autoValidateMode: provider.autoValidateMode,
-                    validator: (String? item) {
+                    validator: (Category? item) {
                       if (item == null)
                         return "Required field";
                       else
@@ -139,19 +140,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
-                  DropdownSearch<String>(
+                  DropdownSearch<Category>(
                     popupProps: PopupProps.dialog(
-                      showSelectedItems: true,
+                      //showSelectedItems: true,
                       showSearchBox: true,
                     ),
-                    items: provider.addItemsFilterResponse!.data.material,
+                    items: provider.addItemsFilterResponse!.data!.itemStatus!,
                     dropdownDecoratorProps:
                         Styles.dropDownDecoration("Select item status"),
                     onChanged: (value) {
                       provider.itemStatus = value;
                     },
                     autoValidateMode: provider.autoValidateMode,
-                    validator: (String? item) {
+                    validator: (Category? item) {
                       if (item == null)
                         return "Required field";
                       else

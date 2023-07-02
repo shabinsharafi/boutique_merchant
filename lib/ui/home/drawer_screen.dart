@@ -40,7 +40,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                     userData.userResponse.data.name,
+                     userData.userResponse.data.toString(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,

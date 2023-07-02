@@ -1,26 +1,16 @@
-import 'dart:async';
-
 import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/api/itemsApi.dart';
-import 'package:boutique_merchant/models/merchant.dart';
-import 'package:boutique_merchant/models/userModel.dart';
-import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
+import 'package:boutique_merchant/api/userApi.dart';
+import 'package:boutique_merchant/models/AddItemFilter.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
-import 'package:boutique_merchant/ui/home/mainHomeScreen.dart';
-import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
-import 'package:boutique_merchant/widgets/customDialog.dart';
 import 'package:boutique_merchant/widgets/general/commonAlertDialogBox.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:boutique_merchant/api/userApi.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AddItemProvider with ChangeNotifier {
   ApiResponse? loginResponse;
   ApiResponse? verifyOtpResponse;
-  ApiResponse? addItemsFilterResponse;
+  ApiResponse<AddItemFilter>? addItemsFilterResponse;
   bool isLoginLoading = false;
   bool isAddItemFilterLoading = false;
   bool isVerifyOtpLoading = false;
@@ -71,33 +61,6 @@ class AddItemProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getUserDetails() async {
-    isVerifyOtpLoading = true;
-    notifyListeners();
-    Map<String, String> req = {};
-    addItemsFilterResponse = await UserApi.getInstance().getUserDetails();
-    isVerifyOtpLoading = false;
-    if (addItemsFilterResponse!.success) {
-      Provider.of<UserDataProvider>(
-              NavigationService.navigatorKey.currentContext!,
-              listen: false)
-          // .user = UserModel.fromJson(verifyOtpResponse!.data);
-          .user = UserModel.fromJson(addItemsFilterResponse!.data['user']);
-      Provider.of<UserDataProvider>(
-                  NavigationService.navigatorKey.currentContext!,
-                  listen: false)
-              // .user = UserModel.fromJson(verifyOtpResponse!.data);
-              .user
-              .merchant =
-          Merchant.fromJson(addItemsFilterResponse!.data['merchant']);
-      NavigationService.changeScreenRemoveOther(MainHomeScreen());
-    } else {
-      NavigationService.showAlertDialog(AlertMessageDialog(
-        message: addItemsFilterResponse!.message!,
-      ));
-    }
-    notifyListeners();
-  }
 }
 /*
 PopupPropsMultiSelection.dialog(
