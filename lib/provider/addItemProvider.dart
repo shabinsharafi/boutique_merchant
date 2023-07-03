@@ -2,6 +2,7 @@ import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/api/itemsApi.dart';
 import 'package:boutique_merchant/api/userApi.dart';
 import 'package:boutique_merchant/models/AddItemFilter.dart';
+import 'package:boutique_merchant/models/category.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
@@ -19,10 +20,10 @@ class AddItemProvider with ChangeNotifier {
 
   var nameController = TextEditingController();
   var descriptionController = TextEditingController();
-  var category;
-  var materialType;
-  var color;
-  var itemStatus;
+  Category? category;
+  Category? materialType;
+  List<Category> colors=[];
+  Category? itemStatus;
 
   var addItemFormKey = GlobalKey<FormState>();
   var autoValidateMode = AutovalidateMode.disabled;
@@ -38,18 +39,20 @@ class AddItemProvider with ChangeNotifier {
     await SharedPreferences.getInstance().then((value) {
       regId = value.getString("id");
     });
-    Item item=new Item();
-    item.name= nameController.text;
-    item.description= descriptionController.text;
-    item.materialType= nameController.text;
-    item.images= nameController.text;
-    item.colors= nameController.text;
-    item.isStockAvailable= nameController.text;
-    item.itemStatus= nameController.text;
-    item.categoryId= nameController.text;
-    item.merchantId= regId;
 
-    loginResponse = await ItemsApi.getInstance().addItem(item.toJson());
+    Map<String,dynamic> req={
+      "name": nameController.text,
+      "description": descriptionController.text,
+      "colors": [
+        "string"
+      ],
+      "materialType": materialType?.id,
+      "itemStatus": itemStatus!.id,
+      "merchantId": regId,
+      "categoryId": category!.id
+    };
+
+    loginResponse = await ItemsApi.getInstance().addItem(req);
     isLoginLoading = false;
     if (loginResponse!.success) {
       NavigationService.changeScreen(VerifyOtpScreen());

@@ -147,6 +147,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       //showSelectedItems: true,
                       showSearchBox: true,
                     ),
+                    selectedItem: provider.itemStatus,
                     items: provider.addItemsFilterResponse!.data!.itemStatus!,
                     itemAsString: (item) => item.name!,
                     dropdownDecoratorProps:

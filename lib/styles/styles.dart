@@ -185,6 +185,11 @@ class _TextStyle {
       fontSize: 16,
       color: Styles.color.textColor,
       fontFamily: Styles.fontFamilyRegular);
+  final itemHeaderTS = TextStyle(
+      fontSize: 16,
+      color: Styles.color.textColor,
+      fontWeight: FontWeight.w500,
+      fontFamily: Styles.fontFamilyRegular);
   final normalTS = TextStyle(
       fontSize: 14,
       color: Styles.color.textColor,

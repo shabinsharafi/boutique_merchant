@@ -31,7 +31,7 @@ class ItemsCard extends StatelessWidget {
               children: [
                 Text(
                   item.name!,
-                  style: Styles.textStyle.subHeadingTS,
+                  style: Styles.textStyle.itemHeaderTS,
                 ),
                 SizedBox(
                   height: 5,
