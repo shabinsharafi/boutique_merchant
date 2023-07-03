@@ -2,10 +2,12 @@ import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/api/itemsApi.dart';
 import 'package:boutique_merchant/api/userApi.dart';
 import 'package:boutique_merchant/models/AddItemFilter.dart';
+import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/general/commonAlertDialogBox.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddItemProvider with ChangeNotifier {
   ApiResponse? loginResponse;
@@ -32,9 +34,22 @@ class AddItemProvider with ChangeNotifier {
     }
     isLoginLoading = true;
     notifyListeners();
-    Map<String, String> req = {};
-    req.putIfAbsent("name", () => nameController.text);
-    loginResponse = await UserApi.getInstance().login(req);
+    var regId;
+    await SharedPreferences.getInstance().then((value) {
+      regId = value.getString("id");
+    });
+    Item item=new Item();
+    item.name= nameController.text;
+    item.description= descriptionController.text;
+    item.materialType= nameController.text;
+    item.images= nameController.text;
+    item.colors= nameController.text;
+    item.isStockAvailable= nameController.text;
+    item.itemStatus= nameController.text;
+    item.categoryId= nameController.text;
+    item.merchantId= regId;
+
+    loginResponse = await ItemsApi.getInstance().addItem(item.toJson());
     isLoginLoading = false;
     if (loginResponse!.success) {
       NavigationService.changeScreen(VerifyOtpScreen());

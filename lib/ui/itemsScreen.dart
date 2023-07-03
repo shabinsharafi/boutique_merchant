@@ -2,6 +2,7 @@ import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/provider/ItemsVM.dart';
 import 'package:boutique_merchant/ui/addItemScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
+import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/nothing_layout.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +35,24 @@ class _ItemsScreenState extends State<ItemsScreen> {
             );
           else if (provider.itemsResponse != null &&
               provider.itemsResponse!.data!.items!.isNotEmpty)
-            return ListView.builder(
-              itemCount: provider.itemsResponse!.data!.items!.length,
-              itemBuilder: (context, index) {
-                return ItemsCard(provider.itemsResponse!.data!.items![index]);
-              },
+            return Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ListView.builder(
+                    itemCount: provider.itemsResponse!.data!.items!.length,
+                    itemBuilder: (context, index) {
+                      return ItemsCard(provider.itemsResponse!.data!.items![index]);
+                    },
+                  ),
+                ),
+                PrimaryButton(
+                  "Add New Item",
+                  onTap: () {
+                    NavigationService.changeScreen(AddItemScreen());
+                  },
+                )
+              ],
             );
           return Container(
               child: Nothing(

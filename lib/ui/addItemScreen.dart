@@ -1,4 +1,3 @@
-
 import 'package:boutique_merchant/models/category.dart';
 import 'package:boutique_merchant/provider/addItemProvider.dart';
 import 'package:boutique_merchant/styles/styles.dart';
@@ -23,7 +22,6 @@ class AddItemScreen extends StatefulWidget {
 class _AddItemScreenState extends State<AddItemScreen> {
   final _popupCustomValidationKey = GlobalKey<DropdownSearchState<int>>();
 
-
   @override
   void initState() {
     super.initState();
@@ -37,8 +35,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
       backgroundColor: Colors.white,
       appBar: ToolBar("Add Item"),
       body: Consumer<AddItemProvider>(builder: (context, provider, child) {
-        if(provider.isAddItemFilterLoading)
-          return Center(child: CircularProgressIndicator(),);
+        if (provider.isAddItemFilterLoading)
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         return Padding(
           padding: Styles.normalScreenPadding,
           child: Form(
@@ -79,19 +79,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
-                  DropdownSearch<String>(
+                  DropdownSearch<Category>(
                     popupProps: PopupProps.dialog(
-                      showSelectedItems: true,
+                      // showSelectedItems: true,
                     ),
-                    items: ["Brazil", "Italia (Disabled)", "Tunisia", 'Canada'],
+                    items: provider.addItemsFilterResponse!.data!.category!,
                     dropdownDecoratorProps:
                         Styles.dropDownDecoration("Select category"),
                     onChanged: (value) {
                       provider.category = value;
                     },
+                    itemAsString: (item) => item.name!,
                     autoValidateMode: provider.autoValidateMode,
-                    selectedItem: "Brazil",
-                    validator: (String? item) {
+                    //selectedItem: "Brazil",
+                    validator: (Category? item) {
                       if (item == null)
                         return "Required field";
                       else
@@ -115,6 +116,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     onChanged: (value) {
                       provider.materialType = value;
                     },
+                    itemAsString: (item) => item.name!,
                     autoValidateMode: provider.autoValidateMode,
                     validator: (Category? item) {
                       if (item == null)
@@ -146,6 +148,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       showSearchBox: true,
                     ),
                     items: provider.addItemsFilterResponse!.data!.itemStatus!,
+                    itemAsString: (item) => item.name!,
                     dropdownDecoratorProps:
                         Styles.dropDownDecoration("Select item status"),
                     onChanged: (value) {

@@ -49,4 +49,19 @@ class ItemsApi {
     }
     return apiResponse;
   }
+
+  Future<ApiResponse<Item>> addItem(req) async {
+    ApiResponse<Item> apiResponse = ApiResponse();
+    try {
+      apiResponse =
+          await HttpHandler.postRequestToken<Item>(Utilities.baseUrl + "addItem",req,() =>  Item());
+      if (apiResponse.success) {
+        //apiResponse.data = List<Item>.from(apiResponse.data.map((x) => Item.fromJson(x)));
+      }
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
 }
