@@ -44,7 +44,7 @@ class UserModel extends BaseModel{
       };
 
   @override
-  fromJson(Map<String, dynamic> json)  => UserModel(
+  fromJson(dynamic json)  => UserModel(
     id: json["id"],
     name: json["name"]??'',
     phone: json["phone"]??'',

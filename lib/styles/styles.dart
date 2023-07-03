@@ -122,7 +122,10 @@ class _Dimens {
   get height =>
       MediaQuery.of(NavigationService.navigatorKey.currentContext!).size.width;
   final double buttonHeight = 50;
-  final double screenPadding = 25;
+  final double screenPaddingBig = 25;
+  final double screenPadding = 20;
+  final double screenPaddingNormal = 20;
+  final double screenPaddingSmall = 15;
 
   final borderRadiusNormal = 10.0;
   final lineHeightNormal = 1.5;

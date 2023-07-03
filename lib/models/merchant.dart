@@ -44,7 +44,7 @@ class Merchant extends BaseModel{
       };
 
   @override
-  fromJson(Map<String, dynamic> json) => Merchant(
+  fromJson(dynamic json) => Merchant(
     id: json["id"],
     name: json["name"] ?? '',
     phone: json["phone"] ?? '',

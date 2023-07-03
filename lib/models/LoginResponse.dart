@@ -38,7 +38,7 @@ class LoginResponse implements BaseModel{
       };
 
   @override
-  fromJson(Map<String, dynamic> json) => LoginResponse(
+  fromJson(dynamic json) => LoginResponse(
     token: json["token"],
     user: UserModel.fromJson(json["user"]),
     merchant: Merchant.fromJson(json["merchant"]),

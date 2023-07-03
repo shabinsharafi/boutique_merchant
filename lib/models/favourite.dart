@@ -30,7 +30,7 @@ class Favourite extends BaseModel {
       };
 
   @override
-  fromJson(Map<String, dynamic> json) => Favourite(
+  fromJson(dynamic json) => Favourite(
         id: json["id"] == null ? null : json["id"],
         petId: json["petId"] == null ? null : json["petId"],
         userId: json["userId"] == null ? null : json["userId"],

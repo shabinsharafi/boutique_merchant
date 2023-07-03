@@ -62,7 +62,7 @@ class Item extends BaseModel{
   };
 
   @override
-  fromJson(Map<String, dynamic> json) => Item(
+  fromJson(dynamic json) => Item(
     name: json["name"],
     id: json["id"],
     colors: List<String>.from(json["colors"].map((x) => x)),

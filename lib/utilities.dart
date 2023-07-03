@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Utilities {
-  static const String baseUrl = "http://192.168.0.104:3000/";
-  // static const String baseUrl = "https://1f26-86/-99-67-240.ngrok.io/"; //ngrok
+  // static const String baseUrl = "http://192.168.0.104:3000/";
+  static const String baseUrl = "https://4ee5-2001-8f8-1dc5-ff6-508e-572b-ea8c-3b56.ngrok-free.app/"; //ngrok
 
   static void showToast(BuildContext context, String message) {
 

@@ -4,21 +4,24 @@
 
 import 'dart:convert';
 
+import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/models/baseModel.dart';
 import 'package:boutique_merchant/models/category.dart';
 
-class ListResponse<T> extends BaseModel{
+class ListResponse<T extends BaseModel> extends BaseModel{
   ListResponse({
-     this.category,
+     this.items,
+    this.creator
   });
-
-  List<Category>? category;
+  ItemCreator<T>? creator;
+  List<T>? items;
 
   @override
-  fromJson(Map<String, dynamic> json) {
+  fromJson(dynamic json) {
     print(json);
-    return ListResponse(
-      category: json["category"] == null ? [] : List<Category>.from(json["category"].map((x) => Category.fromJson(x))),
+    T t=creator!();
+    return ListResponse<T>(
+      items: json == null ? [] : List<T>.from(json.map((x) => t.fromJson(x))),
     );
   }
 }

@@ -32,7 +32,7 @@ class HttpHandler {
 
   static Future<ApiResponse<T>> postRequest<T extends BaseModel>(String url, Map req,ItemCreator<T> creator) async {
     // set up POST request arguments
-    ApiResponse<T> apiResponse = new ApiResponse();
+    ApiResponse<T> apiResponse = ApiResponse<T>();
     try {
       Logger.log("post url", url);
       Logger.log("post req", req.toString());

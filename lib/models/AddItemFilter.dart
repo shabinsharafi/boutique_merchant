@@ -36,7 +36,7 @@ class AddItemFilter extends BaseModel{
   };
 
   @override
-  fromJson(Map<String, dynamic> json) {
+  fromJson(dynamic json) {
     return AddItemFilter(
       category: json["category"] == null ? [] : List<Category>.from(json["category"].map((x) => Category.fromJson(x))),
       materialType: json["materialType"] == null ? [] : List<Category>.from(json["materialType"].map((x) => Category.fromJson(x))),

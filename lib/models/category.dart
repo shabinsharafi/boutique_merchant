@@ -28,7 +28,7 @@ class Category extends BaseModel {
       };
 
   @override
-  fromJson(Map<String, dynamic> json) => Category(
+  fromJson(dynamic json) => Category(
         id: json["id"],
         name: json["name"],
         image: json["image"],

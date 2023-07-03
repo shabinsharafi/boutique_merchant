@@ -39,7 +39,7 @@ class ItemsApi {
     ApiResponse<ListResponse<Item>> apiResponse = ApiResponse();
     try {
       apiResponse =
-          await HttpHandler.getRequest<ListResponse<Item>>(Utilities.baseUrl + "getItemsByMerchants/$ownerId",() => ListResponse<Item>());
+          await HttpHandler.getRequest<ListResponse<Item>>(Utilities.baseUrl + "getItemsByMerchants/$ownerId",() => ListResponse<Item>(creator: () => Item(),));
       if (apiResponse.success) {
         //apiResponse.data = List<Item>.from(apiResponse.data.map((x) => Item.fromJson(x)));
       }
