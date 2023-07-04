@@ -18,6 +18,8 @@ class Item extends BaseModel{
   DateTime? dateCreated;
   String? merchantId;
   String? categoryId;
+  double? mrp;
+  double? price;
 
   Item({
      this.name,
@@ -31,6 +33,8 @@ class Item extends BaseModel{
      this.dateCreated,
      this.merchantId,
      this.categoryId,
+     this.mrp,
+     this.price,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -41,6 +45,8 @@ class Item extends BaseModel{
     isStockAvailable: json["isStockAvailable"],
     itemStatus: json["itemStatus"],
     description: json["description"],
+    mrp: json["mrp"]??15.23,
+    price: json["price"]??10.50,
     images: List<String>.from(json["images"].map((x) => x)),
     dateCreated: DateTime.parse(json["dateCreated"]),
     merchantId: json["merchantId"],
@@ -70,6 +76,8 @@ class Item extends BaseModel{
     isStockAvailable: json["isStockAvailable"],
     itemStatus: json["itemStatus"],
     description: json["description"],
+    mrp: json["mrp"]??15.23,
+    price: json["price"]??10.50,
     images: List<String>.from(json["images"].map((x) => x)),
     dateCreated: DateTime.parse(json["dateCreated"]),
     merchantId: json["merchantId"],

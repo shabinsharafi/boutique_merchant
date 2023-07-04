@@ -112,7 +112,7 @@ class Styles {
   }
 
   //textStyles
-  static const fontFamilyRegular = "Quicksand";
+  static const fontFamilyRegular = "ModernEra";
 }
 
 class _Dimens {
@@ -186,6 +186,11 @@ class _TextStyle {
       color: Styles.color.textColor,
       fontFamily: Styles.fontFamilyRegular);
   final itemHeaderTS = TextStyle(
+      fontSize: 16,
+      color: Styles.color.textColor,
+      fontWeight: FontWeight.w500,
+      fontFamily: Styles.fontFamilyRegular);
+  final priceTS = TextStyle(
       fontSize: 16,
       color: Styles.color.textColor,
       fontWeight: FontWeight.w500,

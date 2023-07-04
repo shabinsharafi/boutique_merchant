@@ -3,6 +3,7 @@ import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/ui/home/homeScreen.dart';
 import 'package:boutique_merchant/ui/itemsScreen.dart';
+import 'package:boutique_merchant/ui/ordersScreen.dart';
 import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
@@ -72,7 +73,11 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                 ),
                                 Expanded(child: SizedBox()),
                                 NavItem(
-                                    "Orders", Utilities.asset("ic_orders.png")),
+                                    "Orders", Utilities.asset("ic_orders.png"),
+                                  onClick: () {
+                                    NavigationService.changeScreen(
+                                        OrdersScreen());
+                                  },),
                                 NavItem("User", Utilities.asset("ic_user.svg")),
                               ],
                             ),

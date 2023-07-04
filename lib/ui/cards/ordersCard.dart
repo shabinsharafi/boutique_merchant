@@ -1,4 +1,5 @@
 import 'package:boutique_merchant/models/items.dart';
+import 'package:boutique_merchant/models/order.dart';
 import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/ItemDetailScreen.dart';
@@ -6,15 +7,15 @@ import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/NetworkImageShimmer.dart';
 import 'package:flutter/material.dart';
 
-class ItemsCard extends StatelessWidget {
-  ItemsCard(this.item, {Key? key}) : super(key: key);
-  Item item;
+class OrdersCard extends StatelessWidget {
+  OrdersCard(this.order, {Key? key}) : super(key: key);
+  Order order;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        NavigationService.changeScreen(ItemDetailScreen(item));
+        //NavigationService.changeScreen(ItemDetailScreen(order));
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -25,7 +26,7 @@ class ItemsCard extends StatelessWidget {
         child: Row(
           children: [
             NetworkImageShimmer(
-              item.images![0],
+              order.merchant!.image!,
               height: Styles.dimens.width / 3.5,
               width: Styles.dimens.width / 3.5,
             ),
@@ -39,14 +40,14 @@ class ItemsCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    item.name!,
+                    order.merchant!.name!,
                     style: Styles.textStyle.itemHeaderTS,
                   ),
                   SizedBox(
                     height: 5,
                   ),
                   Text(
-                    item.description!,
+                    order.id!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Styles.textStyle.smallTS,
@@ -58,7 +59,7 @@ class ItemsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        item.price!.toString(),
+                        order.finalAmount!.toString(),
                         style: Styles.textStyle.priceTS,
                       ),
                     ],

@@ -9,7 +9,6 @@ class Merchant extends BaseModel{
      this.email,
      this.ownerId,
      this.dateCreated,
-    this.merchant,
   });
 
   String? id;
@@ -19,7 +18,6 @@ class Merchant extends BaseModel{
   String? email;
   String? ownerId;
   DateTime? dateCreated;
-  Map? merchant;
 
   factory Merchant.fromJson(Map<String, dynamic> json) => Merchant(
         id: json["id"],

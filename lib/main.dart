@@ -1,4 +1,5 @@
 import 'package:boutique_merchant/provider/ItemsVM.dart';
+import 'package:boutique_merchant/provider/OrdersVM.dart';
 import 'package:boutique_merchant/provider/addItemProvider.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/provider/boutiqueVM.dart';
@@ -27,13 +28,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AddItemProvider()),
         ChangeNotifierProvider(create: (context) => BoutiqueProvider()),
         ChangeNotifierProvider(create: (context) => ItemsProvider()),
+        ChangeNotifierProvider(create: (context) => OrdersProvider()),
       ],
       child: MaterialApp(
         title: 'Boutique Merchant',
         color: Colors.white,
         navigatorKey: NavigationService.navigatorKey,
         theme: ThemeData(
-          fontFamily: 'Quicksand',
+          fontFamily: 'ModernEra',
           primarySwatch: Styles.color.primaryColor,
         ),
         home: SplashScreen(),
