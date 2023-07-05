@@ -28,7 +28,7 @@ class AddItemProvider with ChangeNotifier {
   Category? category;
   MasterOption? materialType;
   List<ItemColor> colors=[];
-  List<MasterOption> occasions=[];
+  List<Category> occasions=[];
   MasterOption? itemStatus;
 
   var addItemFormKey = GlobalKey<FormState>();
