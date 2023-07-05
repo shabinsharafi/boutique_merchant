@@ -3,12 +3,15 @@ import 'package:boutique_merchant/api/itemsApi.dart';
 import 'package:boutique_merchant/api/userApi.dart';
 import 'package:boutique_merchant/models/AddItemFilter.dart';
 import 'package:boutique_merchant/models/category.dart';
+import 'package:boutique_merchant/models/itemColor.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/general/commonAlertDialogBox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/masterOption.dart';
 
 class AddItemProvider with ChangeNotifier {
   ApiResponse? loginResponse;
@@ -23,9 +26,10 @@ class AddItemProvider with ChangeNotifier {
   var mrpController = TextEditingController();
   var priceController = TextEditingController();
   Category? category;
-  Category? materialType;
-  List<Category> colors=[];
-  Category? itemStatus;
+  MasterOption? materialType;
+  List<ItemColor> colors=[];
+  List<MasterOption> occasions=[];
+  MasterOption? itemStatus;
 
   var addItemFormKey = GlobalKey<FormState>();
   var autoValidateMode = AutovalidateMode.disabled;
@@ -39,7 +43,7 @@ class AddItemProvider with ChangeNotifier {
     notifyListeners();
     var regId;
     await SharedPreferences.getInstance().then((value) {
-      regId = value.getString("id");
+      regId = value.getString("boutiqueId");
     });
 
     Map<String,dynamic> req={
@@ -47,9 +51,8 @@ class AddItemProvider with ChangeNotifier {
       "description": descriptionController.text,
       "mrp": mrpController.text,
       "price": priceController.text,
-      "colors": [
-        "string"
-      ],
+      "colors": colors.map((e) => e.id).toList(),
+      "occasions": occasions.map((e) => e.id).toList(),
       "materialType": materialType?.id,
       "itemStatus": itemStatus!.id,
       "merchantId": regId,

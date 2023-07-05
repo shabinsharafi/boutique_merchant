@@ -32,10 +32,8 @@ class ItemsProvider with ChangeNotifier {
     notifyListeners();
     var regId;
     await SharedPreferences.getInstance().then((value) {
-      regId = value.getString("id");
+      regId = value.getString("boutiqueId");
     });
-    Map<String, String> req = {};
-    req.putIfAbsent("ownerId", () => regId);
     itemsResponse = await ItemsApi.getInstance().getItems(regId);
     isLoginLoading = false;
     if (itemsResponse!.success) {
