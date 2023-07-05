@@ -20,6 +20,8 @@ class AddItemProvider with ChangeNotifier {
 
   var nameController = TextEditingController();
   var descriptionController = TextEditingController();
+  var mrpController = TextEditingController();
+  var priceController = TextEditingController();
   Category? category;
   Category? materialType;
   List<Category> colors=[];
@@ -43,6 +45,8 @@ class AddItemProvider with ChangeNotifier {
     Map<String,dynamic> req={
       "name": nameController.text,
       "description": descriptionController.text,
+      "mrp": mrpController.text,
+      "price": priceController.text,
       "colors": [
         "string"
       ],

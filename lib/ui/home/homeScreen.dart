@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: Nothing(
                 "No boutique found",
-                "Create Boutique",
+                title: "Create Boutique",
                 onClick: () {
                   NavigationService.changeScreen(AddBoutiqueScreen());
                 },

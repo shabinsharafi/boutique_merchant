@@ -345,7 +345,7 @@ class HttpHandler {
           apiResponse.success = true;
         } else {
           apiResponse.success = false;
-          apiResponse.errorData = result;
+          apiResponse.error = result;
         }
       } else {
         apiResponse.success = false;

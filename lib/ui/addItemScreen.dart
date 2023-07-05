@@ -138,6 +138,28 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                   Styles.spaceHeight20,
                   Text(
+                    "MRP",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  TextFormField(
+                    controller: provider.mrpController,
+                    keyboardType: TextInputType.name,
+                    decoration: Styles.inputForm(),
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
+                    "Selling Price",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  TextFormField(
+                    controller: provider.priceController,
+                    keyboardType: TextInputType.name,
+                    decoration: Styles.inputForm(),
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
                     "Item Status",
                     style: Styles.textStyle.smallBoldTS,
                   ),
