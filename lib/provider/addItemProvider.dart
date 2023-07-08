@@ -46,8 +46,9 @@ class AddItemProvider with ChangeNotifier {
       "colors": [
         "string"
       ],
-      "materialType": materialType?.id,
-      "itemStatus": itemStatus!.id,
+      "materialTypeId": materialType?.id,
+      "occasionId": materialType?.id,
+      "itemStatusId": itemStatus!.id,
       "merchantId": regId,
       "categoryId": category!.id
     };
