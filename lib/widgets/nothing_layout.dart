@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 
 class Nothing extends StatelessWidget {
-  Nothing(this.message, this.title, {this.onClick, Key? key}) : super(key: key);
+  Nothing(this.message,  {this.title,this.onClick, Key? key}) : super(key: key);
 
   String message;
-  String title;
+  String? title;
   VoidCallback? onClick;
 
   @override
@@ -18,8 +18,8 @@ class Nothing extends StatelessWidget {
             style: Styles.textStyle.normalTS
                 .copyWith(color: Styles.color.textColor),
             children: [
-              TextSpan(
-                text: title,
+              if(title!=null)TextSpan(
+                text: title!,
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     if (onClick != null) onClick!();

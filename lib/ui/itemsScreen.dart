@@ -57,7 +57,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
           return Container(
               child: Nothing(
             "No items added",
-            "Add Item",
+            title: "Add Item",
             onClick: () {
               NavigationService.changeScreen(AddItemScreen());
             },

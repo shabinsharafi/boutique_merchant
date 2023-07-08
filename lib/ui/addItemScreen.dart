@@ -1,4 +1,6 @@
 import 'package:boutique_merchant/models/category.dart';
+import 'package:boutique_merchant/models/itemColor.dart';
+import 'package:boutique_merchant/models/masterOption.dart';
 import 'package:boutique_merchant/provider/addItemProvider.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
@@ -105,7 +107,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
-                  DropdownSearch<Category>(
+                  DropdownSearch<MasterOption>(
                     popupProps: PopupProps.dialog(
                       //showSelectedItems: true,
                       showSearchBox: true,
@@ -115,6 +117,32 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         Styles.dropDownDecoration("Select material type"),
                     onChanged: (value) {
                       provider.materialType = value;
+                    },
+                    itemAsString: (item) => item.name!,
+                    autoValidateMode: provider.autoValidateMode,
+                    validator: (MasterOption? item) {
+                      if (item == null)
+                        return "Required field";
+                      else
+                        return null;
+                    },
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
+                    "Occasion",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  DropdownSearch<Category>(
+                    popupProps: PopupProps.dialog(
+                      //showSelectedItems: true,
+                      showSearchBox: true,
+                    ),
+                    items: provider.addItemsFilterResponse!.data!.occasion!,
+                    dropdownDecoratorProps:
+                        Styles.dropDownDecoration("Select occasion"),
+                    onChanged: (value) {
+                      provider.occasions.add(value!);
                     },
                     itemAsString: (item) => item.name!,
                     autoValidateMode: provider.autoValidateMode,
@@ -131,8 +159,45 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
+                  DropdownSearch<ItemColor>(
+                    popupProps: PopupProps.dialog(
+                      //showSelectedItems: true,
+                      showSearchBox: true,
+                    ),
+                    items: provider.addItemsFilterResponse!.data!.color!,
+                    dropdownDecoratorProps:
+                    Styles.dropDownDecoration("Select item colors"),
+                    onChanged: (value) {
+                      provider.colors.add(value!);
+                    },
+                    itemAsString: (item) => item.name!,
+                    autoValidateMode: provider.autoValidateMode,
+                    validator: (ItemColor? item) {
+                      if (item == null)
+                        return "Required field";
+                      else
+                        return null;
+                    },
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
+                    "MRP",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
                   TextFormField(
-                    controller: provider.nameController,
+                    controller: provider.mrpController,
+                    keyboardType: TextInputType.name,
+                    decoration: Styles.inputForm(),
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
+                    "Selling Price",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  TextFormField(
+                    controller: provider.priceController,
                     keyboardType: TextInputType.name,
                     decoration: Styles.inputForm(),
                   ),
@@ -142,7 +207,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
-                  DropdownSearch<Category>(
+                  DropdownSearch<MasterOption>(
                     popupProps: PopupProps.dialog(
                       //showSelectedItems: true,
                       showSearchBox: true,
@@ -156,7 +221,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       provider.itemStatus = value;
                     },
                     autoValidateMode: provider.autoValidateMode,
-                    validator: (Category? item) {
+                    validator: (MasterOption? item) {
                       if (item == null)
                         return "Required field";
                       else

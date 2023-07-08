@@ -58,11 +58,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
             );
           return Container(
               child: Nothing(
-            "No items added",
-            "Add Item",
-            onClick: () {
+            "No orders for you",
+            //"Add Item",
+            /*onClick: () {
               NavigationService.changeScreen(AddItemScreen());
-            },
+            },*/
           ));
         }));
   }

@@ -69,6 +69,9 @@ class AuthenticationProvider with ChangeNotifier {
       SharedPreferences.getInstance().then((value) {
         value.setString("token", verifyOtpResponse!.data!.token!);
         value.setString("id", verifyOtpResponse!.data!.user!.id!);
+        if(verifyOtpResponse!.data?.merchant!=null) {
+          value.setString("boutiqueId", verifyOtpResponse!.data!.merchant!.id!);
+        }
       });
       Provider.of<UserDataProvider>(
               NavigationService.navigatorKey.currentContext!,
