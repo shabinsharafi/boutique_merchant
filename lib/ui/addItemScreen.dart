@@ -133,7 +133,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
-                  DropdownSearch<Category>(
+                  DropdownSearch<MasterOption>(
                     popupProps: PopupProps.dialog(
                       //showSelectedItems: true,
                       showSearchBox: true,
@@ -146,7 +146,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     },
                     itemAsString: (item) => item.name!,
                     autoValidateMode: provider.autoValidateMode,
-                    validator: (Category? item) {
+                    validator: (MasterOption? item) {
                       if (item == null)
                         return "Required field";
                       else

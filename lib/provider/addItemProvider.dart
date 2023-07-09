@@ -14,8 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/masterOption.dart';
 
 class AddItemProvider with ChangeNotifier {
-  ApiResponse? loginResponse;
-  ApiResponse? verifyOtpResponse;
+  ApiResponse<Item>? addItemResponse;
   ApiResponse<AddItemFilter>? addItemsFilterResponse;
   bool isLoginLoading = false;
   bool isAddItemFilterLoading = false;
@@ -28,7 +27,7 @@ class AddItemProvider with ChangeNotifier {
   Category? category;
   MasterOption? materialType;
   List<ItemColor> colors=[];
-  List<Category> occasions=[];
+  List<MasterOption> occasions=[];
   MasterOption? itemStatus;
 
   var addItemFormKey = GlobalKey<FormState>();
@@ -49,23 +48,23 @@ class AddItemProvider with ChangeNotifier {
     Map<String,dynamic> req={
       "name": nameController.text,
       "description": descriptionController.text,
-      "mrp": mrpController.text,
-      "price": priceController.text,
+      "mrp": double.parse(mrpController.text),
+      "price": double.parse(priceController.text),
       "colors": colors.map((e) => e.id).toList(),
-      "occasionId": occasions.map((e) => e.id).toList(),
+      "occasions": occasions.map((e) => e.id).toList(),
       "materialTypeId": materialType?.id,
       "itemStatusId": itemStatus!.id,
       "merchantId": regId,
       "categoryId": category!.id
     };
 
-    loginResponse = await ItemsApi.getInstance().addItem(req);
+    addItemResponse = await ItemsApi.getInstance().addItem(req);
     isLoginLoading = false;
-    if (loginResponse!.success) {
+    if (addItemResponse!.success) {
       NavigationService.changeScreen(VerifyOtpScreen());
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
-        message: loginResponse!.message!,
+        message: addItemResponse!.message!,
       ));
     }
     notifyListeners();

@@ -12,6 +12,7 @@ class ItemsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(item);
     return InkWell(
       onTap: () {
         NavigationService.changeScreen(ItemDetailScreen(item));
@@ -25,7 +26,7 @@ class ItemsCard extends StatelessWidget {
         child: Row(
           children: [
             NetworkImageShimmer(
-              item.images![0],
+              (item.images!=null&&item.images!.isNotEmpty)?item.images![0]:"",
               height: Styles.dimens.width / 3.5,
               width: Styles.dimens.width / 3.5,
             ),
