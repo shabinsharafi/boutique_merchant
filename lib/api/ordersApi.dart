@@ -40,7 +40,7 @@ class OrdersApi {
     ApiResponse<ListResponse<Order>> apiResponse = ApiResponse();
     try {
       apiResponse = await HttpHandler.getRequest<ListResponse<Order>>(
-          Utilities.baseUrl + "orders",
+          Utilities.baseUrl + "getMerchantOrders/$ownerId",
           () => ListResponse<Order>(
                 creator: () => Order(),
               ));

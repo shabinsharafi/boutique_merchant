@@ -23,7 +23,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<OrdersProvider>(context, listen: false).getItems();
+    Provider.of<OrdersProvider>(context, listen: false).getOrders();
   }
 
   @override

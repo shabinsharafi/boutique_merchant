@@ -29,7 +29,7 @@ class OrdersProvider with ChangeNotifier {
   var autoValidateMode = AutovalidateMode.disabled;
 
 
-  void getItems() async {
+  void getOrders() async {
     isLoginLoading = true;
     notifyListeners();
     var regId;
