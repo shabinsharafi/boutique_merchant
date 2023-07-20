@@ -25,7 +25,7 @@ class AddItemFilter extends BaseModel{
   List<Category>? category;
   List<MasterOption>? materialType;
   List<MasterOption>? itemStatus;
-  List<MasterOption>? occasion;
+  List<Category>? occasion;
   List<ItemColor>? color;
 
 
@@ -33,7 +33,7 @@ class AddItemFilter extends BaseModel{
     category: json["category"] == null ? [] : List<Category>.from(json["category"].map((x) => Category.fromJson(x))),
     materialType: json["materialType"] == null ? [] : List<MasterOption>.from(json["materialType"].map((x) => MasterOption.fromJson(x))),
     itemStatus: json["itemStatus"] == null ? [] : List<MasterOption>.from(json["itemStatus"].map((x) => MasterOption.fromJson(x))),
-    occasion: json["occasion"] == null ? [] : List<MasterOption>.from(json["occasion"].map((x) => MasterOption.fromJson(x))),
+    occasion: json["occasion"] == null ? [] : List<Category>.from(json["occasion"].map((x) => Category.fromJson(x))),
     color: json["colors"] == null ? [] : List<ItemColor>.from(json["colors"].map((x) => ItemColor.fromJson(x))),
   );
 
@@ -49,7 +49,7 @@ class AddItemFilter extends BaseModel{
       category: json["category"] == null ? [] : List<Category>.from(json["category"].map((x) => Category.fromJson(x))),
       materialType: json["materialType"] == null ? [] : List<MasterOption>.from(json["materialType"].map((x) => MasterOption.fromJson(x))),
       itemStatus: json["itemStatus"] == null ? [] : List<MasterOption>.from(json["itemStatus"].map((x) => MasterOption.fromJson(x))),
-      occasion: json["occasion"] == null ? [] : List<MasterOption>.from(json["occasion"].map((x) => MasterOption.fromJson(x))),
+      occasion: json["occasion"] == null ? [] : List<Category>.from(json["occasion"].map((x) => Category.fromJson(x))),
       color: json["colors"] == null ? [] : List<ItemColor>.from(json["colors"].map((x) => ItemColor.fromJson(x))),
     );
   }

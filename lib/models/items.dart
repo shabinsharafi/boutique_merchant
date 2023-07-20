@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:boutique_merchant/models/baseModel.dart';
+import 'package:boutique_merchant/models/category.dart';
+import 'package:boutique_merchant/models/favourite.dart';
+import 'package:boutique_merchant/models/masterOption.dart';
+import 'package:boutique_merchant/models/merchant.dart';
 
 Item itemFromJson(String str) => Item.fromJson(json.decode(str));
 
@@ -11,42 +15,66 @@ class Item extends BaseModel{
   String? id;
   List<String>? colors;
   List<String>? occasions;
-  String? materialType;
   bool isStockAvailable;
-  String? itemStatus;
   String? description;
   List<String>? images;
   DateTime? dateCreated;
   String? merchantId;
   String? categoryId;
-  num? mrp;
-  num? price;
+  num mrp;
+  num price;
+  Merchant? merchant;
+  Category? category;
+  MasterOption? itemStatus;
+  MasterOption? materialType;
+  List<Favourite>? favourites;
 
   Item({
-     this.name,
-     this.id,
-     this.colors,
-     this.occasions,
-     this.materialType,
-     this.isStockAvailable=false,
-     this.itemStatus,
-     this.description,
-     this.images,
-     this.dateCreated,
-     this.merchantId,
-     this.categoryId,
-     this.mrp,
-     this.price,
+    this.name,
+    this.id,
+    this.colors,
+    this.occasions,
+    this.materialType,
+    this.isStockAvailable=false,
+    this.itemStatus,
+    this.description,
+    this.images,
+    this.dateCreated,
+    this.merchantId,
+    this.categoryId,
+    this.mrp=0,
+    this.price=0,
+    this.category,
+    this.merchant,
+    this.favourites,
+  });
+
+  Item.dummy({
+    this.name="",
+    this.id="",
+    this.colors=const [],
+    this.occasions=const [],
+    this.materialType,
+    this.isStockAvailable=false,
+    this.itemStatus,
+    this.description="",
+    this.images=const [],
+    this.dateCreated,
+    this.merchantId="",
+    this.categoryId="",
+    this.mrp=0,
+    this.price=0,
+    this.merchant,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     name: json["name"],
     id: json["id"],
-    colors: List<String>.from(json["colors"].map((x) => x)),
-    occasions: List<String>.from(json["occasions"].map((x) => x)),
-    materialType: json["materialType"],
+    colors: json["colors"]!=null?List<String>.from(json["colors"].map((x) => x)):[],
+    occasions: json["occasions"]!=null?List<String>.from(json["occasions"].map((x) => x)):null,
+    materialType:  json["materialType"]!=null?MasterOption.fromJson(json["materialType"]):null,
+    itemStatus:  json["itemStatus"]!=null?MasterOption.fromJson(json["itemStatus"]):null,
     isStockAvailable: json["isStockAvailable"],
-    itemStatus: json["itemStatus"],
     description: json["description"],
     mrp: json["mrp"]??15.23,
     price: json["price"]??10.50,
@@ -54,6 +82,7 @@ class Item extends BaseModel{
     dateCreated: DateTime.parse(json["dateCreated"]),
     merchantId: json["merchantId"],
     categoryId: json["categoryId"],
+    merchant: json["merchant"]!=null?Merchant.fromJson(json["merchant"]):null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -74,20 +103,23 @@ class Item extends BaseModel{
   fromJson(dynamic json) {
     print(json);
     return Item(
-    name: json["name"],
-    id: json["id"],
-    colors: json["colors"]!=null?List<String>.from(json["colors"].map((x) => x)):null,
-    occasions: json["occasions"]!=null?List<String>.from(json["occasions"].map((x) => x)):null,
-    materialType: json["materialType"],
-    isStockAvailable: json["isStockAvailable"],
-    itemStatus: json["itemStatus"],
-    description: json["description"],
-    mrp: json["mrp"]??15.23,
-    price: json["price"]??10.50,
-    images: json["images"]!=null?List<String>.from(json["images"].map((x) => x)):null,
-    dateCreated: DateTime.parse(json["dateCreated"]),
-    merchantId: json["merchantId"],
-    categoryId: json["categoryId"],
-  );
+      name: json["name"],
+      id: json["id"],
+      colors: json["colors"]!=null?List<String>.from(json["colors"].map((x) => x)):[],
+      occasions: json["occasions"]!=null?List<String>.from(json["occasions"].map((x) => x)):null,
+      favourites: json["favourites"]!=null?List<Favourite>.from(json["favourites"].map((x) => Favourite.fromJson(x))):null,
+      materialType:  json["materialType"]!=null?MasterOption.fromJson(json["materialType"]):null,
+      itemStatus:  json["itemStatus"]!=null?MasterOption.fromJson(json["itemStatus"]):null,
+      isStockAvailable: json["isStockAvailable"],
+      description: json["description"],
+      mrp: json["mrp"]??15.23,
+      price: json["price"]??10.50,
+      images: json["images"]!=null?List<String>.from(json["images"].map((x) => x)):null,
+      dateCreated: DateTime.parse(json["dateCreated"]),
+      merchantId: json["merchantId"],
+      categoryId: json["categoryId"],
+      merchant:  json["merchant"]!=null?Merchant.fromJson(json["merchant"]):null,
+      category:  json["category"]!=null?Category.fromJson(json["category"]):null,
+    );
   }
 }

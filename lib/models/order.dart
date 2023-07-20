@@ -4,7 +4,9 @@
 
 import 'dart:convert';
 
+import 'package:boutique_merchant/models/address.dart';
 import 'package:boutique_merchant/models/baseModel.dart';
+import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/merchant.dart';
 import 'package:boutique_merchant/models/userModel.dart';
 
@@ -15,16 +17,20 @@ String orderToJson(Order data) => json.encode(data.toJson());
 class Order extends BaseModel{
   String? id;
   String? paymentMode;
-  String? totalAmount;
-  String? taxAmount;
-  String? discount;
-  String? finalAmount;
+  num? totalAmount;
+  num? taxAmount;
+  num? discount;
+  num? deliveryCharge;
+  num? finalAmount;
   DateTime? dateCreated;
   String? merchantId;
   String? userId;
   String? addressId;
+  String? orderStatus;
   Merchant? merchant;
   UserModel? user;
+  Address? address;
+  List<Item>? items;
 
   Order({
     this.id,
@@ -33,12 +39,16 @@ class Order extends BaseModel{
     this.taxAmount,
     this.discount,
     this.finalAmount,
+    this.deliveryCharge,
     this.dateCreated,
     this.merchantId,
+    this.orderStatus,
     this.userId,
     this.addressId,
     this.merchant,
     this.user,
+    this.address,
+    this.items,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -78,12 +88,17 @@ class Order extends BaseModel{
     totalAmount: json["totalAmount"],
     taxAmount: json["taxAmount"],
     discount: json["discount"],
+    deliveryCharge: json["deliveryCharge"],
     finalAmount: json["finalAmount"],
     dateCreated: json["dateCreated"] == null ? null : DateTime.parse(json["dateCreated"]),
     merchantId: json["merchantId"],
     userId: json["userId"],
     addressId: json["addressId"],
+    orderStatus: json["orderStatus"]??"Order Placed",
     merchant: json["merchant"] == null ? null : Merchant.fromJson(json["merchant"]),
     user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
+    address: json["address"] == null ? null : Address.fromJson(json["address"]),
+    items: json["items"] == null ? null :  List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+    // items: json["items"] == null ? null :  List<Cart>.from(json["items"].map((x) => Cart.fromJson(x))),
   );
 }

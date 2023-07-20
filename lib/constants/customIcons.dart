@@ -4,3 +4,4 @@ class CustomIcons{
 
   Widget? blueDot=null;
 }
+final String rupeeSymbol="₹";

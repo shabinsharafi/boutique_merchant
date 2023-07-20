@@ -1,4 +1,3 @@
-import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -112,7 +111,7 @@ class Styles {
   }
 
   //textStyles
-  static const fontFamilyRegular = "ModernEra";
+  static const fontFamilyRegular = "Nunito";
 }
 
 class _Dimens {
@@ -139,10 +138,15 @@ class _Dimens {
   final fontSizeHeading = 24.0;
   final fontSizeLarge = 30.0;
   final fontSizeExtraLarge = 40.0;
+  final bannerRatio = 20/9;
+  final itemImageRatio = 3/4;
+  final itemDetailImageRatio = 4/5;
+
 }
 
 class _Color {
   final primaryColor = Utilities.getMaterialColor(Color(0xFF158C7E));
+  final secondaryColor = Utilities.getMaterialColor(Color(0xFFeb5757));
   final accentColor = Color.fromARGB(255, 241, 212, 80);
   final blueColor = Color.fromARGB(255, 35, 70, 116);
   final skyBlueColor = Color.fromARGB(255, 71, 194, 202);
@@ -181,6 +185,11 @@ class _TextStyle {
       fontWeight: FontWeight.w500,
       color: Styles.color.textColor,
       fontFamily: Styles.fontFamilyRegular);
+  final headingBoldTS = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
   final subHeadingTS = TextStyle(
       fontSize: 16,
       color: Styles.color.textColor,
@@ -193,7 +202,16 @@ class _TextStyle {
   final priceTS = TextStyle(
       fontSize: 16,
       color: Styles.color.textColor,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
+      fontFamily: Styles.fontFamilyRegular);
+  final regularTS = TextStyle(
+      fontSize: 16,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
+  final regularBoldTS = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: Styles.color.textColor,
       fontFamily: Styles.fontFamilyRegular);
   final normalTS = TextStyle(
       fontSize: 14,
@@ -201,7 +219,7 @@ class _TextStyle {
       fontFamily: Styles.fontFamilyRegular);
   final normalBoldTS = TextStyle(
       fontSize: 14,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       color: Styles.color.textColor,
       fontFamily: Styles.fontFamilyRegular);
   final smallTS = TextStyle(
@@ -211,6 +229,6 @@ class _TextStyle {
   final smallBoldTS = TextStyle(
     fontSize: 12,
     color: Styles.color.textColor,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
   );
 }

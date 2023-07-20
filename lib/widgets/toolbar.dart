@@ -7,14 +7,16 @@ import 'package:boutique_merchant/widgets/ArrowButton.dart';
 import 'GradientMask.dart';
 
 class ToolBar extends StatelessWidget implements PreferredSizeWidget {
-  ToolBar(this.title, {this.action, Key? key}) : super(key: key);
+  ToolBar(this.title, {this.action,this.color,this.isLight=true, Key? key}) : super(key: key);
   String title;
+  Color? color;
   Widget? action;
+  bool isLight;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Styles.color.primaryColor,
+      color:color??Styles.color.primaryColor,
       child: SafeArea(
         bottom: false,
         top: true,
@@ -22,14 +24,14 @@ class ToolBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Container(
               height: 60,
-              decoration: BoxDecoration(color: Styles.color.primaryColor),
+              decoration: BoxDecoration(color: color??Styles.color.primaryColor),
               child: Center(
                 child: SizedBox(
                     width: MediaQuery.of(context).size.width / 1.5,
                     child: Text(
                       title,
                       style: Styles.textStyle.headingTS
-                          .copyWith(color: Colors.white),
+                          .copyWith(color: isLight?Colors.white:Colors.black87),
                       textAlign: TextAlign.center,
                     )),
               ),
@@ -46,7 +48,7 @@ class ToolBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                   child: Icon(
                     Icons.arrow_back_ios,
-                    color: Colors.white,
+                    color: isLight?Colors.white:Colors.black87,
                   ),
                 ),
               ),

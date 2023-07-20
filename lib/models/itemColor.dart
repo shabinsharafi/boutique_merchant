@@ -32,6 +32,6 @@ class ItemColor extends BaseModel {
         id: json["id"],
         name: json["name"],
         color: json["image"],
-        dateCreated: json["dateCreated"],
+    dateCreated: json["dateCreated"]!=null?DateTime.parse(json["dateCreated"]):json["dateCreated"],
       );
 }

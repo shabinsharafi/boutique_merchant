@@ -1,37 +1,37 @@
 import 'baseModel.dart';
 
-class Category extends BaseModel {
-  Category({
+class Carousel extends BaseModel {
+  Carousel({
     this.id,
-    this.name,
     this.image,
+    this.path,
     this.dateCreated,
   });
 
   String? id;
-  String? name;
   String? image;
+  String? path;
   DateTime? dateCreated;
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory Carousel.fromJson(Map<String, dynamic> json) => Carousel(
         id: json["id"],
-        name: json["name"],
         image: json["image"],
+        path: json["path"],
     dateCreated: json["dateCreated"]!=null?DateTime.parse(json["dateCreated"]):json["dateCreated"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": name,
         "image": image,
+        "path": path,
         "dateCreated": dateCreated,
       };
 
   @override
-  fromJson(dynamic json) => Category(
+  fromJson(dynamic json) => Carousel(
         id: json["id"],
-        name: json["name"],
         image: json["image"],
+        path: json["path"],
     dateCreated: json["dateCreated"]!=null?DateTime.parse(json["dateCreated"]):json["dateCreated"],
       );
 }

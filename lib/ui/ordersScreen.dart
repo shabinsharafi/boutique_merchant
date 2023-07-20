@@ -1,16 +1,9 @@
-import 'package:boutique_merchant/models/items.dart';
-import 'package:boutique_merchant/provider/ItemsVM.dart';
 import 'package:boutique_merchant/provider/OrdersVM.dart';
-import 'package:boutique_merchant/ui/addItemScreen.dart';
 import 'package:boutique_merchant/ui/cards/ordersCard.dart';
-import 'package:boutique_merchant/utils/NavigationService.dart';
-import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/nothing_layout.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'cards/ItemsCard.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -31,12 +24,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Scaffold(
         appBar: ToolBar("Items"),
         body: Consumer<OrdersProvider>(builder: (context, provider, child) {
-          if (provider.isLoginLoading || provider.ordersResponse == null)
+          if (provider.isLoginLoading || provider.ordersResponse == null) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          else if (provider.ordersResponse != null &&
-              provider.ordersResponse!.data!.items!.isNotEmpty)
+          } else if (provider.ordersResponse != null &&
+              provider.ordersResponse!.data!.items!.isNotEmpty) {
             return Column(
               children: [
                 Expanded(
@@ -56,6 +49,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 )*/
               ],
             );
+          }
           return Container(
               child: Nothing(
             "No orders for you",

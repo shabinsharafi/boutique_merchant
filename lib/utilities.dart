@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Utilities {
   // static const String baseUrl = "http://192.168.0.104:3000/";
-  static const String baseUrl = "https://4ee5-2001-8f8-1dc5-ff6-508e-572b-ea8c-3b56.ngrok-free.app/"; //ngrok
+  static const String baseUrl = "https://62d9-2001-8f8-1dc3-a411-542c-ccea-66a8-2693.ngrok-free.app/"; //ngrok
 
   static void showToast(BuildContext context, String message) {
 

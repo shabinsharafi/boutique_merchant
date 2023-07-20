@@ -18,7 +18,6 @@ class ListResponse<T extends BaseModel> extends BaseModel{
 
   @override
   fromJson(dynamic json) {
-    print(json);
     T t=creator!();
     return ListResponse<T>(
       items: json == null ? [] : List<T>.from(json.map((x) => t.fromJson(x))),
