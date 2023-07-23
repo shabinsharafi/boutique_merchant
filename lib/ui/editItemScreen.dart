@@ -1,44 +1,52 @@
 import 'package:boutique_merchant/models/category.dart';
 import 'package:boutique_merchant/models/itemColor.dart';
+import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/masterOption.dart';
 import 'package:boutique_merchant/provider/addItemProvider.dart';
 import 'package:boutique_merchant/styles/styles.dart';
+import 'package:boutique_merchant/provider/authVM.dart';
+import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
+import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/utils/validations.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddItemScreen extends StatefulWidget {
-  const AddItemScreen({Key? key}) : super(key: key);
+class EditItemScreen extends StatefulWidget {
+  EditItemScreen(this.item, {Key? key}) : super(key: key);
+  Item item;
 
   @override
-  State<AddItemScreen> createState() => _AddItemScreenState();
+  State<EditItemScreen> createState() => _EditItemScreenState();
 }
 
-class _AddItemScreenState extends State<AddItemScreen> {
+class _EditItemScreenState extends State<EditItemScreen> {
   final _popupCustomValidationKey = GlobalKey<DropdownSearchState<int>>();
 
   @override
   void initState() {
     super.initState();
-
-    Provider.of<AddItemProvider>(context, listen: false).getAddItemsFilter();
-    Provider.of<AddItemProvider>(context, listen: false).clear();
+    var provider=Provider.of<AddItemProvider>(context, listen: false);
+    provider.getAddItemsFilter(isEdit: true,item:widget.item);
+    provider.nameController.text = widget.item.name!;
+    provider.descriptionController.text = widget.item.description!;
+    provider.mrpController.text = widget.item.mrp.toString();
+    provider.priceController.text = widget.item.price.toString();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: ToolBar("Add Item"),
+      appBar: ToolBar("Update Item"),
       body: Consumer<AddItemProvider>(builder: (context, provider, child) {
-        if (provider.isAddItemFilterLoading) {
+        if (provider.isAddItemFilterLoading)
           return Center(
             child: CircularProgressIndicator(),
           );
-        }
         return Padding(
           padding: Styles.normalScreenPadding,
           child: Form(
@@ -83,6 +91,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     popupProps: PopupProps.dialog(
                       // showSelectedItems: true,
                     ),
+                    selectedItem: provider.category,
                     items: provider.addItemsFilterResponse!.data!.category!,
                     dropdownDecoratorProps:
                         Styles.dropDownDecoration("Select category"),
@@ -93,11 +102,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     autoValidateMode: provider.autoValidateMode,
                     //selectedItem: "Brazil",
                     validator: (Category? item) {
-                      if (item == null) {
+                      if (item == null)
                         return "Required field";
-                      } else {
+                      else
                         return null;
-                      }
                     },
                   ),
                   Styles.spaceHeight20,
@@ -111,6 +119,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       //showSelectedItems: true,
                       showSearchBox: true,
                     ),
+                    selectedItem: provider.materialType,
                     items: provider.addItemsFilterResponse!.data!.materialType!,
                     dropdownDecoratorProps:
                         Styles.dropDownDecoration("Select material type"),
@@ -120,11 +129,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     itemAsString: (item) => item.name!,
                     autoValidateMode: provider.autoValidateMode,
                     validator: (MasterOption? item) {
-                      if (item == null) {
+                      if (item == null)
                         return "Required field";
-                      } else {
+                      else
                         return null;
-                      }
                     },
                   ),
                   Styles.spaceHeight20,
@@ -138,20 +146,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       //showSelectedItems: true,
                       showSearchBox: true,
                     ),
+                    selectedItems: provider.occasions,
                     items: provider.addItemsFilterResponse!.data!.occasion!,
                     dropdownDecoratorProps:
-                    Styles.dropDownDecoration("Select occasion"),
+                        Styles.dropDownDecoration("Select occasion"),
                     onChanged: (value) {
                       provider.occasions=(value);
                     },
                     itemAsString: (item) => item.name!,
                     autoValidateMode: provider.autoValidateMode,
                     validator: (List<Category>? item) {
-                      if (item == null) {
+                      if (item == null)
                         return "Required field";
-                      } else {
+                      else
                         return null;
-                      }
                     },
                   ),
                   Styles.spaceHeight20,
@@ -165,6 +173,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       //showSelectedItems: true,
                       showSearchBox: true,
                     ),
+                    selectedItems: provider.colors,
                     items: provider.addItemsFilterResponse!.data!.color!,
                     dropdownDecoratorProps:
                     Styles.dropDownDecoration("Select item colors"),
@@ -174,11 +183,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     itemAsString: (item) => item.name!,
                     autoValidateMode: provider.autoValidateMode,
                     validator: (List<ItemColor>? item) {
-                      if (item == null||item.isEmpty) {
+                      if (item == null||item.isEmpty)
                         return "Required field";
-                      } else {
+                      else
                         return null;
-                      }
                     },
                   ),
                   Styles.spaceHeight20,
@@ -224,18 +232,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     },
                     autoValidateMode: provider.autoValidateMode,
                     validator: (MasterOption? item) {
-                      if (item == null) {
+                      if (item == null)
                         return "Required field";
-                      } else {
+                      else
                         return null;
-                      }
                     },
                   ),
                   Styles.spaceHeight50,
                   PrimaryButton(
                     "Add Item",
                     onTap: () {
-                      provider.addItem();
+                      provider.updateItem(widget.item.id);
                     },
                   ),
                 ],

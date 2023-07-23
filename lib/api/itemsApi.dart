@@ -64,4 +64,18 @@ class ItemsApi {
     }
     return apiResponse;
   }
+  Future<ApiResponse<Item>> updateItem(req,id) async {
+    ApiResponse<Item> apiResponse = ApiResponse();
+    try {
+      apiResponse =
+          await HttpHandler.patchRequestToken<Item>(Utilities.baseUrl + "updateItem/$id",req,() =>  Item());
+      if (apiResponse.success) {
+        //apiResponse.data = List<Item>.from(apiResponse.data.map((x) => Item.fromJson(x)));
+      }
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
 }

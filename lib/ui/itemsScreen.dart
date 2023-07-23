@@ -1,5 +1,6 @@
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/provider/ItemsVM.dart';
+import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/addItemScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
@@ -29,31 +30,35 @@ class _ItemsScreenState extends State<ItemsScreen> {
     return Scaffold(
         appBar: ToolBar("Items"),
         body: Consumer<ItemsProvider>(builder: (context, provider, child) {
-          if (provider.isLoginLoading || provider.itemsResponse == null)
+          if (provider.isLoginLoading || provider.itemsResponse == null) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          else if (provider.itemsResponse != null &&
-              provider.itemsResponse!.data!.items!.isNotEmpty)
-            return Column(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: ListView.builder(
-                    itemCount: provider.itemsResponse!.data!.items!.length,
-                    itemBuilder: (context, index) {
-                      return ItemsCard(provider.itemsResponse!.data!.items![index]);
-                    },
+          } else if (provider.itemsResponse != null &&
+              provider.itemsResponse!.data!.items!.isNotEmpty) {
+            return Padding(
+              padding:  EdgeInsets.all(Styles.dimens.screenPadding),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: ListView.builder(
+                      itemCount: provider.itemsResponse!.data!.items!.length,
+                      itemBuilder: (context, index) {
+                        return ItemsCard(provider.itemsResponse!.data!.items![index]);
+                      },
+                    ),
                   ),
-                ),
-                PrimaryButton(
-                  "Add New Item",
-                  onTap: () {
-                    NavigationService.changeScreen(AddItemScreen());
-                  },
-                )
-              ],
+                  PrimaryButton(
+                    "Add New Item",
+                    onTap: () {
+                      NavigationService.changeScreen(AddItemScreen());
+                    },
+                  )
+                ],
+              ),
             );
+          }
           return Container(
               child: Nothing(
             "No items added",

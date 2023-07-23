@@ -1,11 +1,12 @@
-import 'package:boutique_merchant/models/items.dart';
+import 'package:boutique_merchant/constants/customIcons.dart';
 import 'package:boutique_merchant/models/order.dart';
-import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/styles/styles.dart';
-import 'package:boutique_merchant/ui/ItemDetailScreen.dart';
-import 'package:boutique_merchant/utils/NavigationService.dart';
+import 'package:boutique_merchant/ui/orderDetailsScreen.dart';
+import 'package:boutique_merchant/utils/extension.dart';
 import 'package:boutique_merchant/widgets/NetworkImageShimmer.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/NavigationService.dart';
 
 class OrdersCard extends StatelessWidget {
   OrdersCard(this.order, {Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class OrdersCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        //NavigationService.changeScreen(ItemDetailScreen(order));
+        NavigationService.changeScreen(OrderDetailScreen(order));
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -39,15 +40,25 @@ class OrdersCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
+
                   Text(
-                    order.merchant!.name!,
-                    style: Styles.textStyle.itemHeaderTS,
+                    "Order Id: ${order.id!}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Styles.textStyle.smallTS,
                   ),
                   SizedBox(
                     height: 5,
                   ),
                   Text(
-                    order.id!,
+                    order.user!.name!,
+                    style: Styles.textStyle.regularBoldTS,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Ordered on ${order.dateCreated!.toMMMDDYYYY()}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Styles.textStyle.smallTS,
@@ -56,10 +67,17 @@ class OrdersCard extends StatelessWidget {
                     height: 15,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        order.finalAmount!.toString(),
+                        "${order.orderStatus}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Styles.textStyle.smallTS,
+                      ),
+                      Spacer(),
+                      Text(
+                        "$rupeeSymbol ${order.finalAmount!.toString()}",
                         style: Styles.textStyle.priceTS,
                       ),
                     ],

@@ -16,7 +16,7 @@ class ItemColor extends BaseModel {
   factory ItemColor.fromJson(Map<String, dynamic> json) => ItemColor(
         id: json["id"],
         name: json["name"],
-        color: json["image"],
+        color: json["color"],
     dateCreated: json["dateCreated"]!=null?DateTime.parse(json["dateCreated"]):json["dateCreated"],
       );
 
@@ -31,7 +31,7 @@ class ItemColor extends BaseModel {
   fromJson(dynamic json) => ItemColor(
         id: json["id"],
         name: json["name"],
-        color: json["image"],
+        color: json["color"],
     dateCreated: json["dateCreated"]!=null?DateTime.parse(json["dateCreated"]):json["dateCreated"],
       );
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:boutique_merchant/models/baseModel.dart';
 import 'package:boutique_merchant/models/category.dart';
 import 'package:boutique_merchant/models/favourite.dart';
+import 'package:boutique_merchant/models/itemColor.dart';
 import 'package:boutique_merchant/models/masterOption.dart';
 import 'package:boutique_merchant/models/merchant.dart';
 
@@ -13,8 +14,8 @@ String itemToJson(Item data) => json.encode(data.toJson());
 class Item extends BaseModel{
   String? name;
   String? id;
-  List<String>? colors;
-  List<String>? occasions;
+  List<ItemColor>? colors;
+  List<Category>? occasions;
   bool isStockAvailable;
   String? description;
   List<String>? images;
@@ -70,8 +71,8 @@ class Item extends BaseModel{
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     name: json["name"],
     id: json["id"],
-    colors: json["colors"]!=null?List<String>.from(json["colors"].map((x) => x)):[],
-    occasions: json["occasions"]!=null?List<String>.from(json["occasions"].map((x) => x)):null,
+    colors: json["colors"]!=null?List<ItemColor>.from(json["colors"].map((x) => ItemColor.fromJson(x))):[],
+    occasions: json["occasions"]!=null?List<Category>.from(json["occasions"].map((x) => Category.fromJson(x))):null,
     materialType:  json["materialType"]!=null?MasterOption.fromJson(json["materialType"]):null,
     itemStatus:  json["itemStatus"]!=null?MasterOption.fromJson(json["itemStatus"]):null,
     isStockAvailable: json["isStockAvailable"],
@@ -105,8 +106,8 @@ class Item extends BaseModel{
     return Item(
       name: json["name"],
       id: json["id"],
-      colors: json["colors"]!=null?List<String>.from(json["colors"].map((x) => x)):[],
-      occasions: json["occasions"]!=null?List<String>.from(json["occasions"].map((x) => x)):null,
+      colors: json["colors"]!=null?List<ItemColor>.from(json["colors"].map((x) => ItemColor.fromJson(x))):[],
+      occasions: json["occasions"]!=null?List<Category>.from(json["occasions"].map((x) => Category.fromJson(x))):null,
       favourites: json["favourites"]!=null?List<Favourite>.from(json["favourites"].map((x) => Favourite.fromJson(x))):null,
       materialType:  json["materialType"]!=null?MasterOption.fromJson(json["materialType"]):null,
       itemStatus:  json["itemStatus"]!=null?MasterOption.fromJson(json["itemStatus"]):null,

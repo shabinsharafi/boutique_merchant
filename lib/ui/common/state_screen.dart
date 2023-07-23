@@ -24,13 +24,15 @@ abstract class ScreenState<T extends ScreenWidget> extends State<T> {
   @override
   Widget build(BuildContext context) {
     widget._context = context;
-    return SafeArea(
-        child: WillPopScope(
-            onWillPop: () async {
-              onBackPressed();
-              return false;
-            },
-            child: getWidget(context)));
+    return Scaffold(
+      body: SafeArea(
+          child: WillPopScope(
+              onWillPop: () async {
+                onBackPressed();
+                return false;
+              },
+              child: getWidget(context))),
+    );
   }
 
   void onBackPressed(/*{forceBack = false}*/) {

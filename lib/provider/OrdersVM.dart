@@ -28,20 +28,16 @@ class OrdersProvider with ChangeNotifier {
   var formKey = GlobalKey<FormState>();
   var autoValidateMode = AutovalidateMode.disabled;
 
-
   void getOrders() async {
     isLoginLoading = true;
     notifyListeners();
-    var regId;
+    var boutiqueId;
     await SharedPreferences.getInstance().then((value) {
-      regId = value.getString("id");
+      boutiqueId = value.getString("boutiqueId");
     });
-    Map<String, String> req = {};
-    req.putIfAbsent("ownerId", () => regId);
-    ordersResponse = await OrdersApi.getInstance().getOrders(regId);
+    ordersResponse = await OrdersApi.getInstance().getOrders(boutiqueId);
     isLoginLoading = false;
     if (ordersResponse!.success) {
-
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
         message: ordersResponse!.message!,

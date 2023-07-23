@@ -120,7 +120,7 @@ class HttpHandler {
   }
 
   static postRequestToken<T extends BaseModel>(String url, var req,ItemCreator<T> creator) async {
-    ApiResponse<T> apiResponse = ApiResponse<T>();
+    ApiResponse<T> apiResponse = new ApiResponse<T>();
     try {
       // set up POST request arguments
       Logger.log("post url token", url);
@@ -194,7 +194,7 @@ class HttpHandler {
   }
 
   static patchRequestToken<T extends BaseModel>(String url, var req,ItemCreator<T> creator) async {
-    ApiResponse apiResponse = new ApiResponse<T>();
+    ApiResponse<T> apiResponse = new ApiResponse<T>();
     try {
       // set up POST request arguments
       Logger.log("patch url token", url);

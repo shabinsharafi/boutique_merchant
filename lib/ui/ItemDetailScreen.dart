@@ -4,11 +4,15 @@ import 'package:boutique_merchant/models/favourite.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/merchant.dart';
 import 'package:boutique_merchant/provider/ItemsVM.dart';
+import 'package:boutique_merchant/ui/addImagesScreen.dart';
 import 'package:boutique_merchant/ui/common/state_screen.dart';
+import 'package:boutique_merchant/ui/editItemScreen.dart';
+import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/utils/extension.dart';
 import 'package:boutique_merchant/widgets/NetworkImageShimmer.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/PrimaryOutline.dart';
+import 'package:boutique_merchant/widgets/nothing_layout.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -66,11 +70,25 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
                             children: [
                               AspectRatio(
                                 aspectRatio: Styles.dimens.itemDetailImageRatio,
-                                child: NetworkImageShimmer(
-                                  (widget.item.images != null && widget.item.images!.isNotEmpty)
-                                      ?widget.item.images![selectedImage]: "",
-                                  fit: BoxFit.cover,
-                                ),
+                                child: (widget.item.images != null &&
+                                        widget.item.images!.isNotEmpty)
+                                    ? NetworkImageShimmer(
+                                        (widget.item.images != null &&
+                                                widget.item.images!.isNotEmpty)
+                                            ? widget.item.images![selectedImage]
+                                            : "",
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Center(
+                                        child: Nothing(
+                                          "No Images.\nItems without images will not\nbe listed to customers",
+                                          title: "Add Images",
+                                          onClick: () {
+                                            NavigationService.changeScreen(
+                                                AddImageScreen(widget.item));
+                                          },
+                                        ),
+                                      ),
                               ),
                               Positioned(
                                 bottom: 0,
@@ -78,64 +96,65 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
                                 right: 0,
                                 child: SizedBox(),
                               ),
-                              if(widget.item.images!=null)
-                              Positioned(
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: LayoutBuilder(
-                                    builder: (context, constraints) {
-                                  var width = constraints.maxWidth;
-                                  var imageWidth = (width - 60) / 5;
-                                  return Container(
-                                    margin:
-                                        EdgeInsets.only(left: 10, bottom: 10),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        for (int i = 0;
-                                            i < widget.item.images!.length;
-                                            i++)
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 10),
-                                            child: InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  selectedImage = i;
-                                                });
-                                              },
-                                              child: Material(
-                                                elevation: 20,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: Container(
-                                                  width: imageWidth,
-                                                  height: imageWidth,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      border: Border.all(
-                                                          color: Styles.color
-                                                              .secondaryColor,
-                                                          width:
-                                                              i == selectedImage
-                                                                  ? 1.5
-                                                                  : 0)),
-                                                  child: NetworkImageShimmer(
-                                                    widget.item.images![i],
-                                                    fit: BoxFit.cover,
+                              if (widget.item.images != null)
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: LayoutBuilder(
+                                      builder: (context, constraints) {
+                                    var width = constraints.maxWidth;
+                                    var imageWidth = (width - 60) / 5;
+                                    return Container(
+                                      margin:
+                                          EdgeInsets.only(left: 10, bottom: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          for (int i = 0;
+                                              i < widget.item.images!.length;
+                                              i++)
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    selectedImage = i;
+                                                  });
+                                                },
+                                                child: Material(
+                                                  elevation: 20,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: Container(
+                                                    width: imageWidth,
+                                                    height: imageWidth,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
+                                                            color: Styles.color
+                                                                .secondaryColor,
+                                                            width: i ==
+                                                                    selectedImage
+                                                                ? 1.5
+                                                                : 0)),
+                                                    child: NetworkImageShimmer(
+                                                      widget.item.images![i],
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          )
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              )
+                                            )
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                                )
                             ],
                           ),
                         ),
@@ -197,8 +216,8 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(5),
-                                          color:
-                                              Colors.white.parseColor(element)),
+                                          color: Colors.white
+                                              .parseColor(element.color!)),
                                     ))
                                 .toList(),
                           ),
@@ -246,32 +265,24 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
               padding: EdgeInsets.all(Styles.dimens.screenPadding),
               child: Row(
                 children: [
-                  PrimaryOutline(
-                    child: (widget.item.favourites != null &&
-                        widget.item.favourites!.isNotEmpty)
-                        ? Icon(
-                      FontAwesomeIcons.solidHeart,
-                      color: Styles.color.secondaryColor,
-                      size: 29,
-                    )
-                        : Icon(
-                      FontAwesomeIcons.heart,
-                      size: 29,
-                    ),
-                    height: 52,
-                    width: Styles.dimens.width / 4,
-                    onTap: () async {
-
+                  Expanded(
+                      child: PrimaryButton(
+                    "Add Image",
+                    onTap: () {
+                      NavigationService.changeScreen(
+                          AddImageScreen(widget.item));
                     },
-                  ),
+                    paddingTop: 0,
+                  )),
                   SizedBox(
                     width: 10,
                   ),
                   Expanded(
                       child: PrimaryButton(
-                    "Add to Cart",
+                    "Edit Item",
                     onTap: () {
-
+                      NavigationService.changeScreen(
+                          EditItemScreen(widget.item));
                     },
                     paddingTop: 0,
                   )),
