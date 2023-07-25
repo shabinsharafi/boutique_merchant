@@ -1,4 +1,6 @@
+import 'package:boutique_merchant/constants/constants.dart';
 import 'package:boutique_merchant/provider/OrdersVM.dart';
+import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/cards/ordersCard.dart';
 import 'package:boutique_merchant/widgets/OptionButton.dart';
 import 'package:boutique_merchant/widgets/nothing_layout.dart';
@@ -33,62 +35,94 @@ class _OrdersScreenState extends State<OrdersScreen> {
             );
           } else if (provider.ordersResponse != null &&
               provider.ordersResponse!.data!.items!.isNotEmpty) {
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                        child: OptionButton(
-                      "New",
-                      selected: selected == 0,
-                      onSelected: (String val) {
-                        setState(() {
-                          selected = 0;
-                        });
-                      },
-                    )),
-                    Expanded(
-                        child: OptionButton(
-                      "On Going",
-                      selected: selected == 1,
-                      onSelected: (String val) {
-                        print("dvdsfd");
-                        setState(() {
-                          selected = 1;
-                        });
-                        print(selected);
-                      },
-                    )),
-                    Expanded(
-                        child: OptionButton(
-                      "Completed",
-                      selected: selected == 2,
-                      onSelected: (String val) {
-                        setState(() {
-                          selected = 2;
-                        });
-                        print(selected);
-                      },
-                    )),
-                  ],
-                ),
-                Expanded(
-                  flex: 1,
-                  child: ListView.builder(
-                    itemCount: provider.ordersResponse!.data!.items!.length,
-                    itemBuilder: (context, index) {
-                      return OrdersCard(
-                          provider.ordersResponse!.data!.items![index]);
-                    },
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: Styles.dimens.screenPadding,
+                right: Styles.dimens.screenPadding,
+                left: Styles.dimens.screenPadding,
+                top: Styles.dimens.screenPaddingSmall,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: OptionButton(
+                        "New",
+                        selected: selected == 0,
+                        onSelected: (String val) {
+                          setState(() {
+                            selected = 0;
+                          });
+                        },
+                      )),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: OptionButton(
+                        "On Going",
+                        selected: selected == 1,
+                        onSelected: (String val) {
+                          print("dvdsfd");
+                          setState(() {
+                            selected = 1;
+                          });
+                          print(selected);
+                        },
+                      )),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: OptionButton(
+                        "Completed",
+                        selected: selected == 2,
+                        onSelected: (String val) {
+                          setState(() {
+                            selected = 2;
+                          });
+                          print(selected);
+                        },
+                      )),
+                    ],
                   ),
-                ),
-                /*PrimaryButton(
-                  "Add New Item",
-                  onTap: () {
-                    NavigationService.changeScreen(AddItemScreen());
-                  },
-                )*/
-              ],
+                  SizedBox(
+                    height: Styles.dimens.screenPaddingSmall,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Builder(builder: (context) {
+                      if (selected == 1) {
+                        return ListView.builder(
+                          itemCount: provider.ordersResponse!.data!.items!
+                              .where((element) =>
+                                  element.orderStatus ==
+                                  OrderStatus.ORDER_PLACED.name)
+                              .length,
+                          itemBuilder: (context, index) {
+                            return OrdersCard(
+                                provider.ordersResponse!.data!.items![index]);
+                          },
+                        );
+                      }
+                      return ListView.builder(
+                        itemCount: provider.ordersResponse!.data!.items!.length,
+                        itemBuilder: (context, index) {
+                          return OrdersCard(
+                              provider.ordersResponse!.data!.items![index]);
+                        },
+                      );
+                    }),
+                  ),
+                  /*PrimaryButton(
+                    "Add New Item",
+                    onTap: () {
+                      NavigationService.changeScreen(AddItemScreen());
+                    },
+                  )*/
+                ],
+              ),
             );
           }
           return Container(

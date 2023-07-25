@@ -1,4 +1,4 @@
-import 'package:boutique_merchant/constants/customIcons.dart';
+import 'package:boutique_merchant/constants/constants.dart';
 import 'package:boutique_merchant/models/cart.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/merchant.dart';
@@ -7,8 +7,10 @@ import 'package:boutique_merchant/provider/ItemsVM.dart';
 import 'package:boutique_merchant/provider/OrdersVM.dart';
 import 'package:boutique_merchant/ui/common/state_screen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
+import 'package:boutique_merchant/utils/extension.dart';
 import 'package:boutique_merchant/widgets/NetworkImageShimmer.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
+import 'package:boutique_merchant/widgets/PrimaryRadioButton.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,12 +29,13 @@ class OrderDetailScreen extends ScreenWidget {
 }
 
 class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
+  late OrdersProvider ordersProvider;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // Provider.of<CheckoutProvider>(context, listen: false).getDefaultAddress();
+    ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     // Provider.of<CheckoutProvider>(context, listen: false).initCalculation();
   }
 
@@ -50,6 +53,52 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            "Order Id: ${widget.order.id!}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Styles.textStyle.smallTS,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            widget.order.user!.name!,
+                            style: Styles.textStyle.regularBoldTS,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Ordered on ${widget.order.dateCreated!.toMMMDDYYYY()}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Styles.textStyle.normalTS,
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${widget.order.orderStatus}",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Styles.textStyle.regularTS,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Text(
                         "Items",
                         maxLines: 1,
@@ -174,6 +223,54 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                       SizedBox(
                         height: 20,
                       ),
+                      Builder(builder: (context) {
+                        if (widget.order.orderStatus ==
+                            OrderStatus.ORDER_PLACED.name) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              PrimaryButton(
+                                "Reject Order",
+                                onTap: () {
+                                  provider.updateOrder(widget.order.id,
+                                      OrderStatus.ORDER_REJECTED);
+                                },
+                                color: Colors.redAccent,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              PrimaryButton(
+                                "Accept Order",
+                                onTap: () {
+                                  provider.updateOrder(widget.order.id,
+                                      OrderStatus.ORDER_ACCEPTED);
+                                },
+                              ),
+                            ],
+                          );
+                        } else if (widget.order.orderStatus ==
+                                OrderStatus.ORDER_CANCELED.name ||
+                            widget.order.orderStatus ==
+                                OrderStatus.DELIVERED.name ||
+                            widget.order.orderStatus ==
+                                OrderStatus.ORDER_REJECTED.name) {
+                          return PrimaryButton(
+                            "Update Status",
+                            onTap: () {
+                              showBottomSheet(
+                                  context: context,
+                                  builder: (context) => statusSheet());
+                              // provider.updateOrder(
+                              //     widget.order.id, OrderStatus.ORDER_REJECTED);
+                            },
+                          );
+                        }
+                        return SizedBox();
+                      }),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -182,6 +279,40 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
           ),
         );
       }),
+    );
+  }
+
+  statusSheet() {
+    var status;
+    return Container(
+      padding: EdgeInsets.all(Styles.dimens.screenPadding),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      child: Column(
+        children: [
+          for (int i = 3; i < OrderStatus.values.length; i++)
+            InkWell(
+              onTap: () {},
+              child: PrimaryRadioButton(
+                OrderStatus.values[i].name,
+                selected: status == OrderStatus.values[i].name,
+                onSelected: () {
+                  setState(() {
+                    status = OrderStatus.values[i].name;
+                  });
+                },
+              ),
+            ),
+          PrimaryButton(
+            "Update Status",
+            onTap: () {
+              ordersProvider.updateOrder(widget.order.id, status);
+            },
+            color: Colors.redAccent,
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:boutique_merchant/api/api_response.dart';
-import 'package:boutique_merchant/constants/customIcons.dart';
+import 'package:boutique_merchant/constants/constants.dart';
 import 'package:boutique_merchant/models/favourite.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/merchant.dart';

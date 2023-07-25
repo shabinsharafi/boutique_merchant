@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../styles/theme.dart';
 
-class PrimaryRadioButton extends StatelessWidget {
+class PrimarySwitchButton extends StatelessWidget {
   //final String text;
-  final Function() onSelected;
+  final Function(int, dynamic) onSelected;
   double? width; // add this
   final double paddingTop;
   final double borderRadius;
   final double height;
   final double fontSize;
-  final String text;
-  final bool selected;
+  final List items;
+  final int selected;
   final bool showOr;
   final EdgeInsets padding;
 
-  PrimaryRadioButton( this.text,
-      {
+  PrimarySwitchButton(
+      {required this.items,
       required this.onSelected,
-      this.selected:false,
+      this.selected: 0,
       this.width,
       this.height: 50,
       this.borderRadius: 10,
@@ -27,8 +27,10 @@ class PrimaryRadioButton extends StatelessWidget {
       this.padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7.0),
       this.paddingTop: 10});
 
+  int count = 0; // change this
   @override
   Widget build(BuildContext context) {
+    count = items.length;
     width = width ??
         MediaQuery.of(context).size.width - normalScreenPaddingSize * 2;
     return Padding(
@@ -40,30 +42,30 @@ class PrimaryRadioButton extends StatelessWidget {
             children: [
               Row(
                 children: [
-
+                  for (int index = 0; index < count; index++)
                     Container(
-                      width: this.width! ,
+                      width: this.width! / count,
                       decoration: BoxDecoration(
-                          borderRadius: getRadius(0),
-                          //gradient: index == selected ? primaryGradient : null,
-                          color: selected
+                          borderRadius: getRadius(index),
+                          gradient: index == selected ? primaryGradient : null,
+                          color: index == selected
                               ? null
                               : Color(fadedWhiteBorder)),
                       child: InkWell(
-                        onTap: selected?null:() {
-                            onSelected();
+                        onTap: index==selected?null:() {
+                            onSelected(index, items[index]);
                         },
                         child: Container(
                           margin: EdgeInsets.all(2),
                           padding: padding,
                           decoration: BoxDecoration(
                               color: Color(backgroundGrey),
-                              borderRadius: getRadius(0)),
+                              borderRadius: getRadius(index)),
                           child: Center(
                             child: Text(
                                 /*(items[index] is MasterOption)
                                     ? items[index].label
-                                    :*/ text,
+                                    :*/ items[index],
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                         fontSize: fontSize,
@@ -77,6 +79,28 @@ class PrimaryRadioButton extends StatelessWidget {
                     ),
                 ],
               ),
+              if (showOr)
+                for (int index = 0; index < count - 1; index++)
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: (index + 1) * (width! / count) - 12,
+                    right: (count - index - 1) * (width! / count) - 12,
+                    child: Center(
+                      child: CircleAvatar(
+                        radius: 12,
+                        backgroundColor: Colors.white,
+                        child: Text("OR",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                    fontSize: fontSize - 4,
+                                    fontFamily: fontFamilyRegular)
+                                .copyWith(
+                                    color: Color(backgroundGreyV2),
+                                    fontWeight: FontWeight.w600)),
+                      ),
+                    ),
+                  )
             ],
           ),
         ));
@@ -85,6 +109,7 @@ class PrimaryRadioButton extends StatelessWidget {
   getRadius(int index) {
     return BorderRadius.horizontal(
         left: index == 0 ? Radius.circular(borderRadius) : Radius.zero,
-        right:Radius.circular(borderRadius));
+        right:
+            index == count - 1 ? Radius.circular(borderRadius) : Radius.zero);
   }
 }

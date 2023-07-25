@@ -12,6 +12,7 @@ class PrimaryButton extends StatelessWidget {
   final bool isDisabled;
   final EdgeInsets? buttonPadding;
   final IconData? icon;
+  final Color? color;
   final Color? iconColor;
 
   const PrimaryButton(this.text, {this.onTap,
@@ -22,6 +23,7 @@ class PrimaryButton extends StatelessWidget {
       this.isDisabled: false,
       this.buttonPadding,
       this.icon,
+      this.color,
       this.iconColor}); // change this
 
   @override
@@ -38,11 +40,8 @@ class PrimaryButton extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
                 colors: [
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
+                  color??Styles.color.primaryColor,
+                  color??Styles.color.primaryColor,
                 ],
               )),
           child: Material(

@@ -54,6 +54,24 @@ class OrdersApi {
     return apiResponse;
   }
 
+  Future<ApiResponse<ListResponse<Order>>> updateOrder(req,orderId) async {
+    ApiResponse<ListResponse<Order>> apiResponse = ApiResponse();
+    try {
+      apiResponse = await HttpHandler.patchRequestToken<ListResponse<Order>>(
+          Utilities.baseUrl + "updateOrder/$orderId",req,
+          () => ListResponse<Order>(
+                creator: () => Order(),
+              ));
+      if (apiResponse.success) {
+        //apiResponse.data = List<Item>.from(apiResponse.data.map((x) => Item.fromJson(x)));
+      }
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
+
   Future<ApiResponse<Item>> addItem(req) async {
     ApiResponse<Item> apiResponse = ApiResponse();
     try {

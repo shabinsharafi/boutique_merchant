@@ -45,4 +45,20 @@ class OrdersProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void updateOrder(orderId,status) async {
+    isLoginLoading = true;
+    notifyListeners();
+    Map<String, String> req = {};
+    req.putIfAbsent("orderStatus", () => status);
+    var ordersResponse = await OrdersApi.getInstance().updateOrder(req,orderId);
+    isLoginLoading = false;
+    if (ordersResponse!.success) {
+    } else {
+      NavigationService.showAlertDialog(AlertMessageDialog(
+        message: ordersResponse!.message!,
+      ));
+    }
+    notifyListeners();
+  }
 }
