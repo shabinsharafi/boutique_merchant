@@ -7,11 +7,13 @@ import 'package:boutique_merchant/provider/ItemsVM.dart';
 import 'package:boutique_merchant/ui/addImagesScreen.dart';
 import 'package:boutique_merchant/ui/common/state_screen.dart';
 import 'package:boutique_merchant/ui/editItemScreen.dart';
+import 'package:boutique_merchant/ui/reviewsScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/utils/extension.dart';
 import 'package:boutique_merchant/widgets/NetworkImageShimmer.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/PrimaryOutline.dart';
+import 'package:boutique_merchant/widgets/SettingButton.dart';
 import 'package:boutique_merchant/widgets/nothing_layout.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
@@ -251,6 +253,12 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
                             overflow: TextOverflow.ellipsis,
                             style: Styles.textStyle.smallTS,
                           ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          SettingsButton("Reviews", () {
+                            NavigationService.changeScreen(ReviewsScreen(widget.item));
+                          }),
                           SizedBox(
                             height: 50,
                           ),

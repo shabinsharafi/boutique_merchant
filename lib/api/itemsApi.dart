@@ -5,6 +5,7 @@ import 'package:boutique_merchant/api/httpHandler.dart';
 import 'package:boutique_merchant/logger.dart';
 import 'package:boutique_merchant/models/AddItemFilter.dart';
 import 'package:boutique_merchant/models/items.dart';
+import 'package:boutique_merchant/models/review.dart';
 import 'package:boutique_merchant/models/userModel.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,19 @@ class ItemsApi {
       if (apiResponse.success) {
         //apiResponse.data = List<Item>.from(apiResponse.data.map((x) => Item.fromJson(x)));
       }
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
+
+  Future<ApiResponse<ListResponse<Review>>> getReviews(itemId) async {
+    ApiResponse<ListResponse<Review>> apiResponse = ApiResponse();
+    try {
+      apiResponse =
+      await HttpHandler.getRequest<ListResponse<Review>>(Utilities.baseUrl + "getItemReviews/$itemId",() => ListResponse<Review>(creator: () => Review(),));
+
     } catch (e) {
       print(e.toString());
       apiResponse.success = false;

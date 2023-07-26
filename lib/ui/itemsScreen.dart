@@ -30,7 +30,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
     return Scaffold(
         appBar: ToolBar("Items"),
         body: Consumer<ItemsProvider>(builder: (context, provider, child) {
-          if (provider.isLoginLoading || provider.itemsResponse == null) {
+          if (provider.isItemLoading || provider.itemsResponse == null) {
             return Center(
               child: CircularProgressIndicator(),
             );
