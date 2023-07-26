@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:boutique_merchant/constants/constants.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/addBoutiqueScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
@@ -67,65 +70,178 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           if (provider.user.merchant != null)
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              childAspectRatio: 2,
-              crossAxisSpacing: Styles.dimens.screenPadding,
-              mainAxisSpacing: Styles.dimens.screenPadding,
-              padding: EdgeInsets.symmetric(
-                  horizontal: Styles.dimens.screenPadding,
-                  vertical: Styles.dimens.screenPadding),
-              children: [
-                ShadowWidget(
-                  radius: 15,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Styles.color.primaryColor[100]!.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: InkWell(
-                      child: Center(child: Text("New Orders")),
-                      onTap: () {},
-                    ),
+            Padding(
+              padding: EdgeInsets.all(Styles.dimens.screenPadding),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ShadowWidget(
+                            radius: 15,
+                            shadowOptions: ShadowOptions(blurRadius: 40),
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: InkWell(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${Random().nextInt(50)}',
+                                        style: Styles.textStyle.bigHeadingTS),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      'Orders',
+                                      style: Styles.textStyle.smallTS,
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {},
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: ShadowWidget(
+                            radius: 15,
+                            shadowOptions: ShadowOptions(blurRadius: 40),
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: InkWell(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        '$rupeeSymbol ${Random().nextInt(5000) + 2486}',
+                                        style: Styles.textStyle.bigHeadingTS),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      'Sales',
+                                      style: Styles.textStyle.smallTS,
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {},
+                              ),
+                            )),
+                      ),
+                    ],
                   ),
-                ),
-                ShadowWidget(
-                  radius: 15,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Styles.color.primaryColor[100]!.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: InkWell(
-                      child: Center(child: Text("New Orders")),
-                      onTap: () {},
-                    ),
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                ShadowWidget(
-                  radius: 15,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Styles.color.primaryColor[100]!.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: InkWell(
-                      child: Center(child: Text("New Orders")),
-                      onTap: () {},
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ShadowWidget(
+                            radius: 15,
+                            shadowOptions: ShadowOptions(blurRadius: 40),
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: InkWell(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${Random().nextInt(50)}',
+                                        style: Styles.textStyle.bigHeadingTS),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      'New\norders',
+                                      style: Styles.textStyle.smallTS,
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {},
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: ShadowWidget(
+                            radius: 15,
+                            shadowOptions: ShadowOptions(blurRadius: 40),
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: InkWell(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${Random().nextInt(50)}',
+                                        style: Styles.textStyle.bigHeadingTS),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      'Orders in progress',
+                                      style: Styles.textStyle.smallTS,
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {},
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: ShadowWidget(
+                            radius: 15,
+                            shadowOptions: ShadowOptions(blurRadius: 40),
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: InkWell(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${Random().nextInt(50)}',
+                                        style: Styles.textStyle.bigHeadingTS),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      'Orders\ndelivered',
+                                      style: Styles.textStyle.smallTS,
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {},
+                              ),
+                            )),
+                      ),
+                    ],
                   ),
-                ),
-                ShadowWidget(
-                  radius: 15,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Styles.color.primaryColor[100]!.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: InkWell(
-                      child: Center(child: Text("New Orders")),
-                      onTap: () {},
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             )
           else
             Expanded(

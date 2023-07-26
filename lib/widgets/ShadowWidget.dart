@@ -13,6 +13,7 @@ class ShadowWidget extends StatelessWidget {
   final BoxShape shape; // ad
   final bool hideShadow;
   final EdgeInsets padding;
+  final ShadowOptions? shadowOptions;
   final Color color;
   final DecorationImage? decorationImage;
 
@@ -22,8 +23,9 @@ class ShadowWidget extends StatelessWidget {
     this.height,
     this.decorationImage,
     this.shape = BoxShape.rectangle,
-    this.color =  Colors.white,
+    this.color = Colors.white,
     this.radius = 0,
+    this.shadowOptions,
     this.hideShadow: false,
     this.padding: const EdgeInsets.all(0),
   }); // change this
@@ -37,8 +39,9 @@ class ShadowWidget extends StatelessWidget {
           borderRadius:
               shape == BoxShape.circle ? null : BorderRadius.circular(radius),
           shape: shape,
-          boxShadow:
-              hideShadow ? null : buttonShadow(blurRadius: 16, offset: 3,opacity: 0.5),
+          boxShadow: hideShadow
+              ? null
+              : buttonShadow(blurRadius: shadowOptions?.blurRadius??ShadowOptions().blurRadius, offset: shadowOptions?.offset??ShadowOptions().offset, opacity: shadowOptions?.opacity??ShadowOptions().opacity),
           //shape: BoxShape.circle,
           image: decorationImage,
           color: color,
@@ -50,4 +53,12 @@ class ShadowWidget extends StatelessWidget {
               child: child,
             )));
   }
+}
+
+class ShadowOptions {
+  ShadowOptions({this.blurRadius = 10, this.offset = 2, this.opacity = 0.28});
+
+  double blurRadius;
+  double offset;
+  double opacity;
 }
