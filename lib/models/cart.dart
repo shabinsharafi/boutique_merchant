@@ -38,14 +38,16 @@ class Cart extends BaseModel {
       };
 
   @override
-  fromJson(dynamic json) => Cart(
-        id: json["id"],
-        itemId: json["name"],
-        userId: json["image"],
-        quantity: json["quantity"]??1 ,
-        item: json["item"] != null ? Item.fromJson(json["item"]) : null,
-        dateCreated: json["dateCreated"] != null
-            ? DateTime.parse(json["dateCreated"])
-            : json["dateCreated"],
-      );
+  fromJson(dynamic json) {
+    return Cart(
+      id: json["id"],
+      itemId: json["itemId"],
+      userId: json["image"],
+      quantity: json["quantity"]??1 ,
+      item: json["item"] != null ? Item.fromJson(json["item"]) : null,
+      dateCreated: json["dateCreated"] != null
+          ? DateTime.parse(json["dateCreated"])
+          : json["dateCreated"],
+    );
+  }
 }

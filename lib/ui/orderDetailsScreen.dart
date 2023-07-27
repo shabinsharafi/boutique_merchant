@@ -36,6 +36,7 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
     // TODO: implement initState
     super.initState();
     ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    ordersProvider.getOrderDetails(widget.order.id);
     // Provider.of<CheckoutProvider>(context, listen: false).initCalculation();
   }
 
@@ -107,15 +108,15 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                       ),
                       SizedBox(
                         height: 10,
-                      ),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(),
-                        itemCount: widget.order.items!.length,
-                        itemBuilder: (context, index) {
-                          return getItemsCard(
-                              Cart(item: widget.order.items![index]));
-                        },
+                      ),if(provider.isOrderDetailsLoading)
+                        SizedBox()
+                      else GridView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.only(),
+                          itemCount: provider.orderDetailsResponse!.data!.items!.length,
+                          itemBuilder: (context, index) {
+                            return getItemsCard(provider.orderDetailsResponse!.data!.items![index]);
+                          },
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisSpacing: 15,
                             mainAxisSpacing: 15,

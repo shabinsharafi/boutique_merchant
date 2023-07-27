@@ -19,6 +19,9 @@ import '../models/order.dart';
 class OrdersProvider with ChangeNotifier {
   ApiResponse? addItemResponse;
   ApiResponse<ListResponse<Order>>? ordersResponse;
+  ApiResponse<Order>? orderDetailsResponse;
+
+  bool isOrderDetailsLoading = false;
   bool isLoginLoading = false;
   bool isVerifyOtpLoading = false;
 
@@ -41,6 +44,20 @@ class OrdersProvider with ChangeNotifier {
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
         message: ordersResponse!.message!,
+      ));
+    }
+    notifyListeners();
+  }
+
+  void getOrderDetails(id) async {
+    isOrderDetailsLoading = true;
+    notifyListeners();
+    orderDetailsResponse = await OrdersApi.getInstance().getOrderDetails(id);
+    isOrderDetailsLoading = false;
+    if (orderDetailsResponse!.success) {
+    } else {
+      NavigationService.showAlertDialog(AlertMessageDialog(
+        message: orderDetailsResponse!.message!,
       ));
     }
     notifyListeners();

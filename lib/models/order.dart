@@ -6,15 +6,17 @@ import 'dart:convert';
 
 import 'package:boutique_merchant/models/address.dart';
 import 'package:boutique_merchant/models/baseModel.dart';
+import 'package:boutique_merchant/models/cart.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/merchant.dart';
+import 'package:boutique_merchant/models/review.dart';
 import 'package:boutique_merchant/models/userModel.dart';
 
 Order orderFromJson(String str) => Order.fromJson(json.decode(str));
 
 String orderToJson(Order data) => json.encode(data.toJson());
 
-class Order extends BaseModel{
+class Order extends BaseModel {
   String? id;
   String? paymentMode;
   num? totalAmount;
@@ -30,7 +32,8 @@ class Order extends BaseModel{
   Merchant? merchant;
   UserModel? user;
   Address? address;
-  List<Item>? items;
+  List<Review> reviews;
+  List<Cart>? items;
 
   Order({
     this.id,
@@ -49,6 +52,7 @@ class Order extends BaseModel{
     this.user,
     this.address,
     this.items,
+    this.reviews=const [],
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -58,11 +62,15 @@ class Order extends BaseModel{
     taxAmount: json["taxAmount"],
     discount: json["discount"],
     finalAmount: json["finalAmount"],
-    dateCreated: json["dateCreated"] == null ? null : DateTime.parse(json["dateCreated"]),
+    dateCreated: json["dateCreated"] == null
+        ? null
+        : DateTime.parse(json["dateCreated"]),
     merchantId: json["merchantId"],
     userId: json["userId"],
     addressId: json["addressId"],
-    merchant: json["merchant"] == null ? null : Merchant.fromJson(json["merchant"]),
+    merchant: json["merchant"] == null
+        ? null
+        : Merchant.fromJson(json["merchant"]),
     user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
   );
 
@@ -73,7 +81,8 @@ class Order extends BaseModel{
     "taxAmount": taxAmount,
     "discount": discount,
     "finalAmount": finalAmount,
-    "dateCreated": "${dateCreated!.year.toString().padLeft(4, '0')}-${dateCreated!.month.toString().padLeft(2, '0')}-${dateCreated!.day.toString().padLeft(2, '0')}",
+    "dateCreated":
+    "${dateCreated!.year.toString().padLeft(4, '0')}-${dateCreated!.month.toString().padLeft(2, '0')}-${dateCreated!.day.toString().padLeft(2, '0')}",
     "merchantId": merchantId,
     "userId": userId,
     "addressId": addressId,
@@ -90,15 +99,25 @@ class Order extends BaseModel{
     discount: json["discount"],
     deliveryCharge: json["deliveryCharge"],
     finalAmount: json["finalAmount"],
-    dateCreated: json["dateCreated"] == null ? null : DateTime.parse(json["dateCreated"]),
+    dateCreated: json["dateCreated"] == null
+        ? null
+        : DateTime.parse(json["dateCreated"]),
     merchantId: json["merchantId"],
     userId: json["userId"],
     addressId: json["addressId"],
-    orderStatus: json["orderStatus"]??"Order Placed",
-    merchant: json["merchant"] == null ? null : Merchant.fromJson(json["merchant"]),
+    orderStatus: json["orderStatus"] ?? "Order Placed",
+    merchant: json["merchant"] == null
+        ? null
+        : Merchant.fromJson(json["merchant"]),
     user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
-    address: json["address"] == null ? null : Address.fromJson(json["address"]),
-    items: json["items"] == null ? null :  List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+    address:
+    json["address"] == null ? null : Address.fromJson(json["address"]),
+    items: json["items"] == null
+        ? null
+        : List<Cart>.from(json["items"].map((x) => Cart.fromJson(x))),
+    reviews: json["reviews"] == null
+        ? []
+        : List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
     // items: json["items"] == null ? null :  List<Cart>.from(json["items"].map((x) => Cart.fromJson(x))),
   );
 }

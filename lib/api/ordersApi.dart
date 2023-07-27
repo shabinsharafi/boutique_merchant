@@ -54,6 +54,22 @@ class OrdersApi {
     return apiResponse;
   }
 
+  Future<ApiResponse<Order>> getOrderDetails(orderId) async {
+    ApiResponse<Order> apiResponse = ApiResponse();
+    try {
+      apiResponse = await HttpHandler.getRequest<Order>(
+          Utilities.baseUrl + "getOrder/$orderId",
+              () =>  Order());
+      if (apiResponse.success) {
+        //apiResponse.data = List<Item>.from(apiResponse.data.map((x) => Item.fromJson(x)));
+      }
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
+
   Future<ApiResponse<ListResponse<Order>>> updateOrder(req,orderId) async {
     ApiResponse<ListResponse<Order>> apiResponse = ApiResponse();
     try {
