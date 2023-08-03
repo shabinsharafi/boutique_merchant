@@ -3,6 +3,7 @@ import 'package:boutique_merchant/models/cart.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/merchant.dart';
 import 'package:boutique_merchant/models/order.dart';
+import 'package:boutique_merchant/models/review.dart';
 import 'package:boutique_merchant/provider/ItemsVM.dart';
 import 'package:boutique_merchant/provider/OrdersVM.dart';
 import 'package:boutique_merchant/ui/common/state_screen.dart';
@@ -13,6 +14,7 @@ import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/PrimaryRadioButton.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../styles/styles.dart';
@@ -108,21 +110,26 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                       ),
                       SizedBox(
                         height: 10,
-                      ),if(provider.isOrderDetailsLoading)
+                      ),
+                      if (provider.isOrderDetailsLoading)
                         SizedBox()
-                      else GridView.builder(
+                      else
+                        GridView.builder(
                           shrinkWrap: true,
                           padding: EdgeInsets.only(),
-                          itemCount: provider.orderDetailsResponse!.data!.items!.length,
+                          itemCount: provider
+                              .orderDetailsResponse!.data!.items!.length,
                           itemBuilder: (context, index) {
-                            return getItemsCard(provider.orderDetailsResponse!.data!.items![index]);
+                            return getItemsCard(provider
+                                .orderDetailsResponse!.data!.items![index]);
                           },
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15,
-                            crossAxisCount: 2,
-                            childAspectRatio: 2),
-                      ),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisSpacing: 15,
+                                  mainAxisSpacing: 15,
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 2),
+                        ),
                       SizedBox(
                         height: 20,
                       ),
@@ -144,6 +151,17 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                           return getDeliveryAddressCard(widget.order.address);
                         },
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Items Review",
+                        style: Styles.textStyle.regularBoldTS,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      generateItemsReview(provider, widget.order),
                       SizedBox(
                         height: 20,
                       ),
@@ -281,6 +299,107 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
         );
       }),
     );
+  }
+
+  generateItemsReview(OrdersProvider provider, Order order) {
+    // return provider.orderDetailsResponse!.data!.items!
+    List<Cart> items = order.items!;
+    List<Review> reviews = provider.orderDetailsResponse?.data?.reviews ?? [];
+    return provider.isOrderDetailsLoading ||
+            provider.orderDetailsResponse?.data?.orderStatus !=
+                OrderStatus.DELIVERED.name
+        ? SizedBox()
+        : Column(children: [
+            for (int i = 0; i < items.length; i++)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: NetworkImageShimmer(
+                          (order.items![i].item!.images != null &&
+                                  order.items![i].item!.images!.isNotEmpty)
+                              ? order.items![i].item!.images![0]
+                              : "",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              order.items![i].item!.name!,
+                              style: Styles.textStyle.normalBoldTS,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  reviews
+                              .firstWhere(
+                                  (element) => element.itemId == items[i].id,
+                                  orElse: () => Review(id: "-1"))
+                              .id ==
+                          "-1"
+                      ? SizedBox()
+                      : RatingBar.builder(
+                          initialRating: reviews
+                              .firstWhere(
+                                  (element) => element.itemId == items[i].id,
+                                  orElse: () => Review(id: "-1"))
+                              .rating!
+                              .toDouble(),
+                          direction: Axis.horizontal,
+                          itemSize: 25,
+                          ignoreGestures: true,
+                          wrapAlignment: WrapAlignment.start,
+                          itemPadding: EdgeInsets.only(right: 4.0),
+                          itemBuilder: (context, _) => Icon(
+                            Icons.star,
+                            color: Colors.orangeAccent,
+                          ),
+                          onRatingUpdate: (rating) {},
+                        ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  reviews
+                              .firstWhere(
+                                  (element) => element.itemId == items[i].id,
+                                  orElse: () => Review(id: "-1"))
+                              .id ==
+                          "-1"
+                      ? SizedBox()
+                      : Text(
+                          reviews
+                              .firstWhere(
+                                  (element) => element.itemId == items[i].id)
+                              .review!,
+                          style: Styles.textStyle.normalTS,
+                        ),
+                  SizedBox(
+                    height: 0,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              )
+          ]);
   }
 
   statusSheet() {
