@@ -38,9 +38,20 @@ class ReviewCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text(
-                    review.user!.name!,
-                    style: Styles.textStyle.normalBoldTS,
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 12,
+                        child: NetworkImageShimmer("", radius: 15),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        review.user!.name!,
+                        style: Styles.textStyle.normalBoldTS,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -53,7 +64,7 @@ class ReviewCard extends StatelessWidget {
         RatingBar.builder(
           initialRating: review.rating!.toDouble(),
           direction: Axis.horizontal,
-          itemSize: 25,
+          itemSize: 15,
           ignoreGestures: true,
           wrapAlignment: WrapAlignment.start,
           itemPadding: EdgeInsets.only(right: 4.0),
@@ -63,16 +74,15 @@ class ReviewCard extends StatelessWidget {
           ),
           onRatingUpdate: (rating) {},
         ),
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          review.review!,
-          style: Styles.textStyle.normalTS,
-        ),
-        SizedBox(
-          height: 15,
-        ),
+        if (review.review != null && review.review!.isNotEmpty)
+          SizedBox(
+            height: 5,
+          ),
+        if (review.review != null && review.review!.isNotEmpty)
+          Text(
+            review.review!,
+            style: Styles.textStyle.normalTS,
+          ),
       ],
     );
   }

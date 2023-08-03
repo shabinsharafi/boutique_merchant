@@ -1,6 +1,7 @@
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/provider/ItemsVM.dart';
 import 'package:boutique_merchant/provider/OrdersVM.dart';
+import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/cards/ordersCard.dart';
 import 'package:boutique_merchant/ui/cards/reviewCard.dart';
 import 'package:boutique_merchant/widgets/nothing_layout.dart';
@@ -39,11 +40,21 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: ListView.builder(
+                  child: ListView.separated(
+                    padding: EdgeInsets.all(Styles.dimens.screenPaddingNormal),
                     itemCount: provider.reviewsResponse!.data!.items!.length,
                     itemBuilder: (context, index) {
                       return ReviewCard(
                           provider.reviewsResponse!.data!.items![index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Expanded(
+                        child: Container(
+                          color: Colors.grey[200],
+                          height: 1,
+                          margin: EdgeInsets.only(bottom: 15,top: 15),
+                        ),
+                      );
                     },
                   ),
                 ),
