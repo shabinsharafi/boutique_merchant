@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:boutique_merchant/utils/screen_navigation.dart';
 import 'package:provider/provider.dart';
 
-import '../registration/userRegistrationVM.dart';
+import '../../provider/userProvider.dart';
 
 class DrawerScreen extends StatefulWidget {
   DrawerScreen({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class DrawerScreen extends StatefulWidget {
 class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
-    var userData=Provider.of<UserDataProvider>(context,listen: false);
+    var userData=Provider.of<UserProvider>(context,listen: false);
     return Container(
       color: primaryGreen,
       child: Column(

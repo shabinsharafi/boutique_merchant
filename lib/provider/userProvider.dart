@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:boutique_merchant/api/remote_config_service.dart';
 import 'package:boutique_merchant/api/userApi.dart';
 
-class UserDataProvider with ChangeNotifier {
+class UserProvider with ChangeNotifier {
   late ApiResponse userResponse;
   late UserModel user;
 /*

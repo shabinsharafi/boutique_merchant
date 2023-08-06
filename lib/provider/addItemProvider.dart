@@ -1,9 +1,14 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/api/itemsApi.dart';
 import 'package:boutique_merchant/api/userApi.dart';
 import 'package:boutique_merchant/models/AddItemFilter.dart';
+import 'package:boutique_merchant/models/ListResponse.dart';
 import 'package:boutique_merchant/models/category.dart';
 import 'package:boutique_merchant/models/itemColor.dart';
+import 'package:boutique_merchant/models/itemImage.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
@@ -29,6 +34,9 @@ class AddItemProvider with ChangeNotifier {
   List<ItemColor> colors=[];
   List<Category> occasions=[];
   MasterOption? itemStatus;
+
+  Map<int, File> offlineImages = {};
+  List<int> uploading = [];
 
   var addItemFormKey = GlobalKey<FormState>();
   var autoValidateMode = AutovalidateMode.disabled;
@@ -144,6 +152,45 @@ class AddItemProvider with ChangeNotifier {
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
         message: addItemsFilterResponse!.message!,
+      ));
+    }
+    notifyListeners();
+  }
+
+  void uploadImage(i,id) async {
+    isAddItemFilterLoading = true;
+    uploading.add(i);
+    notifyListeners();
+    print(uploading);
+    ApiResponse<ListResponse<ItemImage>> imageUploadResponse = await ItemsApi.getInstance().uploadImage(id,i, offlineImages[i]?.path);
+    isAddItemFilterLoading = false;
+    uploading.remove(i);
+    print(uploading);
+    if (imageUploadResponse.success) {
+      uploading.remove(i);
+
+    } else {
+      NavigationService.showAlertDialog(AlertMessageDialog(
+        message: imageUploadResponse.message??"",
+      ));
+    }
+    notifyListeners();
+  }
+
+  Future<void> deleteImage(int index) async {
+    isLoginLoading = true;
+    notifyListeners();
+
+    var addItemResponse = await ItemsApi.getInstance().deleteImage(index);
+    isLoginLoading = false;
+    if (addItemResponse!.success) {
+      NavigationService.close();
+      NavigationService.showAlertDialog(AlertMessageDialog(
+        message: "Item added successfully",
+      ));
+    } else {
+      NavigationService.showAlertDialog(AlertMessageDialog(
+        message: addItemResponse!.message!,
       ));
     }
     notifyListeners();

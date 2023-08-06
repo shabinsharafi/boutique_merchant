@@ -4,6 +4,7 @@ import 'package:boutique_merchant/models/baseModel.dart';
 import 'package:boutique_merchant/models/category.dart';
 import 'package:boutique_merchant/models/favourite.dart';
 import 'package:boutique_merchant/models/itemColor.dart';
+import 'package:boutique_merchant/models/itemImage.dart';
 import 'package:boutique_merchant/models/masterOption.dart';
 import 'package:boutique_merchant/models/merchant.dart';
 
@@ -18,7 +19,7 @@ class Item extends BaseModel{
   List<Category>? occasions;
   bool isStockAvailable;
   String? description;
-  List<String>? images;
+  List<ItemImage>? images;
   DateTime? dateCreated;
   String? merchantId;
   String? categoryId;
@@ -68,23 +69,27 @@ class Item extends BaseModel{
     this.merchant,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) => Item(
-    name: json["name"],
-    id: json["id"],
-    colors: json["colors"]!=null?List<ItemColor>.from(json["colors"].map((x) => ItemColor.fromJson(x))):[],
-    occasions: json["occasions"]!=null?List<Category>.from(json["occasions"].map((x) => Category.fromJson(x))):null,
-    materialType:  json["materialType"]!=null?MasterOption.fromJson(json["materialType"]):null,
-    itemStatus:  json["itemStatus"]!=null?MasterOption.fromJson(json["itemStatus"]):null,
-    isStockAvailable: json["isStockAvailable"],
-    description: json["description"],
-    mrp: json["mrp"]??15.23,
-    price: json["price"]??10.50,
-    images: List<String>.from(json["images"].map((x) => x)),
-    dateCreated: DateTime.parse(json["dateCreated"]),
-    merchantId: json["merchantId"],
-    categoryId: json["categoryId"],
-    merchant: json["merchant"]!=null?Merchant.fromJson(json["merchant"]):null,
-  );
+  factory Item.fromJson(Map<String, dynamic> json) {
+    print("item");
+    print(json);
+    return Item(
+      name: json["name"],
+      id: json["id"],
+      colors: json["colors"]!=null?List<ItemColor>.from(json["colors"].map((x) => ItemColor.fromJson(x))):[],
+      occasions: json["occasions"]!=null?List<Category>.from(json["occasions"].map((x) => Category.fromJson(x))):null,
+      materialType:  json["materialType"]!=null?MasterOption.fromJson(json["materialType"]):null,
+      itemStatus:  json["itemStatus"]!=null?MasterOption.fromJson(json["itemStatus"]):null,
+      isStockAvailable: json["isStockAvailable"],
+      description: json["description"],
+      mrp: json["mrp"]??15.23,
+      price: json["price"]??10.50,
+      images: json["images"]!=null?List<ItemImage>.from(json["images"].map((x) => ItemImage.fromJson(x))):null,
+      dateCreated: DateTime.parse(json["dateCreated"]),
+      merchantId: json["merchantId"],
+      categoryId: json["categoryId"],
+      merchant: json["merchant"]!=null?Merchant.fromJson(json["merchant"]):null,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "name": name,
@@ -102,6 +107,7 @@ class Item extends BaseModel{
 
   @override
   fromJson(dynamic json) {
+    print("item");
     print(json);
     return Item(
       name: json["name"],
@@ -115,7 +121,7 @@ class Item extends BaseModel{
       description: json["description"],
       mrp: json["mrp"]??15.23,
       price: json["price"]??10.50,
-      images: json["images"]!=null?List<String>.from(json["images"].map((x) => x)):null,
+      images: json["images"]!=null?List<ItemImage>.from(json["images"].map((x) => ItemImage.fromJson(x))):null,
       dateCreated: DateTime.parse(json["dateCreated"]),
       merchantId: json["merchantId"],
       categoryId: json["categoryId"],

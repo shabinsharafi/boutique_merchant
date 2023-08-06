@@ -15,7 +15,7 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../ui/registration/userRegistrationVM.dart';
+import 'userProvider.dart';
 
 
 class AuthenticationProvider with ChangeNotifier {
@@ -73,11 +73,11 @@ class AuthenticationProvider with ChangeNotifier {
           value.setString("boutiqueId", verifyOtpResponse!.data!.merchant!.id!);
         }
       });
-      Provider.of<UserDataProvider>(
+      Provider.of<UserProvider>(
               NavigationService.navigatorKey.currentContext!,
               listen: false)
           .user = verifyOtpResponse!.data!.user!;
-      Provider.of<UserDataProvider>(
+      Provider.of<UserProvider>(
               NavigationService.navigatorKey.currentContext!,
               listen: false)
           // .user = UserModel.fromJson(verifyOtpResponse!.data);
@@ -102,11 +102,11 @@ class AuthenticationProvider with ChangeNotifier {
       /*SharedPreferences.getInstance().then((value) {
         value.setString("token", verifyOtpResponse!.data['token']);
       });*/
-      Provider.of<UserDataProvider>(
+      Provider.of<UserProvider>(
           NavigationService.navigatorKey.currentContext!,
           listen: false)
           .user = getDetailsResponse!.data!.user!;
-      Provider.of<UserDataProvider>(
+      Provider.of<UserProvider>(
           NavigationService.navigatorKey.currentContext!,
           listen: false)
       // .user = UserModel.fromJson(verifyOtpResponse!.data);

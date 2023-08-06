@@ -6,7 +6,7 @@ import 'package:boutique_merchant/models/ListResponse.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/userModel.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
-import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
+import 'package:boutique_merchant/provider/userProvider.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/general/commonAlertDialogBox.dart';
 import 'package:flutter/cupertino.dart';

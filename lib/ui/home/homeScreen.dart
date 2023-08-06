@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-import '../registration/userRegistrationVM.dart';
+import '../../provider/userProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,13 +21,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late UserDataProvider provider;
+  late UserProvider provider;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    provider = Provider.of<UserDataProvider>(context, listen: false);
+    provider = Provider.of<UserProvider>(context, listen: false);
   }
 
   @override

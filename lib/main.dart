@@ -5,7 +5,7 @@ import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/provider/boutiqueVM.dart';
 import 'package:boutique_merchant/splashScreen.dart';
 import 'package:boutique_merchant/styles/styles.dart';
-import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
+import 'package:boutique_merchant/provider/userProvider.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserDataProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (context) => AddItemProvider()),
         ChangeNotifierProvider(create: (context) => BoutiqueProvider()),

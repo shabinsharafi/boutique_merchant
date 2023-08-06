@@ -304,9 +304,9 @@ class HttpHandler {
     return apiResponse;
   }
 
-  static Future<ApiResponse> uploadImage(String url, dynamic body,
+  static Future<ApiResponse<T>> uploadImage<T extends BaseModel>(String url, dynamic body,ItemCreator<T> creator,
       {String method = "POST", Map<String,String>? fields, bool multipleFiles = false}) async {
-    ApiResponse apiResponse = new ApiResponse();
+    ApiResponse<T> apiResponse = new ApiResponse<T>();
     try {
       Logger.log("upload url", url);
 
@@ -338,9 +338,9 @@ class HttpHandler {
       Logger.log("response", response.statusCode.toString());
       Logger.log("response", result.toString());
       Logger.log("response", response.stream.toString());
+      apiResponse = ApiResponse.fromJson(result, creator);
       if (response.statusCode >= 200 && response.statusCode <= 250) {
         apiResponse.success = true;
-        apiResponse.data = result;
         if (true) {
           apiResponse.success = true;
         } else {

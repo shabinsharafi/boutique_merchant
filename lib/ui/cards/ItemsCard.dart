@@ -25,7 +25,7 @@ class ItemsCard extends StatelessWidget {
           children: [
             NetworkImageShimmer(
               (item.images != null && item.images!.isNotEmpty)
-                  ? item.images![0]
+                  ? item.images![0].url
                   : "",
               height: Styles.dimens.width / 3.5,
               width: Styles.dimens.width / 3.5,

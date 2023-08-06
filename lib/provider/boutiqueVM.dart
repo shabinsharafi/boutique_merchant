@@ -1,6 +1,6 @@
 import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/models/merchant.dart';
-import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
+import 'package:boutique_merchant/provider/userProvider.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/general/commonAlertDialogBox.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +39,7 @@ class BoutiqueProvider with ChangeNotifier {
     boutiqueResponse = await BoutiqueApi.getInstance().addBoutique(req);
     isLoginLoading = false;
     if (boutiqueResponse!.success) {
-      Provider.of<UserDataProvider>(
+      Provider.of<UserProvider>(
           NavigationService.navigatorKey.currentContext!,
           listen: false)
       // .user = UserModel.fromJson(verifyOtpResponse!.data);

@@ -4,13 +4,14 @@ import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/api/httpHandler.dart';
 import 'package:boutique_merchant/logger.dart';
 import 'package:boutique_merchant/models/AddItemFilter.dart';
+import 'package:boutique_merchant/models/itemImage.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/review.dart';
 import 'package:boutique_merchant/models/userModel.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 import '../models/ListResponse.dart';
 
 class ItemsApi {
@@ -78,6 +79,7 @@ class ItemsApi {
     }
     return apiResponse;
   }
+
   Future<ApiResponse<Item>> updateItem(req,id) async {
     ApiResponse<Item> apiResponse = ApiResponse();
     try {
@@ -92,4 +94,20 @@ class ItemsApi {
     }
     return apiResponse;
   }
+  Future<ApiResponse<ListResponse<ItemImage>>> uploadImage(id,index,path) async {
+    ApiResponse<ListResponse<ItemImage>> apiResponse = ApiResponse<ListResponse<ItemImage>>();
+
+    var multipartFile = await http.MultipartFile.fromPath(
+        'main_image', path);
+    try {
+      apiResponse =
+          await HttpHandler.uploadImage<ListResponse<ItemImage>>(Utilities.baseUrl + "itemImage/upload/$id/$index",multipartFile,() => ListResponse<ItemImage>(creator: () => ItemImage(),));
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
+
+  deleteImage(req) {}
 }

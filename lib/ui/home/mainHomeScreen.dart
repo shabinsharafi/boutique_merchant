@@ -2,9 +2,10 @@ import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/ui/home/homeScreen.dart';
+import 'package:boutique_merchant/ui/home/userSettingScreen.dart';
 import 'package:boutique_merchant/ui/itemsScreen.dart';
 import 'package:boutique_merchant/ui/ordersScreen.dart';
-import 'package:boutique_merchant/ui/registration/userRegistrationVM.dart';
+import 'package:boutique_merchant/provider/userProvider.dart';
 import 'package:boutique_merchant/utilities.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/imageAsset.dart';
@@ -24,12 +25,13 @@ class MainHomeScreen extends StatefulWidget {
 class _MainHomeScreenState extends State<MainHomeScreen> {
   var childrens = [
     HomeScreen(),
+    UserSettingScreen(),
   ];
   int current = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserDataProvider>(builder: (context, provider, child) {
+    return Consumer<UserProvider>(builder: (context, provider, child) {
       return Scaffold(
         body: Stack(
           children: [
@@ -73,12 +75,22 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                 ),
                                 Expanded(child: SizedBox()),
                                 NavItem(
-                                    "Orders", Utilities.asset("ic_orders.png"),
+                                  "Orders",
+                                  Utilities.asset("ic_orders.png"),
                                   onClick: () {
                                     NavigationService.changeScreen(
                                         OrdersScreen());
-                                  },),
-                                NavItem("User", Utilities.asset("ic_user.svg")),
+                                  },
+                                ),
+                                NavItem(
+                                  "User",
+                                  Utilities.asset("ic_user.svg"),
+                                  onClick: () {
+                                    setState(() {
+                                      current = 1;
+                                    });
+                                  },
+                                ),
                               ],
                             ),
                             width: Styles.dimens.width,

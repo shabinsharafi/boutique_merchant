@@ -77,7 +77,7 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
                                     ? NetworkImageShimmer(
                                         (widget.item.images != null &&
                                                 widget.item.images!.isNotEmpty)
-                                            ? widget.item.images![selectedImage]
+                                            ? widget.item.images![selectedImage].url
                                             : "",
                                         fit: BoxFit.cover,
                                       )
@@ -145,7 +145,7 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
                                                                 ? 1.5
                                                                 : 0)),
                                                     child: NetworkImageShimmer(
-                                                      widget.item.images![i],
+                                                      widget.item.images![i].url,
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
