@@ -11,14 +11,14 @@ import 'package:provider/provider.dart';
 
 import 'cards/ItemsCard.dart';
 
-class ItemsScreen extends StatefulWidget {
-  const ItemsScreen({Key? key}) : super(key: key);
+class ItemsListScreen extends StatefulWidget {
+  const ItemsListScreen({Key? key}) : super(key: key);
 
   @override
-  State<ItemsScreen> createState() => _ItemsScreenState();
+  State<ItemsListScreen> createState() => _ItemsListScreenState();
 }
 
-class _ItemsScreenState extends State<ItemsScreen> {
+class _ItemsListScreenState extends State<ItemsListScreen> {
   @override
   void initState() {
     super.initState();

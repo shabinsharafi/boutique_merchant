@@ -3,7 +3,7 @@ import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/ui/home/homeScreen.dart';
 import 'package:boutique_merchant/ui/home/userSettingScreen.dart';
-import 'package:boutique_merchant/ui/itemsScreen.dart';
+import 'package:boutique_merchant/ui/itemsListScreen.dart';
 import 'package:boutique_merchant/ui/ordersScreen.dart';
 import 'package:boutique_merchant/provider/userProvider.dart';
 import 'package:boutique_merchant/utilities.dart';
@@ -70,7 +70,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                   Utilities.asset("ic_items.png"),
                                   onClick: () {
                                     NavigationService.changeScreen(
-                                        ItemsScreen());
+                                        ItemsListScreen());
                                   },
                                 ),
                                 Expanded(child: SizedBox()),
