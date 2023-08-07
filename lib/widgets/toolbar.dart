@@ -7,11 +7,12 @@ import 'package:boutique_merchant/widgets/ArrowButton.dart';
 import 'GradientMask.dart';
 
 class ToolBar extends StatelessWidget implements PreferredSizeWidget {
-  ToolBar(this.title, {this.action,this.color,this.isLight=true, Key? key}) : super(key: key);
+  ToolBar(this.title, {this.action,this.onBackPressed,this.color,this.isLight=true, Key? key}) : super(key: key);
   String title;
   Color? color;
   Widget? action;
   bool isLight;
+  VoidCallback? onBackPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,11 @@ class ToolBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: const EdgeInsets.symmetric(vertical: 5.5),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    if(onBackPressed!=null) {
+                      onBackPressed!();
+                    } else {
+                      Navigator.pop(context);
+                    }
                   },
                   child: Icon(
                     Icons.arrow_back_ios,

@@ -32,8 +32,8 @@ class NavigationService {
         MaterialPageRoute(builder: (context) => widget), (route) => false);
   }
 
-  static dynamic close() async {
-    navigatorKey.currentState!.pop();
+  static dynamic close({result}) async {
+    Navigator.pop(navigatorKey.currentContext!,result);
   }
 
   static void showAlertDialog( Widget widget) {

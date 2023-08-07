@@ -5,18 +5,21 @@ class ItemImage extends BaseModel {
     this.id,
     this.name,
     this.url,
+    this.bucketKey,
     this.dateCreated,
   });
 
   String? id;
   String? name;
   String? url;
+  String? bucketKey;
   DateTime? dateCreated;
 
   factory ItemImage.fromJson(Map<String, dynamic> json) => ItemImage(
         id: json["id"],
         name: json["name"],
         url: json["url"],
+    bucketKey: json["bucketKey"],
     dateCreated: json["dateCreated"]!=null?DateTime.parse(json["dateCreated"]):json["dateCreated"],
       );
 
@@ -32,6 +35,7 @@ class ItemImage extends BaseModel {
         id: json["id"],
         name: json["name"],
         url: json["url"],
+    bucketKey: json["bucketKey"],
     dateCreated: json["dateCreated"]!=null?DateTime.parse(json["dateCreated"]):json["dateCreated"],
       );
 }

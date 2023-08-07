@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:boutique_merchant/models/itemImage.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/common/state_screen.dart';
+import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/NetworkImageShimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,13 +34,22 @@ class _AddImageScreenState extends ScreenState<AddImageScreen> {
     var provider = Provider.of<AddItemProvider>(context, listen: false);
     provider.offlineImages.clear();
     provider.uploading.clear();
+    provider.item=widget.item;
   }
 
+  @override
+  void onBackPressed() {
+    // TODO: implement onBackPressed
+    //super.onBackPressed();
+
+    NavigationService.close(result: true);
+  }
   @override
   Widget getWidget(BuildContext context) {
     return Column(
       children: [
-        ToolBar("Add Item"),
+        ToolBar("Add Item",onBackPressed: () =>
+            NavigationService.close(result: true),),
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(Styles.dimens.screenPadding),
@@ -55,11 +65,11 @@ class _AddImageScreenState extends ScreenState<AddImageScreen> {
                 children: [
                   for (int i = 0;
                       i <
-                          (widget.item.images ?? []).length +
+                          (provider.item.images ?? []).length +
                               provider.offlineImages.length +
                               1;
                       i++)
-                    imageView(i, widget.item.images ?? [], provider)
+                    imageView(i, provider.item.images ?? [], provider)
                 ],
               );
             }),
@@ -89,7 +99,7 @@ class _AddImageScreenState extends ScreenState<AddImageScreen> {
                       right: 0,
                       child: InkWell(
                         onTap: (){
-                          provider.deleteImage(i);
+                          provider.deleteImage(i,imagePath[i]);
                         },
                         child: CircleAvatar(
                             backgroundColor: Colors.white,
@@ -147,14 +157,14 @@ class _AddImageScreenState extends ScreenState<AddImageScreen> {
                       // provider.imageFile = File(croppedFile?.path ?? "");
                       // List<int> bytes = await
                       // File(provider.imageFile?.path ?? "").readAsBytes();
-                      if(croppedFile==null||croppedFile.path==null){
+                      if(croppedFile==null){
                         return;
                       }
                       provider.offlineImages.update(
-                          i, (value) => File(croppedFile?.path ?? ""),
-                          ifAbsent: () => File(croppedFile?.path ?? ""));
+                          i, (value) => File(croppedFile.path ?? ""),
+                          ifAbsent: () => File(croppedFile.path ?? ""));
 
-                      provider.uploadImage(i, widget.item.id);
+                      provider.uploadImage(i, provider.item.id);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

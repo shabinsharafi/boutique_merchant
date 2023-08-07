@@ -31,8 +31,8 @@ class AddItemProvider with ChangeNotifier {
   var priceController = TextEditingController();
   Category? category;
   MasterOption? materialType;
-  List<ItemColor> colors=[];
-  List<Category> occasions=[];
+  List<ItemColor> colors = [];
+  List<Category> occasions = [];
   MasterOption? itemStatus;
 
   Map<int, File> offlineImages = {};
@@ -41,7 +41,9 @@ class AddItemProvider with ChangeNotifier {
   var addItemFormKey = GlobalKey<FormState>();
   var autoValidateMode = AutovalidateMode.disabled;
 
-  void clear(){
+  late Item item;
+
+  void clear() {
     nameController.clear();
     descriptionController.clear();
     mrpController.clear();
@@ -50,8 +52,9 @@ class AddItemProvider with ChangeNotifier {
     category = null;
     itemStatus = null;
     colors = [];
-    occasions =  [];
+    occasions = [];
   }
+
   void addItem() async {
     if (!addItemFormKey.currentState!.validate()) {
       autoValidateMode = AutovalidateMode.always;
@@ -64,7 +67,7 @@ class AddItemProvider with ChangeNotifier {
       regId = value.getString("boutiqueId");
     });
 
-    Map<String,dynamic> req={
+    Map<String, dynamic> req = {
       "colors": colors.map((e) => e.id).toList(),
       "occasions": occasions.map((e) => e.id).toList(),
       "item": {
@@ -106,7 +109,7 @@ class AddItemProvider with ChangeNotifier {
       regId = value.getString("boutiqueId");
     });
 
-    Map<String,dynamic> req={
+    Map<String, dynamic> req = {
       "colors": colors.map((e) => e.id).toList(),
       "occasions": occasions.map((e) => e.id).toList(),
       "item": {
@@ -121,10 +124,10 @@ class AddItemProvider with ChangeNotifier {
       }
     };
 
-    addItemResponse = await ItemsApi.getInstance().updateItem(req,id);
+    addItemResponse = await ItemsApi.getInstance().updateItem(req, id);
     isLoginLoading = false;
     if (addItemResponse!.success) {
-      NavigationService.close();
+      NavigationService.close(result: true);
       NavigationService.showAlertDialog(AlertMessageDialog(
         message: "Item updated successfully",
       ));
@@ -136,13 +139,13 @@ class AddItemProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getAddItemsFilter({isEdit=false,Item? item}) async {
+  void getAddItemsFilter({isEdit = false, Item? item}) async {
     isAddItemFilterLoading = true;
     notifyListeners();
     addItemsFilterResponse = await ItemsApi.getInstance().getAddItemsFilter();
     isAddItemFilterLoading = false;
     if (addItemsFilterResponse!.success) {
-      if(isEdit) {
+      if (isEdit) {
         materialType = item!.materialType;
         category = item.category;
         itemStatus = item.itemStatus;
@@ -157,40 +160,46 @@ class AddItemProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void uploadImage(i,id) async {
+  void uploadImage(i, id) async {
     isAddItemFilterLoading = true;
     uploading.add(i);
     notifyListeners();
-    print(uploading);
-    ApiResponse<ListResponse<ItemImage>> imageUploadResponse = await ItemsApi.getInstance().uploadImage(id,i, offlineImages[i]?.path);
+    ApiResponse<ListResponse<ItemImage>> imageUploadResponse = await ItemsApi
+        .getInstance().uploadImage(id, i, offlineImages[i]?.path);
     isAddItemFilterLoading = false;
     uploading.remove(i);
-    print(uploading);
     if (imageUploadResponse.success) {
       uploading.remove(i);
-
+      item.images ??= [];
+      imageUploadResponse.data!.items!.forEach((element) {
+        item.images!.add(element);
+      });
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
-        message: imageUploadResponse.message??"",
+        message: imageUploadResponse.message ?? "",
       ));
     }
     notifyListeners();
   }
 
-  Future<void> deleteImage(int index) async {
+  Future<void> deleteImage(int index, ItemImage image) async {
     isLoginLoading = true;
     notifyListeners();
-
-    var addItemResponse = await ItemsApi.getInstance().deleteImage(index);
+    var req = {
+      "index": index,
+      "id": image.id,
+      "bucketKey": image.bucketKey,
+    };
+    var deleteImageResponse = await ItemsApi.getInstance().deleteImage(req);
     isLoginLoading = false;
-    if (addItemResponse!.success) {
-      NavigationService.close();
+    if (deleteImageResponse!.success) {
+      item.images?.removeWhere((element) => element.id == image.id);
       NavigationService.showAlertDialog(AlertMessageDialog(
-        message: "Item added successfully",
+        message: "Image deleted successfully",
       ));
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
-        message: addItemResponse!.message!,
+        message: deleteImageResponse!.message!,
       ));
     }
     notifyListeners();

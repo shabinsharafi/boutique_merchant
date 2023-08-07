@@ -51,6 +51,20 @@ class ItemsApi {
     }
     return apiResponse;
   }
+  Future<ApiResponse<Item>> getItemDetails(itemId) async {
+    ApiResponse<Item> apiResponse = ApiResponse();
+    try {
+      apiResponse =
+          await HttpHandler.getRequest<Item>(Utilities.baseUrl + "getItem/$itemId",() =>   Item());
+      if (apiResponse.success) {
+        //apiResponse.data = List<Item>.from(apiResponse.data.map((x) => Item.fromJson(x)));
+      }
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
 
   Future<ApiResponse<ListResponse<Review>>> getReviews(itemId) async {
     ApiResponse<ListResponse<Review>> apiResponse = ApiResponse();
@@ -109,5 +123,17 @@ class ItemsApi {
     return apiResponse;
   }
 
-  deleteImage(req) {}
+  Future<ApiResponse<Item>> deleteImage(req) async {
+    ApiResponse<Item> apiResponse = ApiResponse<Item>();
+
+    try {
+      apiResponse =
+          await HttpHandler.uploadImage<Item>(Utilities.baseUrl + "deleteItemImage",req,() => Item(),);
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
+
 }

@@ -29,45 +29,50 @@ class _ItemsScreenState extends State<ItemsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: ToolBar("Items"),
-        body: Consumer<ItemsProvider>(builder: (context, provider, child) {
-          if (provider.isItemLoading || provider.itemsResponse == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (provider.itemsResponse != null &&
-              provider.itemsResponse!.data!.items!.isNotEmpty) {
-            return Padding(
-              padding:  EdgeInsets.all(Styles.dimens.screenPadding),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: ListView.builder(
-                      itemCount: provider.itemsResponse!.data!.items!.length,
-                      itemBuilder: (context, index) {
-                        return ItemsCard(provider.itemsResponse!.data!.items![index]);
-                      },
+        body: RefreshIndicator(
+          onRefresh: () async {
+            return await Provider.of<ItemsProvider>(context, listen: false).getItems();
+          },
+          child: Consumer<ItemsProvider>(builder: (context, provider, child) {
+            if (provider.isItemLoading || provider.itemsResponse == null) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (provider.itemsResponse != null &&
+                provider.itemsResponse!.data!.items!.isNotEmpty) {
+              return Padding(
+                padding: EdgeInsets.all(Styles.dimens.screenPadding),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: ListView.builder(
+                        itemCount: provider.itemsResponse!.data!.items!.length,
+                        itemBuilder: (context, index) {
+                          return ItemsCard(
+                              provider.itemsResponse!.data!.items![index]);
+                        },
+                      ),
                     ),
-                  ),
-                  PrimaryButton(
-                    "Add New Item",
-                    onTap: () {
-                      NavigationService.changeScreen(AddItemScreen());
-                    },
-                  )
-                ],
-              ),
-            );
-          }
-          return Container(
-              child: Nothing(
-            "No items added",
-            title: "Add Item",
-            onClick: () {
-              NavigationService.changeScreen(AddItemScreen());
-            },
-          ));
-        }));
+                    PrimaryButton(
+                      "Add New Item",
+                      onTap: () {
+                        NavigationService.changeScreen(AddItemScreen());
+                      },
+                    )
+                  ],
+                ),
+              );
+            }
+            return Container(
+                child: Nothing(
+              "No items added",
+              title: "Add Item",
+              onClick: () {
+                NavigationService.changeScreen(AddItemScreen());
+              },
+            ));
+          }),
+        ));
   }
-
 }

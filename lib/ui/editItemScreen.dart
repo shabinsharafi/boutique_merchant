@@ -240,7 +240,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   ),
                   Styles.spaceHeight50,
                   PrimaryButton(
-                    "Add Item",
+                    "Update Item",
                     onTap: () {
                       provider.updateItem(widget.item.id);
                     },

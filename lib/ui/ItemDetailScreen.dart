@@ -36,6 +36,13 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
   var selectedImage = 0;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<ItemsProvider>(context,listen: false).itemDetailsResponse=ApiResponse(data:widget.item);
+    Provider.of<ItemsProvider>(context,listen: false).getItemDetails(widget.item.id);
+  }
+  @override
   Widget getWidget(BuildContext context) {
     return Scaffold(
       // appBar: ToolBar("",action: InkWell(onTap:(){
@@ -55,217 +62,222 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
               color: Colors.white,
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: Styles.dimens.screenPadding,
-                        right: Styles.dimens.screenPadding,
-                        top: Styles.dimens.screenPadding,
-                      ),
-                      child: AspectRatio(
-                        aspectRatio: Styles.dimens.itemDetailImageRatio,
-                        child: SizedBox(
-                          width: Styles.dimens.width,
-                          child: Stack(
-                            children: [
-                              AspectRatio(
-                                aspectRatio: Styles.dimens.itemDetailImageRatio,
-                                child: (widget.item.images != null &&
-                                        widget.item.images!.isNotEmpty)
-                                    ? NetworkImageShimmer(
-                                        (widget.item.images != null &&
-                                                widget.item.images!.isNotEmpty)
-                                            ? widget.item.images![selectedImage].url
-                                            : "",
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Center(
-                                        child: Nothing(
-                                          "No Images.\nItems without images will not\nbe listed to customers",
-                                          title: "Add Images",
-                                          onClick: () {
-                                            NavigationService.changeScreen(
-                                                AddImageScreen(widget.item));
-                                          },
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  return await Provider.of<ItemsProvider>(context, listen: false).getItemDetails(widget.item.id);
+                },
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: Styles.dimens.screenPadding,
+                          right: Styles.dimens.screenPadding,
+                          top: Styles.dimens.screenPadding,
+                        ),
+                        child: AspectRatio(
+                          aspectRatio: Styles.dimens.itemDetailImageRatio,
+                          child: SizedBox(
+                            width: Styles.dimens.width,
+                            child: Stack(
+                              children: [
+                                AspectRatio(
+                                  aspectRatio: Styles.dimens.itemDetailImageRatio,
+                                  child: (provider.itemDetailsResponse!.data!.images != null &&
+                                          provider.itemDetailsResponse!.data!.images!.isNotEmpty)
+                                      ? NetworkImageShimmer(
+                                          (provider.itemDetailsResponse!.data!.images != null &&
+                                                  provider.itemDetailsResponse!.data!.images!.isNotEmpty)
+                                              ? provider.itemDetailsResponse!.data!.images![selectedImage].url
+                                              : "",
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Center(
+                                          child: Nothing(
+                                            "No Images.\nItems without images will not\nbe listed to customers",
+                                            title: "Add Images",
+                                            onClick: () {
+                                              NavigationService.changeScreen(
+                                                  AddImageScreen(provider.itemDetailsResponse!.data!));
+                                            },
+                                          ),
                                         ),
-                                      ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: SizedBox(),
-                              ),
-                              if (widget.item.images != null)
+                                ),
                                 Positioned(
                                   bottom: 0,
                                   left: 0,
                                   right: 0,
-                                  child: LayoutBuilder(
-                                      builder: (context, constraints) {
-                                    var width = constraints.maxWidth;
-                                    var imageWidth = (width - 60) / 5;
-                                    return Container(
-                                      margin:
-                                          EdgeInsets.only(left: 10, bottom: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          for (int i = 0;
-                                              i < widget.item.images!.length;
-                                              i++)
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    selectedImage = i;
-                                                  });
-                                                },
-                                                child: Material(
-                                                  elevation: 20,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: Container(
-                                                    width: imageWidth,
-                                                    height: imageWidth,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        border: Border.all(
-                                                            color: Styles.color
-                                                                .secondaryColor,
-                                                            width: i ==
-                                                                    selectedImage
-                                                                ? 1.5
-                                                                : 0)),
-                                                    child: NetworkImageShimmer(
-                                                      widget.item.images![i].url,
-                                                      fit: BoxFit.cover,
+                                  child: SizedBox(),
+                                ),
+                                if (provider.itemDetailsResponse!.data!.images != null)
+                                  Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: LayoutBuilder(
+                                        builder: (context, constraints) {
+                                      var width = constraints.maxWidth;
+                                      var imageWidth = (width - 60) / 5;
+                                      return Container(
+                                        margin:
+                                            EdgeInsets.only(left: 10, bottom: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            for (int i = 0;
+                                                i < provider.itemDetailsResponse!.data!.images!.length;
+                                                i++)
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      selectedImage = i;
+                                                    });
+                                                  },
+                                                  child: Material(
+                                                    elevation: 20,
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                    child: Container(
+                                                      width: imageWidth,
+                                                      height: imageWidth,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          border: Border.all(
+                                                              color: Styles.color
+                                                                  .secondaryColor,
+                                                              width: i ==
+                                                                      selectedImage
+                                                                  ? 1.5
+                                                                  : 0)),
+                                                      child: NetworkImageShimmer(
+                                                        provider.itemDetailsResponse!.data!.images![i].url,
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            )
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                                )
-                            ],
+                                              )
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                                  )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: Styles.dimens.screenPadding,
-                        right: Styles.dimens.screenPadding,
-                        top: Styles.dimens.screenPadding,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            widget.item.name!,
-                            style: Styles.textStyle.headingBoldTS,
-                          ),
-                          Text(
-                            widget.item.category!.name!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Styles.textStyle.smallTS,
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "$rupeeSymbol ${widget.item.price.toString()}",
-                                style: Styles.textStyle.headingBoldTS,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          if (widget.item.merchant != null)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20.0),
-                              child: MerchantProp(widget.item.merchant!),
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: Styles.dimens.screenPadding,
+                          right: Styles.dimens.screenPadding,
+                          top: Styles.dimens.screenPadding,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              provider.itemDetailsResponse!.data!.name!,
+                              style: Styles.textStyle.headingBoldTS,
                             ),
-                          Text(
-                            "Colors",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Styles.textStyle.normalBoldTS,
-                          ),
-                          Row(
-                            children: widget.item.colors!
-                                .map((element) => Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: EdgeInsets.only(right: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: Colors.white
-                                              .parseColor(element.color!)),
-                                    ))
-                                .toList(),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text(
-                            "Material Type",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Styles.textStyle.normalBoldTS,
-                          ),
-                          Text(
-                            widget.item.materialType!.name!,
-                            maxLines: 10,
-                            overflow: TextOverflow.ellipsis,
-                            style: Styles.textStyle.smallTS,
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text(
-                            "Description",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Styles.textStyle.normalBoldTS,
-                          ),
-                          Text(
-                            widget.item.description!,
-                            maxLines: 10,
-                            overflow: TextOverflow.ellipsis,
-                            style: Styles.textStyle.smallTS,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          SettingsButton("Reviews", () {
-                            NavigationService.changeScreen(ReviewsScreen(widget.item));
-                          }),
-                          SizedBox(
-                            height: 50,
-                          ),
-                        ],
+                            Text(
+                              provider.itemDetailsResponse!.data!.category!.name!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Styles.textStyle.smallTS,
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "$rupeeSymbol ${provider.itemDetailsResponse!.data!.price.toString()}",
+                                  style: Styles.textStyle.headingBoldTS,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            if (provider.itemDetailsResponse!.data!.merchant != null)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 20.0),
+                                child: MerchantProp(provider.itemDetailsResponse!.data!.merchant!),
+                              ),
+                            Text(
+                              "Colors",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Styles.textStyle.normalBoldTS,
+                            ),
+                            Row(
+                              children: provider.itemDetailsResponse!.data!.colors!
+                                  .map((element) => Container(
+                                        width: 30,
+                                        height: 30,
+                                        margin: EdgeInsets.only(right: 10),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: Colors.white
+                                                .parseColor(element.color!)),
+                                      ))
+                                  .toList(),
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              "Material Type",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Styles.textStyle.normalBoldTS,
+                            ),
+                            Text(
+                              provider.itemDetailsResponse!.data!.materialType!.name!,
+                              maxLines: 10,
+                              overflow: TextOverflow.ellipsis,
+                              style: Styles.textStyle.smallTS,
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              "Description",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Styles.textStyle.normalBoldTS,
+                            ),
+                            Text(
+                              provider.itemDetailsResponse!.data!.description!,
+                              maxLines: 10,
+                              overflow: TextOverflow.ellipsis,
+                              style: Styles.textStyle.smallTS,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SettingsButton("Reviews", () {
+                              NavigationService.changeScreen(ReviewsScreen(provider.itemDetailsResponse!.data!));
+                            }),
+                            SizedBox(
+                              height: 50,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -278,7 +290,7 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
                     "Add Image",
                     onTap: () {
                       NavigationService.changeScreen(
-                          AddImageScreen(widget.item));
+                          AddImageScreen(provider.itemDetailsResponse!.data!));
                     },
                     paddingTop: 0,
                   )),
@@ -288,15 +300,23 @@ class _ItemDetailScreenState extends ScreenState<ItemDetailScreen> {
                   Expanded(
                       child: PrimaryButton(
                     "Edit Item",
-                    onTap: () {
-                      NavigationService.changeScreen(
-                          EditItemScreen(widget.item));
+                    onTap: () async {
+                      var result=NavigationService.changeScreen(
+                          EditItemScreen(provider.itemDetailsResponse!.data!));
+                      print(result);
+                      if(result){
+                        await Provider.of<ItemsProvider>(context,listen: false).getItemDetails(provider.itemDetailsResponse!.data!.id);
+                        provider.itemDetailsResponse!.data!=provider.itemDetailsResponse!.data!;
+                        setState(() {
+
+                        });
+                      }
                     },
                     paddingTop: 0,
                   )),
                   /*Expanded(
                       child: PrimaryButton("Buy Now", onTap: () {
-                    provider.buyNow(widget.item.id);
+                    provider.buyNow(provider.itemDetailsResponse!.data!.id);
                   })),*/
                 ],
               ),
