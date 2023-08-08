@@ -205,6 +205,22 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                       Row(
                         children: [
                           Text(
+                            "Tax",
+                            style: Styles.textStyle.regularTS,
+                          ),
+                          Spacer(),
+                          Text(
+                            "$rupeeSymbol ${widget.order.taxAmount}",
+                            style: Styles.textStyle.priceTS,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Text(
                             "Shipping",
                             style: Styles.textStyle.regularTS,
                           ),

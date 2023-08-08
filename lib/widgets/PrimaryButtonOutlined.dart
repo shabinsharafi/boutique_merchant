@@ -9,28 +9,31 @@ class PrimaryButtonOutlined extends StatelessWidget {
   final double height; // add this
   final double paddingTop;
   final EdgeInsets padding;
+  final Color? color;
 
   const PrimaryButtonOutlined(this.text, this.function,
       {this.width,
-      this.height = 51,
-      this.paddingTop = 10,
-      this.padding =
-          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0)}); // change this
+        this.height = 51,
+        this.paddingTop = 10,
+        this.color,
+        this.padding =
+        const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0)}); // change this
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: this.paddingTop),
+        padding: EdgeInsets.only(top: paddingTop),
         child: Container(
-          width: this.width ?? MediaQuery.of(context).size.width,
+          height: height,
+          width: width ?? MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
                 colors: [
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
+                  color??Styles.color.primaryColor,
+                  color??Styles.color.primaryColor,
                 ],
               )),
           child: Container(
@@ -49,10 +52,10 @@ class PrimaryButtonOutlined extends StatelessWidget {
                 child: Text(text,
                     textAlign: TextAlign.center,
                     style:
-                        TextStyle(fontSize: 14, fontFamily: fontFamilyRegular)
-                            .copyWith(
-                                color: Styles.color.primaryColor,
-                                fontWeight: FontWeight.normal)),
+                    TextStyle(fontSize: 14, fontFamily: fontFamilyRegular)
+                        .copyWith(
+                        color: color??Styles.color.primaryColor,
+                        fontWeight: FontWeight.normal)),
               ),
             ),
           ),

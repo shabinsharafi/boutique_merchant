@@ -12,26 +12,25 @@ class PrimaryButton extends StatelessWidget {
   final bool isDisabled;
   final EdgeInsets? buttonPadding;
   final IconData? icon;
-  final Color? color;
   final Color? iconColor;
 
   const PrimaryButton(this.text, {this.onTap,
-      this.width,
-      this.height: 55,
-      this.paddingTop: 10,
-      this.hideShadow: false,
-      this.isDisabled: false,
-      this.buttonPadding,
-      this.icon,
-      this.color,
-      this.iconColor}); // change this
+    this.width,
+    this.height = 55,
+    this.paddingTop = 10,
+    this.hideShadow = false,
+    this.isDisabled = false,
+    this.buttonPadding,
+    this.icon,
+    this.iconColor}); // change this
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: this.paddingTop),
+        padding: EdgeInsets.only(top: paddingTop),
         child: Container(
-          width: this.width ?? MediaQuery.of(context).size.width,
+          height: height,
+          width: width ?? MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               boxShadow: hideShadow ? null : buttonShadow(),
@@ -40,8 +39,11 @@ class PrimaryButton extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
                 colors: [
-                  color??Styles.color.primaryColor,
-                  color??Styles.color.primaryColor,
+                  Styles.color.primaryColor,
+                  Styles.color.primaryColor,
+                  Styles.color.primaryColor,
+                  Styles.color.primaryColor,
+                  Styles.color.primaryColor,
                 ],
               )),
           child: Material(
@@ -52,22 +54,23 @@ class PrimaryButton extends StatelessWidget {
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               height: height,
               padding: buttonPadding ??
-                  const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
               onPressed: isDisabled?null:onTap,
               child: Builder(builder: (context) {
                 if (icon != null) {
                   return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(flex: 1, child: Icon(icon, color: iconColor)),
                       Expanded(
                         flex: 3,
                         child: Text(text,
                             //textAlign: TextAlign.center,
-                            style: TextStyle(
-                                    fontSize: 14, fontFamily: fontFamilyRegular)
+                            style: Styles.textStyle.regularTS
                                 .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal)),
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal)),
                       )
                     ],
                   );
@@ -75,10 +78,10 @@ class PrimaryButton extends StatelessWidget {
                 return Text(text,
                     textAlign: TextAlign.center,
                     style:
-                        TextStyle(fontSize: 14, fontFamily: fontFamilyRegular)
-                            .copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal));
+                    TextStyle(fontSize: 14, fontFamily: fontFamilyRegular)
+                        .copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal));
               }),
             ),
           ),

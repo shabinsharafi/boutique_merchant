@@ -7,6 +7,13 @@ extension ColorExtension on Color {
     return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
 }
+
+extension DoubleExtension on double {
+  double toFixedDecimal({count = 2}) {
+    return double.parse(toStringAsFixed(2));
+  }
+}
+
 extension DateExtension on DateTime {
   String toDDMMYYYY() {
     return DateFormat("dd-MM-yyyy").format(this);
