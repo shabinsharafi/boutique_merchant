@@ -264,23 +264,27 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              PrimaryButton(
-                                "Reject Order",
-                                onTap: () {
-                                  provider.updateOrder(widget.order.id,
-                                      OrderStatus.ORDER_REJECTED);
-                                },
-                                color: Colors.redAccent,
+                              Expanded(
+                                child: PrimaryButton(
+                                  "Reject Order",
+                                  onTap: () {
+                                    provider.updateOrder(widget.order.id,
+                                        OrderStatus.ORDER_REJECTED);
+                                  },
+                                  color: Colors.redAccent,
+                                ),
                               ),
                               SizedBox(
                                 width: 20,
                               ),
-                              PrimaryButton(
-                                "Accept Order",
-                                onTap: () {
-                                  provider.updateOrder(widget.order.id,
-                                      OrderStatus.ORDER_ACCEPTED);
-                                },
+                              Expanded(
+                                child: PrimaryButton(
+                                  "Accept Order",
+                                  onTap: () {
+                                    provider.updateOrder(widget.order.id,
+                                        OrderStatus.ORDER_ACCEPTED);
+                                  },
+                                ),
                               ),
                             ],
                           );

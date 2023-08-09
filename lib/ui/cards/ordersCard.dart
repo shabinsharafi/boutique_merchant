@@ -35,65 +35,83 @@ class OrdersCard extends StatelessWidget {
             SizedBox(
               width: 12,
             ),*/
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(
-                  "Order Id: ${order.id!}",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Styles.textStyle.smallTS,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  order.user!.name!,
-                  style: Styles.textStyle.regularBoldTS,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "Ordered on ${order.dateCreated!.toMMMDDYYYY()}",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Styles.textStyle.smallTS,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "${order.orderStatus}",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Styles.textStyle.smallTS,
-                    ),
-                    Spacer(),
-                    Text(
-                      "$rupeeSymbol ${order.finalAmount!.toString()}",
-                      style: Styles.textStyle.priceTS,
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    PrimaryButton("Reject Order",onTap: (){
-                      Provider.of<OrdersProvider>(context, listen: false).updateOrder(order.id,OrderStatus.ORDER_REJECTED);
-                    },color: Colors.redAccent,),
-                    SizedBox(width: 20,),
-                    PrimaryButton("Accept Order",onTap: (){
-                      Provider.of<OrdersProvider>(context, listen: false).updateOrder(order.id,OrderStatus.ORDER_ACCEPTED);
-                    },),
-                  ],
-                )
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Order Id: ${order.id!}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Styles.textStyle.smallTS,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    order.user!.name!,
+                    style: Styles.textStyle.regularBoldTS,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Ordered on ${order.dateCreated!.toMMMDDYYYY()}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Styles.textStyle.smallTS,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${order.orderStatus}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Styles.textStyle.smallTS,
+                      ),
+                      //Spacer(),
+                      Text(
+                        "$rupeeSymbol ${order.finalAmount!.toString()}",
+                        style: Styles.textStyle.priceTS,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: PrimaryButton(
+                          "Reject Order",
+                          onTap: () {
+                            Provider.of<OrdersProvider>(context, listen: false)
+                                .updateOrder(
+                                    order.id, OrderStatus.ORDER_REJECTED);
+                          },
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: PrimaryButton(
+                          "Accept Order",
+                          onTap: () {
+                            Provider.of<OrdersProvider>(context, listen: false)
+                                .updateOrder(
+                                    order.id, OrderStatus.ORDER_ACCEPTED);
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             )
           ],
         ),

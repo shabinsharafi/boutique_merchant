@@ -4,6 +4,7 @@ import '../styles/theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
+  final Color? color;
   final VoidCallback? onTap;
   final double? width; // add this
   final double? height; // add this
@@ -21,6 +22,7 @@ class PrimaryButton extends StatelessWidget {
     this.hideShadow = false,
     this.isDisabled = false,
     this.buttonPadding,
+    this.color,
     this.icon,
     this.iconColor}); // change this
 
@@ -39,11 +41,8 @@ class PrimaryButton extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
                 colors: [
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
-                  Styles.color.primaryColor,
+                  color??Styles.color.primaryColor,
+                  color??Styles.color.primaryColor,
                 ],
               )),
           child: Material(

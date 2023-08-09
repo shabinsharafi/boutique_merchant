@@ -93,12 +93,44 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   Expanded(
                     flex: 1,
                     child: Builder(builder: (context) {
-                      if (selected == 1) {
+                      if (selected == 0) {
                         return ListView.builder(
+                          shrinkWrap: true,
                           itemCount: provider.ordersResponse!.data!.items!
                               .where((element) =>
                                   element.orderStatus ==
                                   OrderStatus.ORDER_PLACED.name)
+                              .length,
+                          itemBuilder: (context, index) {
+                            return OrdersCard(
+                                provider.ordersResponse!.data!.items!.where((element) =>
+                                element.orderStatus ==
+                                    OrderStatus.ORDER_PLACED.name).elementAt(index));
+                          },
+                        );
+                      }
+                      if (selected == 1) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: provider.ordersResponse!.data!.items!
+                              .where((element) =>
+                                  element.orderStatus !=
+                                  OrderStatus.ORDER_PLACED.name||element.orderStatus !=
+                                      OrderStatus.DELIVERED.name)
+                              .length,
+                          itemBuilder: (context, index) {
+                            return OrdersCard(
+                                provider.ordersResponse!.data!.items![index]);
+                          },
+                        );
+                      }
+                      if (selected == 2) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: provider.ordersResponse!.data!.items!
+                              .where((element) =>
+                                  element.orderStatus ==
+                                  OrderStatus.DELIVERED.name)
                               .length,
                           itemBuilder: (context, index) {
                             return OrdersCard(
@@ -107,6 +139,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         );
                       }
                       return ListView.builder(
+                        shrinkWrap: true,
                         itemCount: provider.ordersResponse!.data!.items!.length,
                         itemBuilder: (context, index) {
                           return OrdersCard(

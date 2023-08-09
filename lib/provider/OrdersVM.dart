@@ -2,6 +2,7 @@ import 'package:boutique_merchant/api/api_response.dart';
 import 'package:boutique_merchant/api/itemsApi.dart';
 import 'package:boutique_merchant/api/ordersApi.dart';
 import 'package:boutique_merchant/api/userApi.dart';
+import 'package:boutique_merchant/constants/constants.dart';
 import 'package:boutique_merchant/models/ListResponse.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/userModel.dart';
@@ -63,17 +64,20 @@ class OrdersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateOrder(orderId,status) async {
+  void updateOrder(orderId,OrderStatus status) async {
     isLoginLoading = true;
     notifyListeners();
     Map<String, String> req = {};
-    req.putIfAbsent("orderStatus", () => status);
-    var ordersResponse = await OrdersApi.getInstance().updateOrder(req,orderId);
+    req.putIfAbsent("orderStatus", () => status.name);
+    var ordersUpdateResponse = await OrdersApi.getInstance().updateOrder(req,orderId);
     isLoginLoading = false;
-    if (ordersResponse!.success) {
+    if (ordersUpdateResponse!.success) {
+      orderDetailsResponse?.data?.orderStatus=status.name
+      ;
+      ordersResponse?.data?.items?.firstWhere((element) => element.id==orderId).orderStatus=status.name;
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
-        message: ordersResponse!.message!,
+        message: ordersUpdateResponse!.message!,
       ));
     }
     notifyListeners();
