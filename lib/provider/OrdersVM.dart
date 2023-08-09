@@ -3,6 +3,7 @@ import 'package:boutique_merchant/api/itemsApi.dart';
 import 'package:boutique_merchant/api/ordersApi.dart';
 import 'package:boutique_merchant/api/userApi.dart';
 import 'package:boutique_merchant/constants/constants.dart';
+import 'package:boutique_merchant/constants/orderStatus.dart';
 import 'package:boutique_merchant/models/ListResponse.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/userModel.dart';
@@ -64,7 +65,7 @@ class OrdersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateOrder(orderId,OrderStatus status) async {
+  Future<void> updateOrder(orderId,OrderStatus status) async {
     isLoginLoading = true;
     notifyListeners();
     Map<String, String> req = {};
@@ -81,5 +82,6 @@ class OrdersProvider with ChangeNotifier {
       ));
     }
     notifyListeners();
+    return;
   }
 }

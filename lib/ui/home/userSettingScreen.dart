@@ -1,6 +1,8 @@
 import 'package:boutique_merchant/provider/ItemsVM.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/common/state_screen.dart';
+import 'package:boutique_merchant/ui/editBoutiqueScreen.dart';
+import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/widgets/SettingButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +71,9 @@ class _UserSettingScreenState extends ScreenState<UserSettingScreen> {
             /*SettingsButton("Address", () {
               NavigationService.changeScreen(AddressListScreen());
             }),*/
+            SettingsButton("Edit Boutique", () {
+              NavigationService.changeScreen(EditBoutiqueScreen());
+            }),
             SettingsButton("Account Settings", () {}),
           ],
         );
@@ -76,31 +81,3 @@ class _UserSettingScreenState extends ScreenState<UserSettingScreen> {
     ));
   }
 }
-
-/*
-
-
-                      CroppedFile? croppedFile = await ImageCropper().cropImage(
-                        sourcePath: file.path ?? "",
-                        aspectRatioPresets: [
-                          CropAspectRatioPreset.square,
-                        ],
-                        maxHeight: 350,
-                        maxWidth: 350,
-                        uiSettings: [
-                          AndroidUiSettings(
-                              toolbarTitle: 'Crop',
-                              toolbarColor: Styles.color.primaryColor,
-                              toolbarWidgetColor: Colors.white,
-                              initAspectRatio: CropAspectRatioPreset.original,
-                              lockAspectRatio: false),
-                          IOSUiSettings(
-                            title: 'Crop',
-                          ),
-                          WebUiSettings(
-                            context: context,
-                          ),
-                        ],
-                      );
-
-* */

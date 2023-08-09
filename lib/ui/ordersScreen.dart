@@ -1,4 +1,5 @@
 import 'package:boutique_merchant/constants/constants.dart';
+import 'package:boutique_merchant/constants/orderStatus.dart';
 import 'package:boutique_merchant/provider/OrdersVM.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/ui/cards/ordersCard.dart';
@@ -94,7 +95,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     flex: 1,
                     child: Builder(builder: (context) {
                       if (selected == 0) {
-                        return ListView.builder(
+                        return ListView.separated(
                           shrinkWrap: true,
                           itemCount: provider.ordersResponse!.data!.items!
                               .where((element) =>
@@ -107,25 +108,46 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 element.orderStatus ==
                                     OrderStatus.ORDER_PLACED.name).elementAt(index));
                           },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Expanded(
+                              child: Container(
+                                color: Colors.grey[200],
+                                height: 1,
+                                margin: EdgeInsets.only(bottom: 15,top: 15),
+                              ),
+                            );
+                          },
                         );
                       }
                       if (selected == 1) {
-                        return ListView.builder(
+                        return ListView.separated(
                           shrinkWrap: true,
                           itemCount: provider.ordersResponse!.data!.items!
                               .where((element) =>
                                   element.orderStatus !=
-                                  OrderStatus.ORDER_PLACED.name||element.orderStatus !=
+                                  OrderStatus.ORDER_PLACED.name&&element.orderStatus !=
                                       OrderStatus.DELIVERED.name)
                               .length,
                           itemBuilder: (context, index) {
                             return OrdersCard(
-                                provider.ordersResponse!.data!.items![index]);
+                                provider.ordersResponse!.data!.items!.where((element) =>
+                                element.orderStatus !=
+                                    OrderStatus.ORDER_PLACED.name&&element.orderStatus !=
+                                    OrderStatus.DELIVERED.name).elementAt(index));
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Expanded(
+                              child: Container(
+                                color: Colors.grey[200],
+                                height: 1,
+                                margin: EdgeInsets.only(bottom: 15,top: 15),
+                              ),
+                            );
                           },
                         );
                       }
                       if (selected == 2) {
-                        return ListView.builder(
+                        return ListView.separated(
                           shrinkWrap: true,
                           itemCount: provider.ordersResponse!.data!.items!
                               .where((element) =>
@@ -134,7 +156,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               .length,
                           itemBuilder: (context, index) {
                             return OrdersCard(
-                                provider.ordersResponse!.data!.items![index]);
+                                provider.ordersResponse!.data!.items!.where((element) =>
+                                element.orderStatus ==
+                                    OrderStatus.DELIVERED.name).elementAt(index));
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Expanded(
+                              child: Container(
+                                color: Colors.grey[200],
+                                height: 1,
+                                margin: EdgeInsets.only(bottom: 15,top: 15),
+                              ),
+                            );
                           },
                         );
                       }

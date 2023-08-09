@@ -1,4 +1,5 @@
 import 'package:boutique_merchant/constants/constants.dart';
+import 'package:boutique_merchant/constants/orderStatus.dart';
 import 'package:boutique_merchant/models/cart.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/models/merchant.dart';
@@ -12,6 +13,7 @@ import 'package:boutique_merchant/utils/extension.dart';
 import 'package:boutique_merchant/widgets/NetworkImageShimmer.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/PrimaryRadioButton.dart';
+import 'package:boutique_merchant/widgets/nothing_layout.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -90,7 +92,7 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "${widget.order.orderStatus}",
+                                "${widget.order.orderStatus?.removeUnderScore()}",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: Styles.textStyle.regularTS,
@@ -116,6 +118,7 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                       else
                         GridView.builder(
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           padding: EdgeInsets.only(),
                           itemCount: provider
                               .orderDetailsResponse!.data!.items!.length,
@@ -175,10 +178,10 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                         height: 5,
                       ),
                       Text(
-                        widget.order.paymentMode!,
+                        widget.order.paymentMode!.removeUnderScore(),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Styles.textStyle.regularBoldTS,
+                        style: Styles.textStyle.regularTS,
                       ),
                       SizedBox(
                         height: 10,
@@ -271,7 +274,7 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                                     provider.updateOrder(widget.order.id,
                                         OrderStatus.ORDER_REJECTED);
                                   },
-                                  color: Colors.redAccent,
+                                  color: Colors.red,
                                 ),
                               ),
                               SizedBox(
@@ -288,11 +291,11 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                               ),
                             ],
                           );
-                        } else if (widget.order.orderStatus ==
-                                OrderStatus.ORDER_CANCELED.name ||
-                            widget.order.orderStatus ==
-                                OrderStatus.DELIVERED.name ||
-                            widget.order.orderStatus ==
+                        } else if (widget.order.orderStatus !=
+                                OrderStatus.ORDER_CANCELED.name &&
+                            widget.order.orderStatus !=
+                                OrderStatus.DELIVERED.name &&
+                            widget.order.orderStatus !=
                                 OrderStatus.ORDER_REJECTED.name) {
                           return PrimaryButton(
                             "Update Status",
@@ -323,14 +326,15 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
 
   generateItemsReview(OrdersProvider provider, Order order) {
     // return provider.orderDetailsResponse!.data!.items!
-    List<Cart> items = order.items!;
+    List<Cart> items = provider.orderDetailsResponse?.data?.items ?? [];
     List<Review> reviews = provider.orderDetailsResponse?.data?.reviews ?? [];
     return provider.isOrderDetailsLoading ||
             provider.orderDetailsResponse?.data?.orderStatus !=
                 OrderStatus.DELIVERED.name
         ? SizedBox()
-        : Column(children: [
+        : reviews.isEmpty?Nothing("Items not reviewed"):Column(children: [
             for (int i = 0; i < items.length; i++)
+              if(items[i].item!=null)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -341,7 +345,7 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                         width: 50,
                         height: 50,
                         child: NetworkImageShimmer(
-                          (order.items![i].item!.images != null &&
+                          (order.items![i].item?.images != null &&
                                   order.items![i].item!.images!.isNotEmpty)
                               ? order.items![i].item!.images![0]
                               : "",
@@ -358,7 +362,7 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              order.items![i].item!.name!,
+                              order.items![i].item?.name??"",
                               style: Styles.textStyle.normalBoldTS,
                             ),
                           ],
@@ -423,36 +427,41 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
   }
 
   statusSheet() {
-    var status;
-    return Container(
-      padding: EdgeInsets.all(Styles.dimens.screenPadding),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      child: Column(
-        children: [
-          for (int i = 3; i < OrderStatus.values.length; i++)
-            InkWell(
-              onTap: () {},
-              child: PrimaryRadioButton(
-                OrderStatus.values[i].name,
-                selected: status == OrderStatus.values[i].name,
-                onSelected: () {
-                  setState(() {
-                    status = OrderStatus.values[i].name;
-                  });
+    OrderStatus status=OrderStatus.ORDER_REJECTED.get(widget.order.orderStatus!);
+    return StatefulBuilder(
+      builder: (context,setState) {
+        return Container(
+          padding: EdgeInsets.all(Styles.dimens.screenPadding),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+          child: Column(
+            children: [
+              for (int i = 7; i < OrderStatus.values.length; i++)
+                InkWell(
+                  onTap: () {},
+                  child: PrimaryRadioButton(
+                    OrderStatus.values[i].name.removeUnderScore(),
+                    selected: status.name == OrderStatus.values[i].name,
+                    onSelected: () {
+                      print(OrderStatus.values[i].name);
+                      setState(() {
+                        status = OrderStatus.values[i];
+                      });
+                    },
+                  ),
+                ),
+              PrimaryButton(
+                "Update Status",
+                onTap: () async {
+                  await ordersProvider.updateOrder(widget.order.id, status);
+                  Navigator.pop(context);
                 },
-              ),
-            ),
-          PrimaryButton(
-            "Update Status",
-            onTap: () {
-              ordersProvider.updateOrder(widget.order.id, status);
-            },
-            color: Colors.redAccent,
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      }
     );
   }
 }

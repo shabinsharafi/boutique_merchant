@@ -1,3 +1,5 @@
+import 'package:boutique_merchant/styles/styles.dart';
+import 'package:boutique_merchant/utils/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../styles/theme.dart';
@@ -15,10 +17,9 @@ class PrimaryRadioButton extends StatelessWidget {
   final bool showOr;
   final EdgeInsets padding;
 
-  PrimaryRadioButton( this.text,
-      {
-      required this.onSelected,
-      this.selected:false,
+  PrimaryRadioButton(this.text,
+      {required this.onSelected,
+      this.selected: false,
       this.width,
       this.height: 50,
       this.borderRadius: 10,
@@ -33,51 +34,43 @@ class PrimaryRadioButton extends StatelessWidget {
         MediaQuery.of(context).size.width - normalScreenPaddingSize * 2;
     return Padding(
         padding: EdgeInsets.only(top: this.paddingTop),
-        child: Container(
-          height: height,
-          width: width,
-          child: Stack(
-            children: [
-              Row(
-                children: [
-
-                    Container(
-                      width: this.width! ,
-                      decoration: BoxDecoration(
-                          borderRadius: getRadius(0),
-                          //gradient: index == selected ? primaryGradient : null,
-                          color: selected
-                              ? null
-                              : Color(fadedWhiteBorder)),
-                      child: InkWell(
-                        onTap: selected?null:() {
-                            onSelected();
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(2),
-                          padding: padding,
-                          decoration: BoxDecoration(
-                              color: Color(backgroundGrey),
-                              borderRadius: getRadius(0)),
-                          child: Center(
-                            child: Text(
-                                /*(items[index] is MasterOption)
-                                    ? items[index].label
-                                    :*/ text,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                        fontSize: fontSize,
-                                        fontFamily: fontFamilyRegular)
-                                    .copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal)),
-                          ),
-                        ),
-                      ),
+        child: InkWell(
+          onTap: selected
+              ? null
+              : () {
+                  onSelected();
+                },
+          child: Container(
+            height: height,
+            width: width,
+            decoration: BoxDecoration(
+                border: Border.all(
+                    color: selected
+                        ? Styles.color.primaryColor
+                        : Colors.transparent,
+                    width: selected ? 1 : 0),
+                borderRadius: getRadius(0)),
+            child: Stack(
+              children: [
+                Row(
+                  children: [
+                    selected
+                        ?Icon(Icons.radio_button_on,color: Styles.color.primaryColor,):
+                    Icon(Icons.radio_button_off),
+                    SizedBox(width: 20,),
+                    Center(
+                      child: Text(
+                          /*(items[index] is MasterOption)
+                                ? items[index].label
+                                :*/
+                          text,
+                          textAlign: TextAlign.center,
+                          style: Styles.textStyle.regularTS),
                     ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ));
   }
@@ -85,6 +78,6 @@ class PrimaryRadioButton extends StatelessWidget {
   getRadius(int index) {
     return BorderRadius.horizontal(
         left: index == 0 ? Radius.circular(borderRadius) : Radius.zero,
-        right:Radius.circular(borderRadius));
+        right: Radius.circular(borderRadius));
   }
 }

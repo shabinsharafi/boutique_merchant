@@ -1,4 +1,5 @@
 import 'package:boutique_merchant/constants/constants.dart';
+import 'package:boutique_merchant/constants/orderStatus.dart';
 import 'package:boutique_merchant/models/order.dart';
 import 'package:boutique_merchant/provider/OrdersVM.dart';
 import 'package:boutique_merchant/styles/styles.dart';
@@ -69,7 +70,7 @@ class OrdersCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${order.orderStatus}",
+                        "${order.orderStatus?.removeUnderScore()}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Styles.textStyle.smallTS,
@@ -81,7 +82,9 @@ class OrdersCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
+                  if (order.orderStatus ==
+                      OrderStatus.ORDER_PLACED.name)
+                    Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
@@ -92,7 +95,8 @@ class OrdersCard extends StatelessWidget {
                                 .updateOrder(
                                     order.id, OrderStatus.ORDER_REJECTED);
                           },
-                          color: Colors.redAccent,
+                          color: Colors.red,
+                          height: 45,
                         ),
                       ),
                       SizedBox(
@@ -106,6 +110,7 @@ class OrdersCard extends StatelessWidget {
                                 .updateOrder(
                                     order.id, OrderStatus.ORDER_ACCEPTED);
                           },
+                          height: 45,
                         ),
                       ),
                     ],

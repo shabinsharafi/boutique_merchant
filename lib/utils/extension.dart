@@ -13,6 +13,21 @@ extension DoubleExtension on double {
     return double.parse(toStringAsFixed(2));
   }
 }
+extension StringExtension on String {
+  String capitalize() {
+    if(isNotEmpty) {
+      return this[0].toUpperCase()+substring(1).toLowerCase();
+    } else {
+      return this;
+    }
+  }
+  String toTitleCase() {
+    return replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.capitalize()).join(' ');
+  }
+  String removeUnderScore() {
+    return replaceAll("_", " ").capitalize();
+  }
+}
 
 extension DateExtension on DateTime {
   String toDDMMYYYY() {
