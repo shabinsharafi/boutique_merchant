@@ -24,7 +24,8 @@ class OrdersProvider with ChangeNotifier {
   ApiResponse<Order>? orderDetailsResponse;
 
   bool isOrderDetailsLoading = false;
-  bool isLoginLoading = false;
+  bool isOrderListLoading = false;
+  bool isOrderUpdateLoading = false;
   bool isVerifyOtpLoading = false;
 
   var nameController = TextEditingController();
@@ -34,14 +35,14 @@ class OrdersProvider with ChangeNotifier {
   var autoValidateMode = AutovalidateMode.disabled;
 
   void getOrders() async {
-    isLoginLoading = true;
+    isOrderListLoading = true;
     notifyListeners();
     var boutiqueId;
     await SharedPreferences.getInstance().then((value) {
       boutiqueId = value.getString("boutiqueId");
     });
     ordersResponse = await OrdersApi.getInstance().getOrders(boutiqueId);
-    isLoginLoading = false;
+    isOrderListLoading = false;
     if (ordersResponse!.success) {
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
@@ -66,12 +67,12 @@ class OrdersProvider with ChangeNotifier {
   }
 
   Future<void> updateOrder(orderId,OrderStatus status) async {
-    isLoginLoading = true;
+    isOrderUpdateLoading = true;
     notifyListeners();
     Map<String, String> req = {};
     req.putIfAbsent("orderStatus", () => status.name);
     var ordersUpdateResponse = await OrdersApi.getInstance().updateOrder(req,orderId);
-    isLoginLoading = false;
+    isOrderUpdateLoading = false;
     if (ordersUpdateResponse!.success) {
       orderDetailsResponse?.data?.orderStatus=status.name
       ;

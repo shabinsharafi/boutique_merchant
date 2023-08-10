@@ -123,12 +123,12 @@ class ItemsApi {
     return apiResponse;
   }
 
-  Future<ApiResponse<Item>> deleteImage(req) async {
+  Future<ApiResponse<Item>> deleteImage(req,itemId) async {
     ApiResponse<Item> apiResponse = ApiResponse<Item>();
 
     try {
       apiResponse =
-          await HttpHandler.uploadImage<Item>(Utilities.baseUrl + "deleteItemImage",req,() => Item(),);
+          await HttpHandler.postRequestToken<Item>(Utilities.baseUrl + "deleteItemImage/$itemId",req,() => Item(),);
     } catch (e) {
       print(e.toString());
       apiResponse.success = false;

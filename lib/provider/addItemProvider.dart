@@ -188,9 +188,9 @@ class AddItemProvider with ChangeNotifier {
     var req = {
       "index": index,
       "id": image.id,
-      "bucketKey": image.bucketKey,
+      "key": image.bucketKey,
     };
-    var deleteImageResponse = await ItemsApi.getInstance().deleteImage(req);
+    var deleteImageResponse = await ItemsApi.getInstance().deleteImage(req,item.id);
     isLoginLoading = false;
     if (deleteImageResponse!.success) {
       item.images?.removeWhere((element) => element.id == image.id);

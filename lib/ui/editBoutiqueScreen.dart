@@ -23,6 +23,7 @@ class _EditBoutiqueScreenState extends State<EditBoutiqueScreen> {
   final ImagePicker _picker = ImagePicker();
 
   late UserProvider userProvider;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -32,7 +33,7 @@ class _EditBoutiqueScreenState extends State<EditBoutiqueScreen> {
     provider.nameController.text = userProvider.user.merchant!.name!;
     provider.phoneNumberController.text = userProvider.user.merchant!.phone!;
     provider.emailController.text = userProvider.user.merchant!.email!;
-    provider.image=null;
+    provider.image = null;
   }
 
   @override
@@ -52,49 +53,68 @@ class _EditBoutiqueScreenState extends State<EditBoutiqueScreen> {
                   Styles.spaceHeight30,
                   Center(
                     child: Stack(
+                      alignment: Alignment.center,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(75),
                           child: CircleAvatar(
                             radius: 75,
                             backgroundColor: Styles.color.textColorHint,
-                            child: userProvider.user
-                                .merchant
-                                ?.image!=null?NetworkImageShimmer(userProvider.user
-                                .merchant
-                                ?.image):provider.image != null
-                                ? Stack(
-                              alignment: Alignment.center,
-                                  children: [
-                                    Image.file(provider.image!),
-                                    CircularProgressIndicator(),
-                                  ],
-                                )
-                                : InkWell(
-                                    onTap: () {
-                                      pickImage(provider);
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.image_outlined,
-                                          size: 40,
+                            child: provider.image==null&&userProvider.user.merchant?.image != null
+                                ? NetworkImageShimmer(
+                                    userProvider.user.merchant?.image)
+                                : provider.image != null
+                                    ? Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Image.file(provider.image!),
+                                          CircularProgressIndicator(),
+                                        ],
+                                      )
+                                    : InkWell(
+                                        onTap: () {
+                                          pickImage(provider);
+                                        },
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.image_outlined,
+                                              size: 40,
+                                            ),
+                                            SizedBox(
+                                              height: 7,
+                                            ),
+                                            Text(
+                                              "Add Image",
+                                              style:
+                                                  Styles.textStyle.smallBoldTS,
+                                            )
+                                          ],
                                         ),
-                                        SizedBox(
-                                          height: 7,
-                                        ),
-                                        Text(
-                                          "Add Image",
-                                          style: Styles.textStyle.smallBoldTS,
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                      ),
                           ),
                         ),
+                        if (userProvider.user.merchant?.image != null)
+                          Positioned(
+                            bottom: 5,
+                            right: 5,
+                            child: InkWell(
+                              onTap: () {
+                                pickImage(provider);
+                              },
+                              child: CircleAvatar(
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 28,
+                                ),
+                                radius: 25,
+                              ),
+                            ),
+                          )
                       ],
                     ),
                   ),

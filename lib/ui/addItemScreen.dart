@@ -70,6 +70,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     controller: provider.descriptionController,
                     keyboardType: TextInputType.name,
                     autovalidateMode: provider.autoValidateMode,
+                    maxLines: 7,
+                    minLines: 4,
                     decoration: Styles.inputForm(),
                     validator: Validations.required,
                   ),

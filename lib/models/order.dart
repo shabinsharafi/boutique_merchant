@@ -19,7 +19,7 @@ String orderToJson(Order data) => json.encode(data.toJson());
 class Order extends BaseModel {
   String? id;
   String? paymentMode;
-  num? totalAmount;
+  num? subTotalAmount;
   num? taxAmount;
   num? discount;
   num? deliveryCharge;
@@ -38,7 +38,7 @@ class Order extends BaseModel {
   Order({
     this.id,
     this.paymentMode,
-    this.totalAmount,
+    this.subTotalAmount,
     this.taxAmount,
     this.discount,
     this.finalAmount,
@@ -58,7 +58,7 @@ class Order extends BaseModel {
   factory Order.fromJson(Map<String, dynamic> json) => Order(
     id: json["id"],
     paymentMode: json["paymentMode"],
-    totalAmount: json["totalAmount"],
+    subTotalAmount: json["subTotalAmount"],
     taxAmount: json["taxAmount"],
     discount: json["discount"],
     finalAmount: json["finalAmount"],
@@ -77,7 +77,7 @@ class Order extends BaseModel {
   Map<String, dynamic> toJson() => {
     "id": id,
     "paymentMode": paymentMode,
-    "totalAmount": totalAmount,
+    "subTotalAmount": subTotalAmount,
     "taxAmount": taxAmount,
     "discount": discount,
     "finalAmount": finalAmount,
@@ -94,7 +94,7 @@ class Order extends BaseModel {
   fromJson(json) => Order(
     id: json["id"],
     paymentMode: json["paymentMode"],
-    totalAmount: json["totalAmount"],
+    subTotalAmount: json["subTotalAmount"],
     taxAmount: json["taxAmount"],
     discount: json["discount"],
     deliveryCharge: json["deliveryCharge"],

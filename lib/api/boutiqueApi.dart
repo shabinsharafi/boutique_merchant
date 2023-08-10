@@ -11,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/boutqueDash.dart';
+
 class BoutiqueApi {
   static BoutiqueApi? instance;
 
@@ -32,6 +34,19 @@ class BoutiqueApi {
     }
     return apiResponse;
   }
+
+  Future<ApiResponse<BoutiqueDash>> getBoutiqueDash(boutiqueId) async {
+    ApiResponse<BoutiqueDash> apiResponse = ApiResponse();
+    try {
+      apiResponse = await HttpHandler.getRequestToken<BoutiqueDash>(
+          Utilities.baseUrl + "getBoutiqueDash/$boutiqueId",() => BoutiqueDash());
+    } catch (e) {
+      debugPrint(e.toString());
+      apiResponse.success = false;
+    }
+    return apiResponse;
+  }
+
   Future<ApiResponse<Merchant>> updateBoutique(Map<String, dynamic> request,id) async {
     ApiResponse<Merchant> apiResponse = ApiResponse();
     try {

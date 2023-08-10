@@ -197,7 +197,7 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                           ),
                           Spacer(),
                           Text(
-                            "$rupeeSymbol ${widget.order.totalAmount!}",
+                            "$rupeeSymbol ${widget.order.subTotalAmount!}",
                             style: Styles.textStyle.priceTS,
                           )
                         ],

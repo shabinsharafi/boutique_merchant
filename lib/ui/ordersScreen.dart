@@ -30,7 +30,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Scaffold(
         appBar: ToolBar("Orders"),
         body: Consumer<OrdersProvider>(builder: (context, provider, child) {
-          if (provider.isLoginLoading || provider.ordersResponse == null) {
+          if (provider.isOrderListLoading || provider.ordersResponse == null) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -45,48 +45,63 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          child: OptionButton(
-                        "New",
-                        selected: selected == 0,
-                        onSelected: (String val) {
-                          setState(() {
-                            selected = 0;
-                          });
-                        },
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: OptionButton(
-                        "On Going",
-                        selected: selected == 1,
-                        onSelected: (String val) {
-                          print("dvdsfd");
-                          setState(() {
-                            selected = 1;
-                          });
-                          print(selected);
-                        },
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: OptionButton(
-                        "Completed",
-                        selected: selected == 2,
-                        onSelected: (String val) {
-                          setState(() {
-                            selected = 2;
-                          });
-                          print(selected);
-                        },
-                      )),
-                    ],
+                  SizedBox(
+                    height: 50,
+                    child: ListView(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        OptionButton(
+                          "New",
+                          selected: selected == 0,
+                          onSelected: (String val) {
+                        setState(() {
+                          selected = 0;
+                        });
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        OptionButton(
+                          "On Going",
+                          selected: selected == 1,
+                          onSelected: (String val) {
+                        print("dvdsfd");
+                        setState(() {
+                          selected = 1;
+                        });
+                        print(selected);
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        OptionButton(
+                          "Completed",
+                          selected: selected == 2,
+                          onSelected: (String val) {
+                        setState(() {
+                          selected = 2;
+                        });
+                        print(selected);
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        OptionButton(
+                          "Canceled/Rejected",
+                          selected: selected == 3,
+                          onSelected: (String val) {
+                        setState(() {
+                          selected = 3;
+                        });
+                        print(selected);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: Styles.dimens.screenPaddingSmall,
@@ -126,14 +141,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               .where((element) =>
                                   element.orderStatus !=
                                   OrderStatus.ORDER_PLACED.name&&element.orderStatus !=
-                                      OrderStatus.DELIVERED.name)
+                                      OrderStatus.DELIVERED.name&&!(element.orderStatus ==
+                                      OrderStatus.ORDER_CANCELED.name||element.orderStatus ==
+                                      OrderStatus.ORDER_REJECTED.name||element.orderStatus ==
+                                      OrderStatus.CANCEL_REQUEST_ACCEPTED.name))
                               .length,
                           itemBuilder: (context, index) {
                             return OrdersCard(
                                 provider.ordersResponse!.data!.items!.where((element) =>
                                 element.orderStatus !=
                                     OrderStatus.ORDER_PLACED.name&&element.orderStatus !=
-                                    OrderStatus.DELIVERED.name).elementAt(index));
+                                    OrderStatus.DELIVERED.name&&!(element.orderStatus ==
+                                    OrderStatus.ORDER_CANCELED.name||element.orderStatus ==
+                                    OrderStatus.ORDER_REJECTED.name||element.orderStatus ==
+                                    OrderStatus.CANCEL_REQUEST_ACCEPTED.name)).elementAt(index));
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return Expanded(
@@ -159,6 +180,35 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 provider.ordersResponse!.data!.items!.where((element) =>
                                 element.orderStatus ==
                                     OrderStatus.DELIVERED.name).elementAt(index));
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Expanded(
+                              child: Container(
+                                color: Colors.grey[200],
+                                height: 1,
+                                margin: EdgeInsets.only(bottom: 15,top: 15),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      if (selected == 3) {
+                        return ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: provider.ordersResponse!.data!.items!
+                              .where((element) =>
+                                  element.orderStatus ==
+                                  OrderStatus.ORDER_CANCELED.name||element.orderStatus ==
+                                      OrderStatus.ORDER_REJECTED.name||element.orderStatus ==
+                                      OrderStatus.CANCEL_REQUEST_ACCEPTED.name)
+                              .length,
+                          itemBuilder: (context, index) {
+                            return OrdersCard(
+                                provider.ordersResponse!.data!.items!.where((element) =>
+                                element.orderStatus ==
+                                    OrderStatus.ORDER_CANCELED.name||element.orderStatus ==
+                                    OrderStatus.ORDER_REJECTED.name||element.orderStatus ==
+                                    OrderStatus.CANCEL_REQUEST_ACCEPTED.name).elementAt(index));
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return Expanded(

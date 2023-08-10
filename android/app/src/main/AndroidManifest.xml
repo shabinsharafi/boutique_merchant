@@ -3,7 +3,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="boutique_merchant"
+        android:label="Le Merchant"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

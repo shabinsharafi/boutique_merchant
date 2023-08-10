@@ -9,7 +9,7 @@ class NetworkImageShimmer extends StatelessWidget {
   BoxFit fit;
 
   NetworkImageShimmer(this.url,
-      {this.height, this.width, this.radius = 10, this.fit = BoxFit.none});
+      {this.height, this.width, this.radius = 10, this.fit = BoxFit.cover});
 
   @override
   Widget build(BuildContext context) {

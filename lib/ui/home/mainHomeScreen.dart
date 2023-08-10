@@ -1,6 +1,7 @@
 import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
+import 'package:boutique_merchant/ui/common/state_screen.dart';
 import 'package:boutique_merchant/ui/home/homeScreen.dart';
 import 'package:boutique_merchant/ui/home/userSettingScreen.dart';
 import 'package:boutique_merchant/ui/itemsListScreen.dart';
@@ -15,14 +16,14 @@ import 'package:provider/provider.dart';
 import 'drawer_screen.dart';
 import 'home_screen.dart';
 
-class MainHomeScreen extends StatefulWidget {
+class MainHomeScreen extends ScreenWidget {
   MainHomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainHomeScreen> createState() => _MainHomeScreenState();
+  ScreenState<MainHomeScreen> getState() => _MainHomeScreenState();
 }
 
-class _MainHomeScreenState extends State<MainHomeScreen> {
+class _MainHomeScreenState extends ScreenState<MainHomeScreen> {
   var childrens = [
     HomeScreen(),
     UserSettingScreen(),
@@ -30,7 +31,17 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   int current = 0;
 
   @override
-  Widget build(BuildContext context) {
+  void onBackPressed() {
+    if (current != 0) {
+      setState(() {
+        current = 0;
+      });
+    } else
+      super.onBackPressed();
+  }
+
+  @override
+  Widget getWidget(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, provider, child) {
       return Scaffold(
         body: Stack(
@@ -64,7 +75,12 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                 ),
                             child: Row(
                               children: [
-                                NavItem("Home", Utilities.asset("ic_home.svg")),
+                                NavItem("Home", Utilities.asset("ic_home.svg"),onClick: (){
+
+                                  setState(() {
+                                    current = 0;
+                                  });
+                                },),
                                 NavItem(
                                   "Items",
                                   Utilities.asset("ic_items.png"),

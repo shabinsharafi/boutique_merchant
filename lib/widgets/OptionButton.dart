@@ -31,19 +31,15 @@ class OptionButton extends StatelessWidget {
         onSelected(option);
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: 20),
         decoration: BoxDecoration(
-          color: Styles.color.primaryColor,
+          border: Border.all(
+            color: Styles.color.primaryColor,width: 2),
+          color: selected ? Styles.color.primaryColor : Colors.white,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
-        child: Container(
-          margin: const EdgeInsets.all(2),
-          padding: EdgeInsets.symmetric(
-              vertical: verticalPadding, horizontal: 20),
-          decoration: BoxDecoration(
-            color: selected ? Styles.color.primaryColor : Colors.white,
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
+        child: Center(
           child: Text(option,
               style: textStyleOptionsButton.copyWith(
                   color: !selected ? Styles.color.primaryColor : Colors.white),

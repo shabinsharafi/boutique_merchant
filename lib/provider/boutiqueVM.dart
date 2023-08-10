@@ -10,10 +10,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/boutiqueApi.dart';
+import '../models/boutqueDash.dart';
 
 class BoutiqueProvider with ChangeNotifier {
   ApiResponse<Merchant>? boutiqueResponse;
+  ApiResponse<BoutiqueDash>? boutiqueDashResponse;
   bool isLoginLoading = false;
+  bool isDashLoading = false;
   bool isImageUploading = false;
 
   var nameController = TextEditingController();
@@ -91,6 +94,27 @@ class BoutiqueProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getBoutiqueDash() async {
+    isDashLoading = true;
+    notifyListeners();
+    var regId;
+    await SharedPreferences.getInstance().then((value) {
+      regId = value.getString("boutiqueId");
+    });
+    boutiqueDashResponse =
+        await BoutiqueApi.getInstance().getBoutiqueDash( regId);
+    isDashLoading = false;
+    if (boutiqueDashResponse!.success) {
+
+    } else {
+      NavigationService.showAlertDialog(AlertMessageDialog(
+        message: boutiqueDashResponse!.message!,
+      ));
+    }
+    notifyListeners();
+    return;
+  }
+
   void uploadImage() async {
     isImageUploading = true;
     notifyListeners();
@@ -118,6 +142,7 @@ class BoutiqueProvider with ChangeNotifier {
             .user
             .merchant
             ?.image = imageUploadResponse.data!.image;
+        image=null;
       }
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
