@@ -1,3 +1,4 @@
+import 'package:boutique_merchant/constants/constants.dart';
 import 'package:boutique_merchant/models/items.dart';
 import 'package:boutique_merchant/styles/dimens.dart';
 import 'package:boutique_merchant/styles/styles.dart';
@@ -59,7 +60,7 @@ class ItemsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        item.price!.toString(),
+                        "$rupeeSymbol ${item.price!.toString()}",
                         style: Styles.textStyle.priceTS,
                       ),
                     ],
