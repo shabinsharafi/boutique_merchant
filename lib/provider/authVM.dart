@@ -24,6 +24,8 @@ class AuthenticationProvider with ChangeNotifier {
   ApiResponse<LoginResponse>? getDetailsResponse;
   bool isLoginLoading = false;
   bool isVerifyOtpLoading = false;
+  bool isSignupLoading = false;
+  ApiResponse? signupResponse;
 
   var phoneNumberController = TextEditingController();
   var otpController = OtpFieldController();
@@ -31,6 +33,9 @@ class AuthenticationProvider with ChangeNotifier {
 
   var mobileFormKey = GlobalKey<FormState>();
   var autoValidateMode = AutovalidateMode.disabled;
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var signupFormKey =  GlobalKey<FormState>();
 
   void login() async {
     if (!mobileFormKey.currentState!.validate()) {
@@ -87,6 +92,29 @@ class AuthenticationProvider with ChangeNotifier {
     } else {
       NavigationService.showAlertDialog(AlertMessageDialog(
         message: verifyOtpResponse!.message!,
+      ));
+    }
+    notifyListeners();
+  }
+
+  void signup() async {
+    if (!signupFormKey.currentState!.validate()) {
+      autoValidateMode = AutovalidateMode.always;
+      return;
+    }
+    isSignupLoading = true;
+    notifyListeners();
+    Map<String, String> req = {};
+    req.putIfAbsent("name", () =>  nameController.text);
+    req.putIfAbsent("email", () =>  emailController.text);
+    req.putIfAbsent("phone", () => "+91" + phoneNumberController.text);
+    signupResponse = await UserApi.getInstance().signup(req);
+    isSignupLoading = false;
+    if (signupResponse!.success) {
+      NavigationService.changeScreen(VerifyOtpScreen());
+    } else {
+      NavigationService.showAlertDialog(AlertMessageDialog(
+        message: signupResponse!.message!,
       ));
     }
     notifyListeners();

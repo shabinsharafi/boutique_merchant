@@ -15,10 +15,6 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  var nameController = TextEditingController();
-  var phoneNumberController = TextEditingController();
-  var emailController = TextEditingController();
-  var formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class _SignupScreenState extends State<SignupScreen> {
           return Padding(
             padding: Styles.normalScreenPadding,
             child: Form(
-              key: formKey,
+              key: provider.signupFormKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -47,7 +43,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   Styles.spaceHeight12,
                   TextFormField(
-                    controller: nameController,
+                    controller: provider.nameController,
                     keyboardType: TextInputType.name,
                     decoration: Styles.inputForm(),
                   ),
@@ -58,7 +54,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   Styles.spaceHeight12,
                   TextFormField(
-                    controller: phoneNumberController,
+                    controller: provider.phoneNumberController,
                     keyboardType: TextInputType.phone,
                     decoration: Styles.inputForm(),
                   ),
@@ -69,7 +65,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   Styles.spaceHeight12,
                   TextFormField(
-                    controller: emailController,
+                    controller: provider.emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: Styles.inputForm(),
                   ),
@@ -77,7 +73,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   PrimaryButton(
                     "Create Account",
                     onTap: () {
-                      provider.login();
+                      provider.signup();
                     },
                   ),
                   Styles.spaceHeight50,
