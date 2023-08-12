@@ -69,7 +69,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
           }
           return Container(
               child: Nothing(
-            "No orders for you",
+            "No review for this item",
             //"Add Item",
             /*onClick: () {
               NavigationService.changeScreen(AddItemScreen());

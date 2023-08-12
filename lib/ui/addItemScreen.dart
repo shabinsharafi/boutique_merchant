@@ -185,13 +185,24 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                   Styles.spaceHeight20,
                   Text(
+                    "Expected preparation/delivery days",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  TextFormField(
+                    controller: provider.deliveryDaysController,
+                    keyboardType: TextInputType.number,
+                    decoration: Styles.inputForm(),
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
                     "MRP",
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
                   TextFormField(
                     controller: provider.mrpController,
-                    keyboardType: TextInputType.name,
+                    keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
                   ),
                   Styles.spaceHeight20,
@@ -202,7 +213,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   Styles.spaceHeight12,
                   TextFormField(
                     controller: provider.priceController,
-                    keyboardType: TextInputType.name,
+                    keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
                   ),
                   Styles.spaceHeight20,

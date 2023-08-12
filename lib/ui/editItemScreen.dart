@@ -35,6 +35,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     provider.descriptionController.text = widget.item.description!;
     provider.mrpController.text = widget.item.mrp.toString();
     provider.priceController.text = widget.item.price.toString();
+    provider.deliveryDaysController.text = widget.item.deliveryDays.toString();
   }
 
   @override
@@ -193,13 +194,24 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   ),
                   Styles.spaceHeight20,
                   Text(
+                    "Expected preparation/delivery days",
+                    style: Styles.textStyle.smallBoldTS,
+                  ),
+                  Styles.spaceHeight12,
+                  TextFormField(
+                    controller: provider.deliveryDaysController,
+                    keyboardType: TextInputType.number,
+                    decoration: Styles.inputForm(),
+                  ),
+                  Styles.spaceHeight20,
+                  Text(
                     "MRP",
                     style: Styles.textStyle.smallBoldTS,
                   ),
                   Styles.spaceHeight12,
                   TextFormField(
                     controller: provider.mrpController,
-                    keyboardType: TextInputType.name,
+                    keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
                   ),
                   Styles.spaceHeight20,
@@ -210,7 +222,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   Styles.spaceHeight12,
                   TextFormField(
                     controller: provider.priceController,
-                    keyboardType: TextInputType.name,
+                    keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
                   ),
                   Styles.spaceHeight20,

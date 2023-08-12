@@ -86,6 +86,15 @@ class _ItemDetailScreenState extends ScreenState<OrderDetailScreen> {
                             style: Styles.textStyle.normalTS,
                           ),
                           SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "To be delivery before ${widget.order.expectedDeliveryDate!.toMMMDDYYYY()}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Styles.textStyle.normalTS,
+                          ),
+                          SizedBox(
                             height: 8,
                           ),
                           Row(

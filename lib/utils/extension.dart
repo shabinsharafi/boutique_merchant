@@ -33,6 +33,9 @@ extension DateExtension on DateTime {
   String toDDMMYYYY() {
     return DateFormat("dd-MM-yyyy").format(this);
   }
+  String toYYYYMMDDYYYY() {
+    return DateFormat("yyyy-MM-dd").format(this);
+  }
   String toMMMDDYYYY() {
     return DateFormat("MMM dd, yyyy").format(this);
   }

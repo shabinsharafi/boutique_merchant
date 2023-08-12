@@ -25,6 +25,8 @@ class Order extends BaseModel {
   num? deliveryCharge;
   num? finalAmount;
   DateTime? dateCreated;
+  DateTime? expectedDeliveryDate;
+  DateTime? deliveryDate;
   String? merchantId;
   String? userId;
   String? addressId;
@@ -43,6 +45,8 @@ class Order extends BaseModel {
     this.discount,
     this.finalAmount,
     this.deliveryCharge,
+    this.expectedDeliveryDate,
+    this.deliveryDate,
     this.dateCreated,
     this.merchantId,
     this.orderStatus,
@@ -52,72 +56,84 @@ class Order extends BaseModel {
     this.user,
     this.address,
     this.items,
-    this.reviews=const [],
+    this.reviews = const [],
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-    id: json["id"],
-    paymentMode: json["paymentMode"],
-    subTotalAmount: json["subTotalAmount"],
-    taxAmount: json["taxAmount"],
-    discount: json["discount"],
-    finalAmount: json["finalAmount"],
-    dateCreated: json["dateCreated"] == null
-        ? null
-        : DateTime.parse(json["dateCreated"]),
-    merchantId: json["merchantId"],
-    userId: json["userId"],
-    addressId: json["addressId"],
-    merchant: json["merchant"] == null
-        ? null
-        : Merchant.fromJson(json["merchant"]),
-    user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
-  );
+        id: json["id"],
+        paymentMode: json["paymentMode"],
+        subTotalAmount: json["subTotalAmount"],
+        taxAmount: json["taxAmount"],
+        discount: json["discount"],
+        finalAmount: json["finalAmount"],
+        dateCreated: json["dateCreated"] == null
+            ? null
+            : DateTime.parse(json["dateCreated"]),
+        expectedDeliveryDate: json["expectedDeliveryDate"] == null
+            ? null
+            : DateTime.parse(json["expectedDeliveryDate"]),
+        deliveryDate: json["deliveryDate"] == null
+            ? null
+            : DateTime.parse(json["deliveryDate"]),
+        merchantId: json["merchantId"],
+        userId: json["userId"],
+        addressId: json["addressId"],
+        merchant: json["merchant"] == null
+            ? null
+            : Merchant.fromJson(json["merchant"]),
+        user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "paymentMode": paymentMode,
-    "subTotalAmount": subTotalAmount,
-    "taxAmount": taxAmount,
-    "discount": discount,
-    "finalAmount": finalAmount,
-    "dateCreated":
-    "${dateCreated!.year.toString().padLeft(4, '0')}-${dateCreated!.month.toString().padLeft(2, '0')}-${dateCreated!.day.toString().padLeft(2, '0')}",
-    "merchantId": merchantId,
-    "userId": userId,
-    "addressId": addressId,
-    "merchant": merchant?.toJson(),
-    "user": user?.toJson(),
-  };
+        "id": id,
+        "paymentMode": paymentMode,
+        "subTotalAmount": subTotalAmount,
+        "taxAmount": taxAmount,
+        "discount": discount,
+        "finalAmount": finalAmount,
+        "dateCreated":
+            "${dateCreated!.year.toString().padLeft(4, '0')}-${dateCreated!.month.toString().padLeft(2, '0')}-${dateCreated!.day.toString().padLeft(2, '0')}",
+        "merchantId": merchantId,
+        "userId": userId,
+        "addressId": addressId,
+        "merchant": merchant?.toJson(),
+        "user": user?.toJson(),
+      };
 
   @override
   fromJson(json) => Order(
-    id: json["id"],
-    paymentMode: json["paymentMode"],
-    subTotalAmount: json["subTotalAmount"],
-    taxAmount: json["taxAmount"],
-    discount: json["discount"],
-    deliveryCharge: json["deliveryCharge"],
-    finalAmount: json["finalAmount"],
-    dateCreated: json["dateCreated"] == null
-        ? null
-        : DateTime.parse(json["dateCreated"]),
-    merchantId: json["merchantId"],
-    userId: json["userId"],
-    addressId: json["addressId"],
-    orderStatus: json["orderStatus"] ?? "Order Placed",
-    merchant: json["merchant"] == null
-        ? null
-        : Merchant.fromJson(json["merchant"]),
-    user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
-    address:
-    json["address"] == null ? null : Address.fromJson(json["address"]),
-    items: json["items"] == null
-        ? null
-        : List<Cart>.from(json["items"].map((x) => Cart.fromJson(x))),
-    reviews: json["reviews"] == null
-        ? []
-        : List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
-    // items: json["items"] == null ? null :  List<Cart>.from(json["items"].map((x) => Cart.fromJson(x))),
-  );
+        id: json["id"],
+        paymentMode: json["paymentMode"],
+        subTotalAmount: json["subTotalAmount"],
+        taxAmount: json["taxAmount"],
+        discount: json["discount"],
+        deliveryCharge: json["deliveryCharge"],
+        finalAmount: json["finalAmount"],
+        expectedDeliveryDate: json["expectedDeliveryDate"] == null
+            ? null
+            : DateTime.parse(json["expectedDeliveryDate"]),
+        deliveryDate: json["deliveryDate"] == null
+            ? null
+            : DateTime.parse(json["deliveryDate"]),
+        dateCreated: json["dateCreated"] == null
+            ? null
+            : DateTime.parse(json["dateCreated"]),
+        merchantId: json["merchantId"],
+        userId: json["userId"],
+        addressId: json["addressId"],
+        orderStatus: json["orderStatus"] ?? "Order Placed",
+        merchant: json["merchant"] == null
+            ? null
+            : Merchant.fromJson(json["merchant"]),
+        user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
+        address:
+            json["address"] == null ? null : Address.fromJson(json["address"]),
+        items: json["items"] == null
+            ? null
+            : List<Cart>.from(json["items"].map((x) => Cart.fromJson(x))),
+        reviews: json["reviews"] == null
+            ? []
+            : List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
+        // items: json["items"] == null ? null :  List<Cart>.from(json["items"].map((x) => Cart.fromJson(x))),
+      );
 }

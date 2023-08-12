@@ -27,6 +27,7 @@ class AddItemProvider with ChangeNotifier {
 
   var nameController = TextEditingController();
   var descriptionController = TextEditingController();
+  var deliveryDaysController = TextEditingController();
   var mrpController = TextEditingController();
   var priceController = TextEditingController();
   Category? category;
@@ -46,6 +47,7 @@ class AddItemProvider with ChangeNotifier {
   void clear() {
     nameController.clear();
     descriptionController.clear();
+    deliveryDaysController.clear();
     mrpController.clear();
     priceController.clear();
     materialType = null;
@@ -75,6 +77,7 @@ class AddItemProvider with ChangeNotifier {
         "description": descriptionController.text,
         "mrp": double.parse(mrpController.text),
         "price": double.parse(priceController.text),
+        "deliveryDays": int.parse(deliveryDaysController.text),
         "materialTypeId": materialType?.id,
         "itemStatusId": itemStatus!.id,
         "merchantId": regId,
@@ -117,6 +120,7 @@ class AddItemProvider with ChangeNotifier {
         "description": descriptionController.text,
         "mrp": double.parse(mrpController.text),
         "price": double.parse(priceController.text),
+        "deliveryDays": int.parse(deliveryDaysController.text),
         "materialTypeId": materialType?.id,
         "itemStatusId": itemStatus!.id,
         "merchantId": regId,

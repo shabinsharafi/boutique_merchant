@@ -23,6 +23,7 @@ class Item extends BaseModel{
   DateTime? dateCreated;
   String? merchantId;
   String? categoryId;
+  int deliveryDays;
   num mrp;
   num price;
   Merchant? merchant;
@@ -37,6 +38,7 @@ class Item extends BaseModel{
     this.colors,
     this.occasions,
     this.materialType,
+    this.deliveryDays=1,
     this.isStockAvailable=false,
     this.itemStatus,
     this.description,
@@ -57,6 +59,7 @@ class Item extends BaseModel{
     this.colors=const [],
     this.occasions=const [],
     this.materialType,
+    this.deliveryDays=1,
     this.isStockAvailable=false,
     this.itemStatus,
     this.description="",
@@ -75,6 +78,7 @@ class Item extends BaseModel{
     return Item(
       name: json["name"],
       id: json["id"],
+      deliveryDays: json["deliveryDays"]??0,
       colors: json["colors"]!=null?List<ItemColor>.from(json["colors"].map((x) => ItemColor.fromJson(x))):[],
       occasions: json["occasions"]!=null?List<Category>.from(json["occasions"].map((x) => Category.fromJson(x))):null,
       materialType:  json["materialType"]!=null?MasterOption.fromJson(json["materialType"]):null,
@@ -112,6 +116,7 @@ class Item extends BaseModel{
     return Item(
       name: json["name"],
       id: json["id"],
+      deliveryDays: json["deliveryDays"]??0,
       colors: json["colors"]!=null?List<ItemColor>.from(json["colors"].map((x) => ItemColor.fromJson(x))):[],
       occasions: json["occasions"]!=null?List<Category>.from(json["occasions"].map((x) => Category.fromJson(x))):null,
       favourites: json["favourites"]!=null?List<Favourite>.from(json["favourites"].map((x) => Favourite.fromJson(x))):null,

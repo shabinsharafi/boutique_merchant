@@ -80,7 +80,13 @@ class _MainHomeScreenState extends ScreenState<MainHomeScreen> {
                                   setState(() {
                                     current = 0;
                                   });
-                                },),
+                                },
+                                  widget: Icon(
+                                    Icons.home,
+                                    /*color: current == 0
+                                        ? Styles.color.secondaryColor
+                                        : Colors.white,*/
+                                  ),),
                                 NavItem(
                                   "Items",
                                   Utilities.asset("ic_items.png"),
@@ -123,11 +129,15 @@ class _MainHomeScreenState extends ScreenState<MainHomeScreen> {
 }
 
 class NavItem extends StatelessWidget {
-  NavItem(this.title, this.icon, {this.onClick, Key? key}) : super(key: key);
+  NavItem(this.title, this.icon,
+      {this.onClick, this.widget, this.selected = false, Key? key})
+      : super(key: key);
 
   String title;
   String icon;
   VoidCallback? onClick;
+  Widget? widget;
+  bool selected;
 
   @override
   Widget build(BuildContext context) {
@@ -140,15 +150,20 @@ class NavItem extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              ImageAsset(
-                icon,
-                height: 36,
-                width: 36,
-              ),
+              widget ??
+                  ImageAsset(
+                    icon,
+                    height: 30,
+                    width: 30,
+                    color:
+                    selected ? Styles.color.secondaryColor : Colors.white,
+                  ),
               Styles.spaceHeight5,
               Text(
                 title,
-                style: Styles.textStyle.smallBoldTS,
+                style: Styles.textStyle.smallBoldTS.copyWith(
+                  color: selected ? Styles.color.secondaryColor : Colors.white,
+                ),
               )
             ],
           ),
