@@ -46,6 +46,19 @@ class UserApi {
     return apiResponse;
   }
 
+  Future<ApiResponse> signup(req) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      apiResponse =
+      await HttpHandler.postRequest<UserModel>(Utilities.baseUrl + "users/signup", req,() => UserModel());
+
+    } catch (e) {
+      print(e.toString());
+      apiResponse.success = true;
+    }
+    return apiResponse;
+  }
+
   Future<ApiResponse<LoginResponse>> getUserDetails() async {
     ApiResponse<LoginResponse> apiResponse = ApiResponse();
     var id = await SharedPreferences.getInstance()
