@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:boutique_merchant/provider/boutiqueVM.dart';
 import 'package:boutique_merchant/styles/styles.dart';
+import 'package:boutique_merchant/utils/validations.dart';
+import 'package:boutique_merchant/widgets/AnimatedButtonLoader.dart';
 import 'package:boutique_merchant/widgets/NetworkImageShimmer.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
@@ -74,6 +76,7 @@ class _AddBoutiqueScreenState extends State<AddBoutiqueScreen> {
                     controller: provider.nameController,
                     keyboardType: TextInputType.name,
                     decoration: Styles.inputForm(),
+                    validator: (value) => Validations.required(value!),
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -85,6 +88,7 @@ class _AddBoutiqueScreenState extends State<AddBoutiqueScreen> {
                     controller: provider.phoneNumberController,
                     keyboardType: TextInputType.phone,
                     decoration: Styles.inputForm(),
+                    validator: (value) => Validations.phone(value!),
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -96,13 +100,17 @@ class _AddBoutiqueScreenState extends State<AddBoutiqueScreen> {
                     controller: provider.emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: Styles.inputForm(),
+                    validator: (value) => Validations.email(value!),
                   ),
                   Styles.spaceHeight50,
-                  PrimaryButton(
-                    "Create Boutique",
-                    onTap: () {
-                      provider.addBoutique();
-                    },
+                  AnimatedButtonLoader(
+                    loading: provider.isBoutiqueCreateLoading,
+                    child: PrimaryButton(
+                      "Create Boutique",
+                      onTap: () {
+                        provider.addBoutique();
+                      },
+                    ),
                   ),
                 ],
               ),

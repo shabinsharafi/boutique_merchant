@@ -15,7 +15,7 @@ import '../models/boutqueDash.dart';
 class BoutiqueProvider with ChangeNotifier {
   ApiResponse<Merchant>? boutiqueResponse;
   ApiResponse<BoutiqueDash>? boutiqueDashResponse;
-  bool isLoginLoading = false;
+  bool isBoutiqueCreateLoading = false;
   bool isDashLoading = false;
   bool isImageUploading = false;
 
@@ -32,7 +32,7 @@ class BoutiqueProvider with ChangeNotifier {
       autoValidateMode = AutovalidateMode.always;
       return;
     }
-    isLoginLoading = true;
+    isBoutiqueCreateLoading = true;
     notifyListeners();
     var regId;
     await SharedPreferences.getInstance().then((value) {
@@ -45,7 +45,7 @@ class BoutiqueProvider with ChangeNotifier {
     req.putIfAbsent("image", () => imageUrl??"");
     req.putIfAbsent("ownerId", () => regId);
     boutiqueResponse = await BoutiqueApi.getInstance().addBoutique(req);
-    isLoginLoading = false;
+    isBoutiqueCreateLoading = false;
     if (boutiqueResponse!.success) {
       Provider.of<UserProvider>(NavigationService.navigatorKey.currentContext!,
               listen: false)
@@ -66,7 +66,7 @@ class BoutiqueProvider with ChangeNotifier {
       autoValidateMode = AutovalidateMode.always;
       return;
     }
-    isLoginLoading = true;
+    isBoutiqueCreateLoading = true;
     notifyListeners();
     var regId;
     await SharedPreferences.getInstance().then((value) {
@@ -78,7 +78,7 @@ class BoutiqueProvider with ChangeNotifier {
     req.putIfAbsent("email", () => emailController.text);
     boutiqueResponse =
         await BoutiqueApi.getInstance().updateBoutique(req, regId);
-    isLoginLoading = false;
+    isBoutiqueCreateLoading = false;
     if (boutiqueResponse!.success) {
       Provider.of<UserProvider>(NavigationService.navigatorKey.currentContext!,
               listen: false)

@@ -5,35 +5,35 @@
 import 'package:boutique_merchant/models/baseModel.dart';
 
 class BoutiqueDash  extends BaseModel {
-  int? newOrders;
-  int? inProgressOrders;
-  int? completedOrders;
-  int? totalOrders;
+  int newOrders;
+  int inProgressOrders;
+  int completedOrders;
+  int totalOrders;
   double? totalSales;
 
   BoutiqueDash({
-    this.newOrders,
-    this.inProgressOrders,
-    this.completedOrders,
-    this.totalOrders,
+    this.newOrders=0,
+    this.inProgressOrders=0,
+    this.completedOrders=0,
+    this.totalOrders=0,
     this.totalSales,
   });
 
   factory BoutiqueDash.fromJson(Map<String, dynamic> json) => BoutiqueDash(
-    newOrders: json["newOrders"],
-    inProgressOrders: json["inProgressOrders"],
-    completedOrders: json["completedOrders"],
-    totalOrders: json["totalOrders"],
-    totalSales: json["totalSales"]?.toDouble(),
+    newOrders: json["newOrders"]??0,
+    inProgressOrders: json["inProgressOrders"]??0,
+    completedOrders: json["completedOrders"]??0,
+    totalOrders: json["totalOrders"]??0,
+    totalSales: (json["totalSales"]??0).toDouble(),
   );
 
   @override
   fromJson(dynamic json) => BoutiqueDash(
-    newOrders: json["newOrders"],
-    inProgressOrders: json["inProgressOrders"],
-    completedOrders: json["completedOrders"],
-    totalOrders: json["totalOrders"],
-    totalSales: json["totalSales"],
+    newOrders: json["newOrders"]??0,
+    inProgressOrders: json["inProgressOrders"]??0,
+    completedOrders: json["completedOrders"]??0,
+    totalOrders: json["totalOrders"]??0,
+    totalSales: (json["totalSales"]??0).toDouble(),
   );
 
   Map<String, dynamic> toJson() => {

@@ -4,6 +4,7 @@ import 'package:boutique_merchant/models/masterOption.dart';
 import 'package:boutique_merchant/provider/addItemProvider.dart';
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/utils/validations.dart';
+import 'package:boutique_merchant/widgets/AnimatedButtonLoader.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -193,6 +194,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     controller: provider.deliveryDaysController,
                     keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
+                    validator: Validations.required,
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -204,6 +206,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     controller: provider.mrpController,
                     keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
+                    validator: Validations.required,
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -215,6 +218,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     controller: provider.priceController,
                     keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
+                    validator: Validations.required,
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -245,11 +249,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     },
                   ),
                   Styles.spaceHeight50,
-                  PrimaryButton(
-                    "Add Item",
-                    onTap: () {
-                      provider.addItem();
-                    },
+                  AnimatedButtonLoader(
+                    loading: provider.isAddItemLoading,
+                    child: PrimaryButton(
+                      "Add Item",
+                      onTap: () {
+                        provider.addItem();
+                      },
+                    ),
                   ),
                 ],
               ),

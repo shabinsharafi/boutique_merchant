@@ -8,6 +8,7 @@ import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/utils/validations.dart';
+import 'package:boutique_merchant/widgets/AnimatedButtonLoader.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:boutique_merchant/widgets/toolbar.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -202,6 +203,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     controller: provider.deliveryDaysController,
                     keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
+                    validator: Validations.required,
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -213,6 +215,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     controller: provider.mrpController,
                     keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
+                    validator: Validations.required,
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -224,6 +227,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     controller: provider.priceController,
                     keyboardType: TextInputType.number,
                     decoration: Styles.inputForm(),
+                    validator: Validations.required,
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -253,11 +257,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     },
                   ),
                   Styles.spaceHeight50,
-                  PrimaryButton(
-                    "Update Item",
-                    onTap: () {
-                      provider.updateItem(widget.item.id);
-                    },
+                  AnimatedButtonLoader(
+                    loading: provider.isAddItemLoading,
+                    child: PrimaryButton(
+                      "Update Item",
+                      onTap: () {
+                        provider.updateItem(widget.item.id);
+                      },
+                    ),
                   ),
                 ],
               ),

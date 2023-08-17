@@ -21,9 +21,9 @@ import '../models/masterOption.dart';
 class AddItemProvider with ChangeNotifier {
   ApiResponse<Item>? addItemResponse;
   ApiResponse<AddItemFilter>? addItemsFilterResponse;
-  bool isLoginLoading = false;
+  bool isAddItemLoading = false;
+  bool isDeleteImageLoading = false;
   bool isAddItemFilterLoading = false;
-  bool isVerifyOtpLoading = false;
 
   var nameController = TextEditingController();
   var descriptionController = TextEditingController();
@@ -62,7 +62,7 @@ class AddItemProvider with ChangeNotifier {
       autoValidateMode = AutovalidateMode.always;
       return;
     }
-    isLoginLoading = true;
+    isAddItemLoading = true;
     notifyListeners();
     var regId;
     await SharedPreferences.getInstance().then((value) {
@@ -86,7 +86,7 @@ class AddItemProvider with ChangeNotifier {
     };
 
     addItemResponse = await ItemsApi.getInstance().addItem(req);
-    isLoginLoading = false;
+    isAddItemLoading = false;
     if (addItemResponse!.success) {
       NavigationService.close();
       NavigationService.showAlertDialog(AlertMessageDialog(
@@ -105,7 +105,7 @@ class AddItemProvider with ChangeNotifier {
       autoValidateMode = AutovalidateMode.always;
       return;
     }
-    isLoginLoading = true;
+    isAddItemLoading = true;
     notifyListeners();
     var regId;
     await SharedPreferences.getInstance().then((value) {
@@ -129,7 +129,7 @@ class AddItemProvider with ChangeNotifier {
     };
 
     addItemResponse = await ItemsApi.getInstance().updateItem(req, id);
-    isLoginLoading = false;
+    isAddItemLoading = false;
     if (addItemResponse!.success) {
       NavigationService.close(result: true);
       NavigationService.showAlertDialog(AlertMessageDialog(
@@ -187,7 +187,7 @@ class AddItemProvider with ChangeNotifier {
   }
 
   Future<void> deleteImage(int index, ItemImage image) async {
-    isLoginLoading = true;
+    isDeleteImageLoading = true;
     notifyListeners();
     var req = {
       "index": index,
@@ -195,7 +195,7 @@ class AddItemProvider with ChangeNotifier {
       "key": image.bucketKey,
     };
     var deleteImageResponse = await ItemsApi.getInstance().deleteImage(req,item.id);
-    isLoginLoading = false;
+    isDeleteImageLoading = false;
     if (deleteImageResponse!.success) {
       item.images?.removeWhere((element) => element.id == image.id);
       NavigationService.showAlertDialog(AlertMessageDialog(
