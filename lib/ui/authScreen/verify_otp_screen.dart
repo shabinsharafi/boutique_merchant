@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
+import 'package:boutique_merchant/widgets/AnimatedButtonLoader.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -61,11 +62,14 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     },
                   ),
                   Styles.spaceHeight50,
-                  PrimaryButton(
-                    "Verify",
-                    onTap: () {
-                      provider.verifyOtp();
-                    },
+                  AnimatedButtonLoader(
+                    loading: provider.isVerifyOtpLoading,
+                    child: PrimaryButton(
+                      "Verify",
+                      onTap: () {
+                        provider.verifyOtp();
+                      },
+                    ),
                   ),
                   Styles.spaceHeight50,
                   Container(),
