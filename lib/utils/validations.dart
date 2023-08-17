@@ -3,6 +3,13 @@
 import 'package:boutique_merchant/utilities.dart';
 
 class Validations {
+
+  static final RegExp nameRegExp = RegExp(r'^[a-zA-Z]');
+
+  static final RegExp containsNumberRegExp = RegExp(r'\d');
+
+  static final RegExp numberRegExp = RegExp(r'^[0-9]+$');
+
   static String? email(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -25,9 +32,12 @@ class Validations {
     if (value.isEmpty) {
       return "Phone number can't be empty";
     }
-   if (value.length != 10) {
-     return "Please enter a valid phone number";
-   }
+    if (value.length != 10) {
+      return "Please enter a valid phone number";
+    }
+    if (!numberRegExp.hasMatch(value)) {
+      return "Please enter a valid phone number";
+    }
     return null;
   }
 
@@ -37,6 +47,19 @@ class Validations {
     }
     if (value.isEmpty) {
       return "Required field";
+    }
+    return null;
+  }
+
+  static String? requiredTextOnly(String? value) {
+    if (value==null) {
+      return "Required field";
+    }
+    if (value.trim().isEmpty) {
+      return "Required field";
+    }
+    if (!RegExp(r'^[a-z A-Z \s]*$').hasMatch(value)) {
+      return "Invalid format";
     }
     return null;
   }
@@ -65,7 +88,7 @@ class Validations {
     return null;
   }
 
-  /*static dateValidation(String fromDate, String toDate) {
+/*static dateValidation(String fromDate, String toDate) {
     if(Utilities.convertStringToDateTime(fromDate).isBefore(Utilities.convertStringToDateTime(toDate)))
       return null;
     return "Start date is past the End date";

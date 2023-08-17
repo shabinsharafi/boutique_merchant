@@ -2,6 +2,8 @@ import 'package:boutique_merchant/styles/styles.dart';
 import 'package:boutique_merchant/provider/authVM.dart';
 import 'package:boutique_merchant/ui/authScreen/loginScreen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
+import 'package:boutique_merchant/utils/validations.dart';
+import 'package:boutique_merchant/widgets/AnimatedButtonLoader.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +48,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     controller: provider.nameController,
                     keyboardType: TextInputType.name,
                     decoration: Styles.inputForm(),
+                    validator: (value) => Validations.requiredTextOnly(value!),
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -57,6 +60,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     controller: provider.phoneNumberController,
                     keyboardType: TextInputType.phone,
                     decoration: Styles.inputForm(),
+                    validator: (value) => Validations.phone(value!),
                   ),
                   Styles.spaceHeight20,
                   Text(
@@ -68,13 +72,17 @@ class _SignupScreenState extends State<SignupScreen> {
                     controller: provider.emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: Styles.inputForm(),
+                    validator: (value) => Validations.email(value!),
                   ),
                   Styles.spaceHeight50,
-                  PrimaryButton(
-                    "Create Account",
-                    onTap: () {
-                      provider.signup();
-                    },
+                  AnimatedButtonLoader(
+                    loading: provider.isSignupLoading,
+                    child: PrimaryButton(
+                      "Create Account",
+                      onTap: () {
+                        provider.signup();
+                      },
+                    ),
                   ),
                   Styles.spaceHeight50,
                   RichText(

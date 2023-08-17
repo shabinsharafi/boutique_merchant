@@ -105,7 +105,7 @@ class AuthenticationProvider with ChangeNotifier {
     isSignupLoading = true;
     notifyListeners();
     Map<String, String> req = {};
-    req.putIfAbsent("name", () =>  nameController.text);
+    req.putIfAbsent("name", () =>  nameController.text.trim());
     req.putIfAbsent("email", () =>  emailController.text);
     req.putIfAbsent("phone", () => "+91" + phoneNumberController.text);
     signupResponse = await UserApi.getInstance().signup(req);

@@ -4,7 +4,6 @@ import '../styles/theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
-  final Color? color;
   final VoidCallback? onTap;
   final double? width; // add this
   final double? height; // add this
@@ -14,16 +13,17 @@ class PrimaryButton extends StatelessWidget {
   final EdgeInsets? buttonPadding;
   final IconData? icon;
   final Color? iconColor;
+  final Color? color;
 
   const PrimaryButton(this.text, {this.onTap,
     this.width,
     this.height = 55,
-    this.paddingTop = 10,
+    this.paddingTop = 0,
     this.hideShadow = false,
     this.isDisabled = false,
     this.buttonPadding,
-    this.color,
     this.icon,
+    this.color,
     this.iconColor}); // change this
 
   @override

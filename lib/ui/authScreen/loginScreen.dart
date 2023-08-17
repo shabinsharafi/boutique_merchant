@@ -4,6 +4,7 @@ import 'package:boutique_merchant/ui/authScreen/signup_screen.dart';
 import 'package:boutique_merchant/ui/authScreen/verify_otp_screen.dart';
 import 'package:boutique_merchant/utils/NavigationService.dart';
 import 'package:boutique_merchant/utils/validations.dart';
+import 'package:boutique_merchant/widgets/AnimatedButtonLoader.dart';
 import 'package:boutique_merchant/widgets/PrimaryButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -48,11 +49,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (value) => Validations.phone(value!),
                   ),
                   Styles.spaceHeight50,
-                  PrimaryButton(
-                    "Login",
-                    onTap: () {
-                      provider.login();
-                    },
+                  AnimatedButtonLoader(
+                    loading: provider.isLoginLoading,
+                    child: PrimaryButton(
+                      "Login",
+                      onTap: () {
+                        provider.login();
+                      },
+                    ),
                   ),
                   Styles.spaceHeight50,
                   RichText(
