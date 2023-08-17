@@ -31,6 +31,7 @@ class AuthenticationProvider with ChangeNotifier {
   var otpController = OtpFieldController();
   var otp = '';
 
+  var otpFormKey = GlobalKey<FormState>();
   var mobileFormKey = GlobalKey<FormState>();
   var autoValidateMode = AutovalidateMode.disabled;
   var nameController = TextEditingController();
@@ -59,7 +60,7 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   void verifyOtp() async {
-    if (!mobileFormKey.currentState!.validate()) {
+    if (!otpFormKey.currentState!.validate()) {
       autoValidateMode = AutovalidateMode.always;
       return;
     }
