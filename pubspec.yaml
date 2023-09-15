@@ -55,6 +55,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   image_cropper: ^3.0.1
   google_sign_in: ^6.1.5
+  sign_in_with_apple: ^5.0.0
+  flutter_facebook_login: ^3.0.0
 
 dev_dependencies:
   flutter_test:
