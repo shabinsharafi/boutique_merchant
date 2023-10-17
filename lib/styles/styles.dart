@@ -175,6 +175,11 @@ class _Color {
 }
 
 class _TextStyle {
+  final tooBigHeadingTS = TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.w500,
+      color: Styles.color.textColor,
+      fontFamily: Styles.fontFamilyRegular);
   final bigHeadingTS = TextStyle(
       fontSize: 26,
       fontWeight: FontWeight.w500,

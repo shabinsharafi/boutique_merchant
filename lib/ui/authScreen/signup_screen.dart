@@ -32,10 +32,11 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 40,),
                   Center(
                     child: Text(
                       "Signup",
-                      style: Styles.textStyle.headingTS,
+                      style: Styles.textStyle.tooBigHeadingTS,
                     ),
                   ),
                   Styles.spaceHeight70,

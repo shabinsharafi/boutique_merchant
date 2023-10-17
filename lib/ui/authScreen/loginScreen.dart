@@ -29,10 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 40,),
                   Center(
                     child: Text(
                       "Login",
-                      style: Styles.textStyle.headingTS,
+                      style: Styles.textStyle.tooBigHeadingTS,
                     ),
                   ),
                   SizedBox(height: 100,),
